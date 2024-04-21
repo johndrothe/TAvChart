@@ -5,7 +5,6 @@ import org.rothe.john.team_schedule.model.Member;
 import org.rothe.john.team_schedule.model.Team;
 import org.rothe.john.team_schedule.util.Borders;
 import org.rothe.john.team_schedule.util.Palette;
-import org.rothe.john.team_schedule.util.Zones;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -15,12 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.zone.ZoneOffsetTransition;
-import java.time.zone.ZoneRules;
 import java.util.Comparator;
 import java.util.List;
 
@@ -48,7 +42,7 @@ public class Canvas extends JPanel {
     @Override
     protected void paintChildren(Graphics g) {
         renderers.updateColumnWidths((Graphics2D) g);
-        if(!renderers.isEmpty()) {
+        if (!renderers.isEmpty()) {
             GridPainter.paintGrid((Graphics2D) g, this, renderers.getFirst());
         }
         super.paintChildren(g);
@@ -112,7 +106,7 @@ public class Canvas extends JPanel {
     private void addSpacerGlue() {
         add(Box.createGlue(), new GridBagConstraints(0, -1, 27, 1,
                 1.0, 1.0, CENTER, BOTH,
-                new Insets(0,0,0,0), 0, 0));
+                new Insets(0, 0, 0, 0), 0, 0));
     }
 
     private static GridBagConstraints transitionsConstraints() {
