@@ -5,6 +5,7 @@ import org.rothe.john.team_schedule.model.Member;
 import org.rothe.john.team_schedule.model.Team;
 import org.rothe.john.team_schedule.util.Borders;
 import org.rothe.john.team_schedule.util.Palette;
+import org.rothe.john.team_schedule.util.Zones;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -14,12 +15,19 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneRules;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
+import static java.awt.GridBagConstraints.NONE;
+import static java.awt.GridBagConstraints.WEST;
 import static java.util.Objects.isNull;
 
 public class Canvas extends JPanel {
@@ -72,6 +80,7 @@ public class Canvas extends JPanel {
         removeAll();
         addZones(zoneIds);
         addMembers(team.getMembers());
+        addTransitionsRenderer(zoneIds);
         addSpacerGlue();
     }
 
@@ -80,7 +89,6 @@ public class Canvas extends JPanel {
                 .map(zoneId -> new TimeZoneRenderer(zoneId, palette))
                 .sorted(Comparator.comparing(ZonedRenderer::getUtcOffset))
                 .forEach(this::addRenderer);
-
     }
 
     private void addMembers(List<Member> members) {
@@ -95,10 +103,22 @@ public class Canvas extends JPanel {
         renderers.add(renderer);
     }
 
+    private void addTransitionsRenderer(List<ZoneId> zoneIds) {
+        val renderer = new TransitionsRenderer(zoneIds);
+        add(renderer, transitionsConstraints());
+        renderers.add(renderer);
+    }
+
     private void addSpacerGlue() {
         add(Box.createGlue(), new GridBagConstraints(0, -1, 27, 1,
                 1.0, 1.0, CENTER, BOTH,
                 new Insets(0,0,0,0), 0, 0));
+    }
+
+    private static GridBagConstraints transitionsConstraints() {
+        return new GridBagConstraints(0, -1, 27, 1,
+                0.0, 0.0, WEST, NONE,
+                new Insets(30, INSET, 2, INSET), 20, 20);
     }
 
     private static GridBagConstraints rendererConstraints() {

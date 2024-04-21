@@ -61,7 +61,7 @@ public class ApplicationFrame extends JFrame {
                         new Member("Miles Davis", "Developer", "Jackson", ZoneId.of("America/Chicago")),
                         new Member("Davis Lynn", "Developer", "Chicago", ZoneId.of("America/Chicago")),
                         new Member("Tomasz Chlebek", "Developer", "Warsaw", ZoneId.of("Europe/Warsaw")),
-                        new Member("Danuta Adamski", "Developer", "Prague", ZoneId.of("Europe/Warsaw"))
+                        new Member("Danuta Adamski", "Developer", "Prague", ZoneId.of("Poland"))
 //                        new Member("Jill Lastname", "Developer", "Los Angeles", ZoneId.of("America/Los_Angeles")),
 //                        new Member("Jane Smith", "Developer", "San Francisco", ZoneId.of("America/Los_Angeles"))
                 ));
