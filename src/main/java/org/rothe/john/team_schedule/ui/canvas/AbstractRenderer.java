@@ -17,18 +17,18 @@ import java.awt.geom.Rectangle2D;
 @Getter(AccessLevel.PROTECTED)
 public abstract class AbstractRenderer extends JPanel {
     private final Color textColor = Color.BLACK;
-    private final Color line;
-    private final Color fill;
+    private final Color lineColor;
+    private final Color fillColor;
 
     @Setter(AccessLevel.PROTECTED)
     private int rowHeaderWidth;
     @Setter(AccessLevel.PROTECTED)
     private int rowFooterWidth;
 
-    protected AbstractRenderer(Color fill, Color line) {
+    protected AbstractRenderer(Color fillColor, Color lineColor) {
         super(new BorderLayout());
-        this.fill = fill;
-        this.line = line;
+        this.fillColor = fillColor;
+        this.lineColor = lineColor;
         setFont(getFont().deriveFont(Font.PLAIN));
         setOpaque(false);
     }
@@ -42,10 +42,10 @@ public abstract class AbstractRenderer extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-        g.setColor(fill);
+        g.setColor(fillColor);
         fillRenderer(g, getRendererLeftLocation(), 0, getRendererDrawWidth(), getHeight());
 
-        g.setColor(line);
+        g.setColor(lineColor);
         drawBorder(g, getRendererLeftLocation(), 0, getRendererDrawWidth(), getHeight());
     }
 
@@ -75,30 +75,30 @@ public abstract class AbstractRenderer extends JPanel {
         return (getWidth() - (getRowHeaderWidth() + getRowFooterWidth())) / 24.0;
     }
 
-    protected void drawCentered(String text, double x, double width, Graphics2D g2d) {
-        val bounds = getStrBounds(text, g2d);
+    protected void drawCentered(Graphics2D g2d, String text, double x, double width) {
+        val bounds = getStrBounds(g2d, text);
         val dx = (float) (x + width / 2.0 - bounds.getWidth() / 2.0);
         val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
 
         g2d.drawString(text, dx, dy);
     }
 
-    protected void drawRightJustified(String text, double x, double width, Graphics2D g2d) {
-        val bounds = getStrBounds(text, g2d);
+    protected void drawRightJustified(Graphics2D g2d, String text, double x, double width) {
+        val bounds = getStrBounds(g2d, text);
         val dx = (float) (x + width - bounds.getWidth());
         val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
 
         g2d.drawString(text, dx, dy);
     }
 
-    protected void drawLeftJustified(String text, double x, Graphics2D g2d) {
-        val bounds = getStrBounds(text, g2d);
+    protected void drawLeftJustified(Graphics2D g2d, String text, double x) {
+        val bounds = getStrBounds(g2d, text);
         val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
 
         g2d.drawString(text, (float)x, dy);
     }
 
-    private Rectangle2D getStrBounds(String text, Graphics2D g2d) {
+    private Rectangle2D getStrBounds(Graphics2D g2d, String text) {
         return g2d.getFontMetrics().getStringBounds(text, g2d);
     }
 
@@ -108,5 +108,9 @@ public abstract class AbstractRenderer extends JPanel {
 
     protected int timeToColumnCenter(int minutesUtc) {
         return getRowHeaderWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth() + getHourColumnWidth() / 2.0);
+    }
+
+    protected Color getLineHintColor() {
+        return new Color(getLineColor().getRed(), getLineColor().getGreen(), getLineColor().getBlue(), 40);
     }
 }

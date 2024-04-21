@@ -18,25 +18,26 @@ public class TimeZoneRenderer extends ZonedRenderer {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         val g2d = (Graphics2D) g;
-        g2d.setColor(getTextColor());
-
-        drawRightJustified(getZoneIdString(), 0,
-                getRowHeaderWidth() - TEXT_MARGIN,
-                g2d);
-
+        val lineHintColor = getLineHintColor();
         val hourColumnWidth = getHourColumnWidth();
-
         val offset = getUtcOffset();
 
+        g2d.setColor(getTextColor());
+        drawRightJustified(g2d, getZoneIdString(), 0, getRowHeaderWidth() - TEXT_MARGIN);
+
         for (int hourUtc = 0; hourUtc < 24; ++hourUtc) {
-            val hourStr = Integer.toString(normalizeHour(hourUtc + offset));
             val x = timeToColumnStart(hourUtc * 60);
-            drawCentered(hourStr, x, hourColumnWidth, g2d);
+
+            g2d.setColor(lineHintColor);
+            g2d.drawLine(x, 6, x, getHeight() - 6);
+
+            g2d.setColor(getTextColor());
+            val hourStr = Integer.toString(normalizeHour(hourUtc + offset));
+            drawCentered(g2d, hourStr, x, hourColumnWidth);
         }
 
-        drawLeftJustified(getLocationDisplayString(),
-                timeToColumnStart(24 * 60) + TEXT_MARGIN,
-                g2d);
+        drawLeftJustified(g2d, getLocationDisplayString(),
+                timeToColumnStart(24 * 60) + TEXT_MARGIN);
     }
 
     @Override

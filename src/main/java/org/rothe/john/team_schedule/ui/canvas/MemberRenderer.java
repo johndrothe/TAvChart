@@ -24,7 +24,7 @@ public class MemberRenderer extends ZonedRenderer {
         val g2d = (Graphics2D) g;
 
         g2d.setColor(getTextColor());
-        drawCentered(getDisplayString(), getRendererLeftLocation(), getRendererDrawWidth(), g2d);
+        drawCentered(g2d, getDisplayString(), getRendererLeftLocation(), getRendererDrawWidth());
     }
 
     @Override
