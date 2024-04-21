@@ -1,3 +1,8 @@
+A simple "Working Hours Diagram" AKA "Team Schedule Lineup" generator.
+
+This version is a graphical desktop application using Java/Swing. 
+
+# Background
 I drew a daily working hours diagram in Draw IO for a client.
 It was very when trying to figure out where schedules lined up and the time windows we 
 could use to work together. We made great use of it when we were laying out the ceremonies 
@@ -16,11 +21,14 @@ have to be very lean to keep from chewing up that precious overlap time.
 Considering the number of combined and near-shore teams we have, a tool that quickly 
 generated this kind of diagram could be very valuable.
 
-* Could be built in nearly any tech stack.
+
+# Current Wishlist
+Many (if not all) of the following items are not implemented.
+
 * Data Entry
   * Optional CSV Import
-  * Directly enter non-Daugherty folks
-  * Multi-select Daugherty folks from Salesforce
+  * Directly enter team members, their locations, and their positions
+  * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
   * Assume working hours of 08:00 - 17:00 in their "home" time zone
   * Pull their normal working hours from Outlook (if easily available)
