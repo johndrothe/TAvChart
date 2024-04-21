@@ -6,7 +6,10 @@ import org.rothe.john.team_schedule.util.Palette;
 import lombok.val;
 import org.rothe.john.team_schedule.util.Borders;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,19 +47,18 @@ public class Canvas extends JPanel {
     @Override
     protected void paintChildren(Graphics g) {
         updateRendererColumnSizes((Graphics2D) g);
+        if(!renderers.isEmpty()) {
+            GridPainter.paintGrid((Graphics2D) g, this, renderers.getFirst());
+        }
         super.paintChildren(g);
     }
-
-//    private static void activateTransparency(Graphics2D g) {
-//        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, 0.75f));
-//    }
 
     private void updateRendererColumnSizes(Graphics2D g2d) {
         zoneIdWidth = calculateZoneColumnWidth(ZonedRenderer::getZoneIdString, g2d);
         zoneNameWidth = calculateZoneColumnWidth(ZonedRenderer::getLocationDisplayString, g2d);
 
-        renderers.forEach(r -> r.setZoneIdColumnWidth(zoneIdWidth));
-        renderers.forEach(r -> r.setZoneNameColumnWidth(zoneNameWidth));
+        renderers.forEach(r -> r.setRowHeaderWidth(zoneIdWidth));
+        renderers.forEach(r -> r.setRowFooterWidth(zoneNameWidth));
     }
 
     private int calculateZoneColumnWidth(Function<ZonedRenderer, String> getter, Graphics2D g2d) {
@@ -102,6 +104,9 @@ public class Canvas extends JPanel {
         removeAll();
         addZones(zoneIds);
         addMembers(team.getMembers());
+        add(Box.createGlue(), new GridBagConstraints(0, -1, 27, 1,
+                1.0, 1.0, CENTER, BOTH,
+                new Insets(0,0,0,0), 0, 0));
     }
 
     private void addZones(List<ZoneId> zones) {

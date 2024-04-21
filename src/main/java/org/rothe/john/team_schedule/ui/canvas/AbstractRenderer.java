@@ -21,15 +21,16 @@ public abstract class AbstractRenderer extends JPanel {
     private final Color fill;
 
     @Setter(AccessLevel.PROTECTED)
-    private int zoneIdColumnWidth;
+    private int rowHeaderWidth;
     @Setter(AccessLevel.PROTECTED)
-    private int zoneNameColumnWidth;
+    private int rowFooterWidth;
 
     protected AbstractRenderer(Color fill, Color line) {
         super(new BorderLayout());
         this.fill = fill;
         this.line = line;
         setFont(getFont().deriveFont(Font.PLAIN));
+        setOpaque(false);
     }
 
     @Override
@@ -71,7 +72,7 @@ public abstract class AbstractRenderer extends JPanel {
     }
 
     protected double getHourColumnWidth() {
-        return (getWidth() - (getZoneIdColumnWidth() + getZoneNameColumnWidth())) / 24.0;
+        return (getWidth() - (getRowHeaderWidth() + getRowFooterWidth())) / 24.0;
     }
 
     protected void drawCentered(String text, double x, double width, Graphics2D g2d) {
@@ -102,10 +103,10 @@ public abstract class AbstractRenderer extends JPanel {
     }
 
     protected int timeToColumnStart(int minutesUtc) {
-        return getZoneIdColumnWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth());
+        return getRowHeaderWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth());
     }
 
     protected int timeToColumnCenter(int minutesUtc) {
-        return getZoneIdColumnWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth() + getHourColumnWidth() / 2.0);
+        return getRowHeaderWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth() + getHourColumnWidth() / 2.0);
     }
 }

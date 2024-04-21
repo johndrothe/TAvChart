@@ -21,7 +21,7 @@ public class TimeZoneRenderer extends ZonedRenderer {
         g2d.setColor(getTextColor());
 
         drawRightJustified(getZoneIdString(), 0,
-                getZoneIdColumnWidth() - TEXT_MARGIN,
+                getRowHeaderWidth() - TEXT_MARGIN,
                 g2d);
 
         val hourColumnWidth = getHourColumnWidth();
@@ -37,5 +37,10 @@ public class TimeZoneRenderer extends ZonedRenderer {
         drawLeftJustified(getLocationDisplayString(),
                 timeToColumnStart(24 * 60) + TEXT_MARGIN,
                 g2d);
+    }
+
+    @Override
+    protected int getRendererRightLocation() {
+        return getWidth() - getRowFooterWidth();
     }
 }

@@ -29,17 +29,11 @@ public class MemberRenderer extends ZonedRenderer {
 
     @Override
     protected int getRendererLeftLocation() {
-        System.err.printf("getRendererLeftLocation %s - %s: %s (%d) -> %d\n",
-                member.name(), getZoneAbbrev(), member.availability().start(),
-                getUtcOffset(), timeToColumnCenter(member.availability().start()));
         return timeToColumnCenter(member.availability().start());
     }
 
     @Override
     protected int getRendererRightLocation() {
-        System.err.printf("getRendererRightLocation %s - %s: %s (%d) -> %d\n",
-                member.name(), getZoneAbbrev(), member.availability().end(),
-                getUtcOffset(), timeToColumnCenter(member.availability().end()));
         return timeToColumnCenter(member.availability().end());
     }
 
