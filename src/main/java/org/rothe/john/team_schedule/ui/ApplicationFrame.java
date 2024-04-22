@@ -1,26 +1,21 @@
 package org.rothe.john.team_schedule.ui;
 
-import org.rothe.john.team_schedule.model.Member;
-import org.rothe.john.team_schedule.model.Team;
 import org.rothe.john.team_schedule.ui.canvas.Canvas;
+import org.rothe.john.team_schedule.util.SampleUtil;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.time.ZoneId;
-import java.util.List;
 
-import static org.rothe.john.team_schedule.util.Borders.empty;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
+import static org.rothe.john.team_schedule.util.Borders.empty;
 
 public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
-    private final JPanel southPanel = new JPanel(new BorderLayout());
-    private final JToolBar toolBar = new Toolbar();
+    private final Toolbar toolBar = new Toolbar();
     private final Canvas canvas = new Canvas();
 
     public ApplicationFrame() {
@@ -49,22 +44,7 @@ public class ApplicationFrame extends JFrame {
 
     private void initCanvas() {
         centerPanel.add(canvas, CENTER);
-        canvas.setTeam(newSampleTeam());
-    }
-
-    private static Team newSampleTeam() {
-        return new Team("Winners",
-                List.of(
-                        new Member("Gertrude Bauer", "PO", "Berlin", ZoneId.of("Z")),
-                        new Member("Trevor Jones", "PDM", "Baltimore", ZoneId.of("America/New_York")),
-                        new Member("Bob Hope", "Developer", "Manhattan", ZoneId.of("America/New_York")),
-                        new Member("Miles Davis", "Developer", "Jackson", ZoneId.of("America/Chicago")),
-                        new Member("Davis Lynn", "Developer", "Chicago", ZoneId.of("America/Chicago")),
-                        new Member("Tomasz Chlebek", "Developer", "Warsaw", ZoneId.of("Europe/Warsaw")),
-                        new Member("Danuta Adamski", "Developer", "Prague", ZoneId.of("Poland"))
-//                        new Member("Jill Lastname", "Developer", "Los Angeles", ZoneId.of("America/Los_Angeles")),
-//                        new Member("Jane Smith", "Developer", "San Francisco", ZoneId.of("America/Los_Angeles"))
-                ));
+        canvas.setTeam(SampleUtil.newTeam());
     }
 
     private void initWindowClosing() {

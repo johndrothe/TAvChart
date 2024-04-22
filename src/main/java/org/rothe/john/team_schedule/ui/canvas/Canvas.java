@@ -17,6 +17,7 @@ import java.awt.Insets;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
@@ -26,7 +27,9 @@ import static java.util.Objects.isNull;
 
 public class Canvas extends JPanel {
     private static final int INSET = 5;
+    private static final Comparator<ZonedRenderer> OFFSET_COMPARATOR = Comparator.comparing(ZonedRenderer::getUtcOffset);
     private final RendererList renderers = new RendererList();
+    private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(renderers);
     private Palette palette = null;
     private Team team = null;
 
@@ -41,7 +44,7 @@ public class Canvas extends JPanel {
 
     @Override
     protected void paintChildren(Graphics g) {
-        renderers.updateColumnWidths((Graphics2D) g);
+        canvasInfo.update((Graphics2D) g);
         if (!renderers.isEmpty()) {
             GridPainter.paintGrid((Graphics2D) g, this, renderers.getFirst());
         }
@@ -79,16 +82,20 @@ public class Canvas extends JPanel {
     }
 
     private void addZones(List<ZoneId> zones) {
+        final Function<ZoneId, TimeZoneRenderer> toRenderer = zoneId -> new TimeZoneRenderer(canvasInfo, zoneId, palette);
+
         zones.stream()
-                .map(zoneId -> new TimeZoneRenderer(zoneId, palette))
-                .sorted(Comparator.comparing(ZonedRenderer::getUtcOffset))
+                .map(toRenderer)
+                .sorted(OFFSET_COMPARATOR)
                 .forEach(this::addRenderer);
     }
 
     private void addMembers(List<Member> members) {
+        final Function<Member, MemberRenderer> toRenderer = member -> new MemberRenderer(canvasInfo, member, palette);
+
         members.stream()
-                .map(member -> new MemberRenderer(member, palette))
-                .sorted(Comparator.comparing(ZonedRenderer::getUtcOffset))
+                .map(toRenderer)
+                .sorted(OFFSET_COMPARATOR)
                 .forEach(this::addRenderer);
     }
 
@@ -98,7 +105,7 @@ public class Canvas extends JPanel {
     }
 
     private void addTransitionsRenderer(List<ZoneId> zoneIds) {
-        val renderer = new TransitionsRenderer(zoneIds);
+        val renderer = new TransitionsRenderer(canvasInfo, zoneIds);
         add(renderer, transitionsConstraints());
         renderers.add(renderer);
     }
@@ -123,5 +130,30 @@ public class Canvas extends JPanel {
 
     private static Insets rendererInsets() {
         return new Insets(0, INSET, 2, INSET);
+    }
+
+    private static class CanvasInfoProxy implements CanvasInfo {
+        private final RendererList renderers;
+        private int headerWidth = 0;
+        private int footerWidth = 0;
+
+        public CanvasInfoProxy(RendererList renderers) {
+            this.renderers = renderers;
+        }
+
+        @Override
+        public int getRowHeaderWidth() {
+            return headerWidth;
+        }
+
+        @Override
+        public int getRowFooterWidth() {
+            return footerWidth;
+        }
+
+        public void update(Graphics2D g2d) {
+            headerWidth = renderers.getColumnHeaderWidth(g2d);
+            footerWidth = renderers.getColumnFooterWidth(g2d);
+        }
     }
 }

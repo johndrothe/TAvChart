@@ -12,8 +12,8 @@ import java.awt.Graphics2D;
 public class MemberRenderer extends ZonedRenderer {
     private final Member member;
 
-    public MemberRenderer(Member member, Palette palette) {
-        super(member.zoneId(), palette);
+    public MemberRenderer(CanvasInfo canvasInfo, Member member, Palette palette) {
+        super(canvasInfo, member.zoneId(), palette);
         setOpaque(false);
         this.member = member;
     }

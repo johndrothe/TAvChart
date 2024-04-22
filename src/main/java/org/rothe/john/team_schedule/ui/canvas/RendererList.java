@@ -1,7 +1,5 @@
 package org.rothe.john.team_schedule.ui.canvas;
 
-import lombok.val;
-
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,16 +26,12 @@ class RendererList {
         return renderers.getFirst();
     }
 
-    public void updateColumnWidths(Graphics2D g2d) {
-        val header = calculateColumnWidth(ZonedRenderer::getZoneIdString, g2d);
-        val footer = calculateColumnWidth(ZonedRenderer::getLocationDisplayString, g2d);
-
-        renderers.forEach(r -> updateColumnWidths(r, header, footer));
+    public int getColumnHeaderWidth(Graphics2D g2d) {
+        return calculateColumnWidth(ZonedRenderer::getZoneIdString, g2d);
     }
 
-    private void updateColumnWidths(AbstractRenderer renderer, int header, int footer) {
-        renderer.setRowHeaderWidth(header);
-        renderer.setRowFooterWidth(footer);
+    public int getColumnFooterWidth(Graphics2D g2d) {
+        return calculateColumnWidth(ZonedRenderer::getLocationDisplayString, g2d);
     }
 
     private int calculateColumnWidth(Function<ZonedRenderer, String> getter, Graphics2D g2d) {

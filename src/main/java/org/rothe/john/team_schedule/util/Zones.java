@@ -14,7 +14,7 @@ import java.util.TimeZone;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 public abstract class Zones {
-    private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("EEE, LLL dd, yyyy");
+    private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
 
     private Zones() {
 
