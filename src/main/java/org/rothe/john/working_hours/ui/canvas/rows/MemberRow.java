@@ -1,7 +1,8 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas.rows;
 
-import org.rothe.john.team_schedule.model.Member;
-import org.rothe.john.team_schedule.util.Palette;
+import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.util.Palette;
 import lombok.Getter;
 import lombok.val;
 

@@ -1,4 +1,4 @@
-package org.rothe.john.team_schedule.model;
+package org.rothe.john.working_hours.model;
 
 import lombok.Getter;
 import lombok.Setter;

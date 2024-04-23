@@ -1,4 +1,4 @@
-package org.rothe.john.team_schedule.util;
+package org.rothe.john.working_hours.util;
 
 import lombok.val;
 
@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+
+// TODO: Convert this to a Zone class that wraps and replaces ZoneId to provide additional features.
 
 public abstract class Zones {
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");

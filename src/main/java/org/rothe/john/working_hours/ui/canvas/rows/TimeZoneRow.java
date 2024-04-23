@@ -1,7 +1,8 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
-import org.rothe.john.team_schedule.util.Palette;
+import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.util.Palette;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,10 +1,15 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas;
 
 import lombok.val;
-import org.rothe.john.team_schedule.model.Member;
-import org.rothe.john.team_schedule.model.Team;
-import org.rothe.john.team_schedule.util.Borders;
-import org.rothe.john.team_schedule.util.Palette;
+import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
+import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
+import org.rothe.john.working_hours.ui.canvas.rows.TimeZoneRow;
+import org.rothe.john.working_hours.ui.canvas.rows.ZoneIdRow;
+import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
+import org.rothe.john.working_hours.util.Borders;
+import org.rothe.john.working_hours.util.Palette;
 
 import javax.swing.Box;
 import javax.swing.JPanel;

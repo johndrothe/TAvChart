@@ -1,4 +1,4 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas;
 
 public interface CanvasInfo {
     int getRowHeaderWidth();

@@ -1,14 +1,14 @@
-package org.rothe.john.team_schedule.util;
+package org.rothe.john.working_hours.util;
 
-import org.rothe.john.team_schedule.model.Member;
-import org.rothe.john.team_schedule.model.Team;
+import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.model.Team;
 
 import java.time.ZoneId;
 import java.util.List;
 
-public abstract class SampleUtil {
+public abstract class SampleFactory {
 
-    private SampleUtil() {
+    private SampleFactory() {
 
     }
 

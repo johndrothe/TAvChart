@@ -1,4 +1,4 @@
-package org.rothe.john.team_schedule.ui;
+package org.rothe.john.working_hours.ui;
 
 import javax.swing.AbstractAction;
 import javax.swing.JToolBar;

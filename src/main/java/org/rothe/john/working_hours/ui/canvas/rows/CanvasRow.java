@@ -1,8 +1,9 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
+import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -14,7 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 @Getter(AccessLevel.PROTECTED)
-abstract class CanvasRow extends JPanel {
+public abstract class CanvasRow extends JPanel {
     private final CanvasInfo canvasInfo;
     private final Color textColor = Color.BLACK;
     private final Color lineColor;
@@ -80,11 +81,11 @@ abstract class CanvasRow extends JPanel {
         g2d.drawString(text, (float) x, dy);
     }
 
-    protected int timeToColumnStart(int minutesUtc) {
+    public int timeToColumnStart(int minutesUtc) {
         return getRowHeaderWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth());
     }
 
-    protected int timeToColumnCenter(int minutesUtc) {
+    public int timeToColumnCenter(int minutesUtc) {
         return getRowHeaderWidth() + (int) Math.round(minutesUtc / 60.0 * getHourColumnWidth() + getHourColumnWidth() / 2.0);
     }
 

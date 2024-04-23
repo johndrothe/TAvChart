@@ -1,4 +1,4 @@
-package org.rothe.john.team_schedule.util;
+package org.rothe.john.working_hours.util;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;

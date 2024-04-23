@@ -1,4 +1,7 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas;
+
+import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
+import org.rothe.john.working_hours.ui.canvas.rows.ZoneIdRow;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;

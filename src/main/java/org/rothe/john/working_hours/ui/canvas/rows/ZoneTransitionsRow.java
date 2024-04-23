@@ -1,6 +1,7 @@
-package org.rothe.john.team_schedule.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
+import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -13,9 +14,9 @@ import java.util.List;
 
 import static java.awt.GridBagConstraints.WEST;
 import static javax.swing.SwingConstants.HORIZONTAL;
-import static org.rothe.john.team_schedule.util.Zones.getLocationDisplayString;
-import static org.rothe.john.team_schedule.util.Zones.getZoneAbbrev;
-import static org.rothe.john.team_schedule.util.Zones.toTransitionDateStr;
+import static org.rothe.john.working_hours.util.Zones.getLocationDisplayString;
+import static org.rothe.john.working_hours.util.Zones.getZoneAbbrev;
+import static org.rothe.john.working_hours.util.Zones.toTransitionDateStr;
 
 // Note that the daylight savings time offset from UTC is always one higher in locations that use it.
 public class ZoneTransitionsRow extends CanvasRow {

@@ -1,7 +1,7 @@
-package org.rothe.john.team_schedule.ui;
+package org.rothe.john.working_hours.ui;
 
-import org.rothe.john.team_schedule.ui.canvas.Canvas;
-import org.rothe.john.team_schedule.util.SampleUtil;
+import org.rothe.john.working_hours.ui.canvas.Canvas;
+import org.rothe.john.working_hours.util.SampleFactory;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
-import static org.rothe.john.team_schedule.util.Borders.empty;
+import static org.rothe.john.working_hours.util.Borders.empty;
 
 public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
@@ -44,7 +44,7 @@ public class ApplicationFrame extends JFrame {
 
     private void initCanvas() {
         centerPanel.add(canvas, CENTER);
-        canvas.setTeam(SampleUtil.newTeam());
+        canvas.setTeam(SampleFactory.newTeam());
     }
 
     private void initWindowClosing() {

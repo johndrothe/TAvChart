@@ -1,4 +1,4 @@
-import org.rothe.john.team_schedule.ui.ApplicationFrame;
+import org.rothe.john.working_hours.ui.ApplicationFrame;
 
 import javax.swing.SwingUtilities;
 
