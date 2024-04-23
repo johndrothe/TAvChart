@@ -30,12 +30,12 @@ public class MemberRow extends AbstractZoneRow {
 
     @Override
     protected int getRowLeftLocation() {
-        return timeToColumnCenter(member.availability().start());
+        return timeToColumnCenter(member.availability().normal().start());
     }
 
     @Override
     protected int getRowRightLocation() {
-        return timeToColumnCenter(member.availability().end());
+        return timeToColumnCenter(member.availability().normal().end());
     }
 
     private String getDisplayString() {

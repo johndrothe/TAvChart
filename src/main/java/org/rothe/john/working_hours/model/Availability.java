@@ -2,13 +2,11 @@ package org.rothe.john.working_hours.model;
 
 import java.time.LocalTime;
 
-public record Availability(LocalTime start, LocalTime end, LocalTime lunchStart, LocalTime lunchEnd) {
+public record Availability(Period normal, Period lunch) {
     public static Availability standard() {
         return new Availability(
-                LocalTime.of(8, 0),
-                LocalTime.of(17, 0),
-                LocalTime.of(12, 0),
-                LocalTime.of(13, 0)
+                new Period(LocalTime.of(8, 0), LocalTime.of(17, 0)),
+                new Period(LocalTime.of(12, 0), LocalTime.of(13, 0))
         );
     }
 }
