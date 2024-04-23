@@ -8,6 +8,7 @@ It was very when trying to figure out where schedules lined up and the time wind
 could use to work together. We made great use of it when we were laying out the ceremonies 
 we were going to use.
 
+The following is the original Draw IO diagram.
 <div style="width:600px">
 
 ![Working_Hours_no_names.drawio.png](docs/Working_Hours_no_names.drawio.png)
