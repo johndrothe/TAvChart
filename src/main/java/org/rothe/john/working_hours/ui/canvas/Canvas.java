@@ -3,23 +3,23 @@ package org.rothe.john.working_hours.ui.canvas;
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.ui.canvas.rows.AbstractZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
-import org.rothe.john.working_hours.ui.canvas.rows.TimeZoneRow;
-import org.rothe.john.working_hours.ui.canvas.rows.ZoneIdRow;
+import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
-import org.rothe.john.working_hours.util.Borders;
 import org.rothe.john.working_hours.util.Palette;
+import org.rothe.john.working_hours.util.Zone;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
@@ -28,11 +28,12 @@ import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.NONE;
 import static java.awt.GridBagConstraints.WEST;
+import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
+import static javax.swing.BorderFactory.createBevelBorder;
 
 public class Canvas extends JPanel {
     private static final int INSET = 5;
-    private static final Comparator<ZoneIdRow> OFFSET_COMPARATOR = Comparator.comparing(ZoneIdRow::getUtcOffset);
     private final RowList rows = new RowList();
     private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(rows);
     private Palette palette = null;
@@ -42,7 +43,7 @@ public class Canvas extends JPanel {
         super();
         setBackground(Color.WHITE);
         setOpaque(true);
-        setBorder(Borders.raised());
+        setBorder(createBevelBorder(BevelBorder.RAISED));
         setLayout(new GridBagLayout());
         initialize();
     }
@@ -77,21 +78,21 @@ public class Canvas extends JPanel {
     }
 
     private void initTeamCanvas() {
-        val zoneIds = team.getZoneIds();
-        this.palette = new Palette(zoneIds);
+        val zones = team.getZones();
+        this.palette = new Palette(zones);
         removeAll();
-        addZones(zoneIds);
+        addZones(zones);
         addMembers(team.getMembers());
-        addTransitionsRow(zoneIds);
+        addTransitionsRow(zones);
         addSpacerGlue();
     }
 
-    private void addZones(List<ZoneId> zones) {
-        final Function<ZoneId, TimeZoneRow> toRow = zoneId -> new TimeZoneRow(canvasInfo, zoneId, palette);
+    private void addZones(List<Zone> zones) {
+        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(canvasInfo, zoneId, palette);
 
         zones.stream()
                 .map(toRow)
-                .sorted(OFFSET_COMPARATOR)
+                .sorted(zoneRowComparator())
                 .forEach(this::addRow);
     }
 
@@ -100,8 +101,12 @@ public class Canvas extends JPanel {
 
         members.stream()
                 .map(toRow)
-                .sorted(OFFSET_COMPARATOR)
+                .sorted(zoneRowComparator())
                 .forEach(this::addRow);
+    }
+
+    private Comparator<AbstractZoneRow> zoneRowComparator() {
+        return comparing(AbstractZoneRow::getOffsetHours);
     }
 
     private void addRow(CanvasRow row) {
@@ -109,7 +114,7 @@ public class Canvas extends JPanel {
         rows.add(row);
     }
 
-    private void addTransitionsRow(List<ZoneId> zoneIds) {
+    private void addTransitionsRow(List<Zone> zoneIds) {
         val row = new ZoneTransitionsRow(canvasInfo, zoneIds);
         add(row, transitionsConstraints());
         rows.add(row);

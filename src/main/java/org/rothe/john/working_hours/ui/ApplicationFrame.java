@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
-import static org.rothe.john.working_hours.util.Borders.empty;
+import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
@@ -37,7 +37,7 @@ public class ApplicationFrame extends JFrame {
 
     private void initCenter() {
         getContentPane().add(centerPanel, CENTER);
-        centerPanel.setBorder(empty());
+        centerPanel.setBorder(createEmptyBorder(10, 10, 10, 10));
         centerPanel.setOpaque(true);
         initCanvas();
     }

@@ -2,8 +2,8 @@ package org.rothe.john.working_hours.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.rothe.john.working_hours.util.Zone;
 
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,16 +29,16 @@ public class Team {
         this.members.add(member);
     }
 
-    public List<ZoneId> getZoneIds() {
+    public List<Zone> getZones() {
         return Stream.concat(defaultZones(), getMemberZoneIds())
                 .distinct().toList();
     }
 
-    private static Stream<ZoneId> defaultZones() {
-        return Stream.of(ZoneOffset.UTC);
+    private static Stream<Zone> defaultZones() {
+        return Stream.of(new Zone(ZoneOffset.UTC));
     }
 
-    private Stream<ZoneId> getMemberZoneIds() {
-        return members.stream().map(Member::zoneId);
+    private Stream<Zone> getMemberZoneIds() {
+        return members.stream().map(Member::zone);
     }
 }

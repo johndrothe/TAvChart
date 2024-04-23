@@ -13,25 +13,32 @@ import java.util.TimeZone;
 
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
-// TODO: Convert this to a Zone class that wraps and replaces ZoneId to provide additional features.
-
-public abstract class Zones {
+public class Zone {
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
+    private final ZoneId zoneId;
 
-    private Zones() {
-
+    public Zone(ZoneId zoneId) {
+        this.zoneId = zoneId;
     }
 
-    public static String getZoneIdString(ZoneId zoneId) {
-        return String.format("%s (%s)", getZoneAbbrev(zoneId), getUtcOffset(zoneId));
+    public ZoneRules getRules() {
+        return zoneId.getRules();
     }
 
-    public static String getZoneAbbrev(ZoneId zoneId) {
+    public boolean isFixedOffset() {
+        return zoneId.getRules().isFixedOffset();
+    }
+
+    public String getAbbrevAndOffset() {
+        return String.format("%s (%s)", getAbbreviation(), getOffsetHours());
+    }
+
+    public String getAbbreviation() {
         val zone = TimeZone.getTimeZone(zoneId);
         return zone.getDisplayName(zone.inDaylightTime(new Date()), TimeZone.SHORT);
     }
 
-    public static String getLocationDisplayString(ZoneId zoneId) {
+    public String getId() {
         if (zoneId.equals(ZoneOffset.UTC)) {
             return "GMT/Greenwich";
         }
@@ -39,11 +46,14 @@ public abstract class Zones {
         return zoneId.getId();
     }
 
-    public static int getUtcOffset(ZoneId zoneId) {
-        return toHours(zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS));
+    public int getOffsetHours() {
+        return toHours(getOffsetSeconds());
+    }
+    public int getOffsetSeconds() {
+        return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
     }
 
-    public static String toTransitionDateStr(ZoneRules rules) {
+    public String toTransitionDateStr(ZoneRules rules) {
         ZoneOffsetTransition next = rules.nextTransition(Instant.now());
         ZoneOffsetTransition prev = rules.previousTransition(Instant.now());
 

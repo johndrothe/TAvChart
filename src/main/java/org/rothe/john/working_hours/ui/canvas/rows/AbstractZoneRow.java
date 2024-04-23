@@ -3,30 +3,30 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.Getter;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.util.Palette;
-import org.rothe.john.working_hours.util.Zones;
+import org.rothe.john.working_hours.util.Zone;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
+
 
 @Getter
-public abstract class ZoneIdRow extends CanvasRow {
-    private final ZoneId zoneId;
+public abstract class AbstractZoneRow extends CanvasRow {
+    private final Zone zone;
 
-    protected ZoneIdRow(CanvasInfo canvasInfo, ZoneId zoneId, Palette palette) {
-        super(canvasInfo, palette.fill(zoneId), palette.line(zoneId));
-        this.zoneId = zoneId;
+    protected AbstractZoneRow(CanvasInfo canvasInfo, Zone zone, Palette palette) {
+        super(canvasInfo, palette.fill(zone), palette.line(zone));
+        this.zone = zone;
     }
 
-    public String getZoneIdString() {
-        return Zones.getZoneIdString(zoneId);
+    public String getRowHeader() {
+        return zone.getAbbrevAndOffset();
     }
 
-    public String getLocationDisplayString() {
-        return Zones.getLocationDisplayString(zoneId);
+    public String getRowFooter() {
+        return zone.getId();
     }
 
-    public int getUtcOffset() {
-        return Zones.getUtcOffset(zoneId);
+    public int getOffsetHours() {
+        return zone.getOffsetHours();
     }
 
     protected static int normalizeHour(int hour) {
@@ -46,6 +46,6 @@ public abstract class ZoneIdRow extends CanvasRow {
     }
 
     private int toMinutesUtc(LocalTime time) {
-        return normalizeHour(time.getHour() - getUtcOffset()) * 60 + time.getMinute();
+        return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
     }
 }

@@ -1,7 +1,7 @@
 package org.rothe.john.working_hours.ui.canvas;
 
 import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
-import org.rothe.john.working_hours.ui.canvas.rows.ZoneIdRow;
+import org.rothe.john.working_hours.ui.canvas.rows.AbstractZoneRow;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -30,14 +30,14 @@ class RowList {
     }
 
     public int getColumnHeaderWidth(Graphics2D g2d) {
-        return calculateColumnWidth(ZoneIdRow::getZoneIdString, g2d);
+        return calculateColumnWidth(AbstractZoneRow::getRowHeader, g2d);
     }
 
     public int getColumnFooterWidth(Graphics2D g2d) {
-        return calculateColumnWidth(ZoneIdRow::getLocationDisplayString, g2d);
+        return calculateColumnWidth(AbstractZoneRow::getRowFooter, g2d);
     }
 
-    private int calculateColumnWidth(Function<ZoneIdRow, String> getter, Graphics2D g2d) {
+    private int calculateColumnWidth(Function<AbstractZoneRow, String> getter, Graphics2D g2d) {
         return getZoneIdRows()
                 .map(getter)
                 .map(s -> getRenderedStringWidth(s, g2d))
@@ -45,10 +45,10 @@ class RowList {
                 .orElse(0) + 20;
     }
 
-    private Stream<ZoneIdRow> getZoneIdRows() {
+    private Stream<AbstractZoneRow> getZoneIdRows() {
         return rows.stream()
-                .filter(r -> r instanceof ZoneIdRow)
-                .map(r -> (ZoneIdRow) r);
+                .filter(r -> r instanceof AbstractZoneRow)
+                .map(r -> (AbstractZoneRow) r);
     }
 
     private static int getRenderedStringWidth(String text, Graphics2D g) {

@@ -10,11 +10,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 @Getter
-public class MemberRow extends ZoneIdRow {
+public class MemberRow extends AbstractZoneRow {
     private final Member member;
 
     public MemberRow(CanvasInfo canvasInfo, Member member, Palette palette) {
-        super(canvasInfo, member.zoneId(), palette);
+        super(canvasInfo, member.zone(), palette);
         setOpaque(false);
         this.member = member;
     }

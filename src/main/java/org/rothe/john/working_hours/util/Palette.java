@@ -1,7 +1,6 @@
 package org.rothe.john.working_hours.util;
 
 import java.awt.Color;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,30 +8,30 @@ import java.util.Map;
 import static java.awt.Color.decode;
 
 public class Palette {
-    private final Map<ZoneId, Color> borderMap;
-    private final Map<ZoneId, Color> fillMap;
+    private final Map<Zone, Color> borderMap;
+    private final Map<Zone, Color> fillMap;
 
-    public Palette(List<ZoneId> ZoneIds) {
-        borderMap = mapZones(ZoneIds, borderColors());
-        fillMap = mapZones(ZoneIds, fillColors());
+    public Palette(List<Zone> zones) {
+        borderMap = mapZones(zones, borderColors());
+        fillMap = mapZones(zones, fillColors());
     }
 
-    public Color fill(ZoneId zone) {
+    public Color fill(Zone zone) {
         return fillMap.get(zone);
     }
 
-    public Color line(ZoneId zone) {
+    public Color line(Zone zone) {
         return borderMap.get(zone);
     }
 
-    private Map<ZoneId, Color> mapZones(List<ZoneId> zoneIds, List<Color> colors) {
+    private Map<Zone, Color> mapZones(List<Zone> zones, List<Color> colors) {
         if (colors.isEmpty()) {
             throw new IllegalArgumentException("Colors cannot be empty.");
         }
 
-        var map = new HashMap<ZoneId, Color>();
+        var map = new HashMap<Zone, Color>();
         var color = colors.iterator();
-        for(ZoneId zone : zoneIds) {
+        for(Zone zone : zones) {
             if(!color.hasNext()) {
                 color = colors.iterator();
             }

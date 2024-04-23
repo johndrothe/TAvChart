@@ -18,15 +18,19 @@ public abstract class SampleFactory {
 
     public static List<Member> newMembers() {
         return List.of(
-                new Member("Gertrude Bauer", "PO", "Berlin", ZoneId.of("Z")),
-                new Member("Trevor Jones", "PDM", "Baltimore", ZoneId.of("America/New_York")),
-                new Member("Bob Hope", "Developer", "Manhattan", ZoneId.of("America/New_York")),
-                new Member("Miles Davis", "Developer", "Jackson", ZoneId.of("America/Chicago")),
-                new Member("Davis Lynn", "Developer", "Chicago", ZoneId.of("America/Chicago")),
-                new Member("Tomasz Chlebek", "Developer", "Warsaw", ZoneId.of("Poland")),
-                new Member("Danuta Adamski", "Developer", "Prague", ZoneId.of("Poland"))
-//                        new Member("Jill Lastname", "Developer", "Los Angeles", ZoneId.of("America/Los_Angeles")),
-//                        new Member("Jane Smith", "Developer", "San Francisco", ZoneId.of("America/Los_Angeles"))
+                new Member("Gertrude Bauer", "PO", "Berlin", toZone("Z")),
+                new Member("Trevor Jones", "PDM", "Baltimore", toZone("America/New_York")),
+                new Member("Bob Hope", "Developer", "Manhattan", toZone("America/New_York")),
+                new Member("Miles Davis", "Developer", "Jackson", toZone("America/Chicago")),
+                new Member("Davis Lynn", "Developer", "Chicago", toZone("America/Chicago")),
+                new Member("Tomasz Chlebek", "Developer", "Warsaw", toZone("Poland")),
+                new Member("Danuta Adamski", "Developer", "Prague", toZone("Poland"))
+//                        new Member("Jill Lastname", "Developer", "Los Angeles", toZone("America/Los_Angeles")),
+//                        new Member("Jane Smith", "Developer", "San Francisco", toZone("America/Los_Angeles"))
         );
+    }
+    
+    private static Zone toZone(String zoneId) {
+        return new Zone(ZoneId.of(zoneId));
     }
 }
