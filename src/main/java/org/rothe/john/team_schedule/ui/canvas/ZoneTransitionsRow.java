@@ -18,14 +18,14 @@ import static org.rothe.john.team_schedule.util.Zones.getZoneAbbrev;
 import static org.rothe.john.team_schedule.util.Zones.toTransitionDateStr;
 
 // Note that the daylight savings time offset from UTC is always one higher in locations that use it.
-public class TransitionsRenderer extends AbstractRenderer {
+public class ZoneTransitionsRow extends CanvasRow {
     private static final Color COLOR_FILL = new Color(252, 252, 252);
     private static final Color COLOR_LINE = Color.GRAY;
     private static final String TITLE = "Standard and Daylight Savings Time Transitions";
 
     private final List<ZoneId> zoneIds;
 
-    public TransitionsRenderer(CanvasInfo canvasInfo, List<ZoneId> zoneIds) {
+    public ZoneTransitionsRow(CanvasInfo canvasInfo, List<ZoneId> zoneIds) {
         super(canvasInfo, COLOR_FILL, COLOR_LINE);
         this.zoneIds = zoneIds;
 

@@ -8,10 +8,10 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 
 @Getter
-public abstract class ZonedRenderer extends AbstractRenderer {
+public abstract class ZoneIdRow extends CanvasRow {
     private final ZoneId zoneId;
 
-    protected ZonedRenderer(CanvasInfo canvasInfo, ZoneId zoneId, Palette palette) {
+    protected ZoneIdRow(CanvasInfo canvasInfo, ZoneId zoneId, Palette palette) {
         super(canvasInfo, palette.fill(zoneId), palette.line(zoneId));
         this.zoneId = zoneId;
     }

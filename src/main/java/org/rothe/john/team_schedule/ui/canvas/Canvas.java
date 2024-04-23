@@ -27,9 +27,9 @@ import static java.util.Objects.isNull;
 
 public class Canvas extends JPanel {
     private static final int INSET = 5;
-    private static final Comparator<ZonedRenderer> OFFSET_COMPARATOR = Comparator.comparing(ZonedRenderer::getUtcOffset);
-    private final RendererList renderers = new RendererList();
-    private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(renderers);
+    private static final Comparator<ZoneIdRow> OFFSET_COMPARATOR = Comparator.comparing(ZoneIdRow::getUtcOffset);
+    private final RowList rows = new RowList();
+    private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(rows);
     private Palette palette = null;
     private Team team = null;
 
@@ -45,8 +45,8 @@ public class Canvas extends JPanel {
     @Override
     protected void paintChildren(Graphics g) {
         canvasInfo.update((Graphics2D) g);
-        if (!renderers.isEmpty()) {
-            GridPainter.paintGrid((Graphics2D) g, this, renderers.getFirst());
+        if (!rows.isEmpty()) {
+            GridPainter.paintGrid((Graphics2D) g, this, rows.getFirst());
         }
         super.paintChildren(g);
     }
@@ -58,7 +58,7 @@ public class Canvas extends JPanel {
     }
 
     private void initialize() {
-        renderers.clear();
+        rows.clear();
         if (isNull(team)) {
             initBlankCanvas();
         } else {
@@ -77,37 +77,37 @@ public class Canvas extends JPanel {
         removeAll();
         addZones(zoneIds);
         addMembers(team.getMembers());
-        addTransitionsRenderer(zoneIds);
+        addTransitionsRow(zoneIds);
         addSpacerGlue();
     }
 
     private void addZones(List<ZoneId> zones) {
-        final Function<ZoneId, TimeZoneRenderer> toRenderer = zoneId -> new TimeZoneRenderer(canvasInfo, zoneId, palette);
+        final Function<ZoneId, TimeZoneRow> toRow = zoneId -> new TimeZoneRow(canvasInfo, zoneId, palette);
 
         zones.stream()
-                .map(toRenderer)
+                .map(toRow)
                 .sorted(OFFSET_COMPARATOR)
-                .forEach(this::addRenderer);
+                .forEach(this::addRow);
     }
 
     private void addMembers(List<Member> members) {
-        final Function<Member, MemberRenderer> toRenderer = member -> new MemberRenderer(canvasInfo, member, palette);
+        final Function<Member, MemberRow> toRow = member -> new MemberRow(canvasInfo, member, palette);
 
         members.stream()
-                .map(toRenderer)
+                .map(toRow)
                 .sorted(OFFSET_COMPARATOR)
-                .forEach(this::addRenderer);
+                .forEach(this::addRow);
     }
 
-    private void addRenderer(AbstractRenderer renderer) {
-        add(renderer, rendererConstraints());
-        renderers.add(renderer);
+    private void addRow(CanvasRow row) {
+        add(row, rowConstraints());
+        rows.add(row);
     }
 
-    private void addTransitionsRenderer(List<ZoneId> zoneIds) {
-        val renderer = new TransitionsRenderer(canvasInfo, zoneIds);
-        add(renderer, transitionsConstraints());
-        renderers.add(renderer);
+    private void addTransitionsRow(List<ZoneId> zoneIds) {
+        val row = new ZoneTransitionsRow(canvasInfo, zoneIds);
+        add(row, transitionsConstraints());
+        rows.add(row);
     }
 
     private void addSpacerGlue() {
@@ -122,23 +122,23 @@ public class Canvas extends JPanel {
                 new Insets(30, INSET, 2, INSET), 20, 20);
     }
 
-    private static GridBagConstraints rendererConstraints() {
+    private static GridBagConstraints rowConstraints() {
         return new GridBagConstraints(0, -1, 27, 1,
                 1.0, 0.0, CENTER, BOTH,
-                rendererInsets(), 0, 30);
+                rowInsets(), 0, 30);
     }
 
-    private static Insets rendererInsets() {
+    private static Insets rowInsets() {
         return new Insets(0, INSET, 2, INSET);
     }
 
     private static class CanvasInfoProxy implements CanvasInfo {
-        private final RendererList renderers;
+        private final RowList rows;
         private int headerWidth = 0;
         private int footerWidth = 0;
 
-        public CanvasInfoProxy(RendererList renderers) {
-            this.renderers = renderers;
+        public CanvasInfoProxy(RowList rows) {
+            this.rows = rows;
         }
 
         @Override
@@ -152,8 +152,8 @@ public class Canvas extends JPanel {
         }
 
         public void update(Graphics2D g2d) {
-            headerWidth = renderers.getColumnHeaderWidth(g2d);
-            footerWidth = renderers.getColumnFooterWidth(g2d);
+            headerWidth = rows.getColumnHeaderWidth(g2d);
+            footerWidth = rows.getColumnFooterWidth(g2d);
         }
     }
 }

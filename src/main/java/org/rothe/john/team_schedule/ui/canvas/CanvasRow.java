@@ -14,13 +14,13 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 @Getter(AccessLevel.PROTECTED)
-abstract class AbstractRenderer extends JPanel {
+abstract class CanvasRow extends JPanel {
     private final CanvasInfo canvasInfo;
     private final Color textColor = Color.BLACK;
     private final Color lineColor;
     private final Color fillColor;
 
-    protected AbstractRenderer(CanvasInfo canvasInfo, Color fillColor, Color lineColor) {
+    protected CanvasRow(CanvasInfo canvasInfo, Color fillColor, Color lineColor) {
         super(new BorderLayout());
         this.canvasInfo = canvasInfo;
         this.fillColor = fillColor;
@@ -35,22 +35,22 @@ abstract class AbstractRenderer extends JPanel {
         applyRenderingHints((Graphics2D) g);
 
         g.setColor(fillColor);
-        fillRenderer(g, getRendererLeftLocation(), 0, getRendererDrawWidth(), getHeight());
+        fillRowArea(g, getRowLeftLocation(), 0, getRowDrawWidth(), getHeight());
 
         g.setColor(lineColor);
-        drawBorder(g, getRendererLeftLocation(), 0, getRendererDrawWidth(), getHeight());
+        drawRowBorder(g, getRowLeftLocation(), 0, getRowDrawWidth(), getHeight());
     }
 
-    protected int getRendererLeftLocation() {
+    protected int getRowLeftLocation() {
         return 0;
     }
 
-    protected int getRendererRightLocation() {
+    protected int getRowRightLocation() {
         return getWidth();
     }
 
-    protected int getRendererDrawWidth() {
-        return getRendererRightLocation() - getRendererLeftLocation();
+    protected int getRowDrawWidth() {
+        return getRowRightLocation() - getRowLeftLocation();
     }
 
     protected double getHourColumnWidth() {
@@ -104,12 +104,12 @@ abstract class AbstractRenderer extends JPanel {
         return g2d.getFontMetrics().getStringBounds(text, g2d);
     }
 
-    private void fillRenderer(Graphics g, int x, int y, int width, int height) {
+    private void fillRowArea(Graphics g, int x, int y, int width, int height) {
         val arc = height / 3;
         g.fillRoundRect(x + 1, y + 1, width - 2, height - 2, arc, arc);
     }
 
-    private void drawBorder(Graphics g, int x, int y, int width, int height) {
+    private void drawRowBorder(Graphics g, int x, int y, int width, int height) {
         val arc = height / 3;
         g.drawRoundRect(x + 1, y + 1, width - 2, height - 2, arc, arc);
     }

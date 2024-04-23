@@ -9,10 +9,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 @Getter
-public class MemberRenderer extends ZonedRenderer {
+public class MemberRow extends ZoneIdRow {
     private final Member member;
 
-    public MemberRenderer(CanvasInfo canvasInfo, Member member, Palette palette) {
+    public MemberRow(CanvasInfo canvasInfo, Member member, Palette palette) {
         super(canvasInfo, member.zoneId(), palette);
         setOpaque(false);
         this.member = member;
@@ -24,16 +24,16 @@ public class MemberRenderer extends ZonedRenderer {
         val g2d = (Graphics2D) g;
 
         g2d.setColor(getTextColor());
-        drawCentered(g2d, getDisplayString(), getRendererLeftLocation(), getRendererDrawWidth());
+        drawCentered(g2d, getDisplayString(), getRowLeftLocation(), getRowDrawWidth());
     }
 
     @Override
-    protected int getRendererLeftLocation() {
+    protected int getRowLeftLocation() {
         return timeToColumnCenter(member.availability().start());
     }
 
     @Override
-    protected int getRendererRightLocation() {
+    protected int getRowRightLocation() {
         return timeToColumnCenter(member.availability().end());
     }
 

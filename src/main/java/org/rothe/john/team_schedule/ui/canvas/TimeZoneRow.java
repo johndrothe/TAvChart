@@ -8,17 +8,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.time.ZoneId;
 
-public class TimeZoneRenderer extends ZonedRenderer {
+public class TimeZoneRow extends ZoneIdRow {
     private static final int TEXT_MARGIN = 5;
     private final Color lineHintColor;
 
-    public TimeZoneRenderer(CanvasInfo canvasInfo, ZoneId zoneId, Palette palette) {
+    public TimeZoneRow(CanvasInfo canvasInfo, ZoneId zoneId, Palette palette) {
         super(canvasInfo, zoneId, palette);
         lineHintColor = getLineHintColor();
     }
 
     @Override
-    protected int getRendererRightLocation() {
+    protected int getRowRightLocation() {
         return getWidth() - getRowFooterWidth();
     }
 
