@@ -35,6 +35,7 @@ import static javax.swing.BorderFactory.createBevelBorder;
 public class Canvas extends JPanel {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
+    private final GridPainter gridPainter = new GridPainter(this);
     private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(rows);
     private Palette palette = null;
     private Team team = null;
@@ -52,7 +53,7 @@ public class Canvas extends JPanel {
     protected void paintChildren(Graphics g) {
         canvasInfo.update((Graphics2D) g);
         if (!rows.isEmpty()) {
-            GridPainter.paintGrid((Graphics2D) g, this, rows.getFirst());
+            gridPainter.paintGrid((Graphics2D) g, rows.getFirst());
         }
         super.paintChildren(g);
     }

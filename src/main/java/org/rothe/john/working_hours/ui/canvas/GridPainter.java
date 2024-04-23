@@ -8,49 +8,64 @@ import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-abstract class GridPainter {
+class GridPainter {
     private static final Color MINOR_COLOR = new Color(0, 0, 0, 10);
     private static final Color MAJOR_COLOR = new Color(0, 0, 0, 40);
 
-    private GridPainter() {
+    private final JPanel canvas;
 
+    GridPainter(JPanel canvas) {
+        this.canvas = canvas;
     }
 
-    public static void paintGrid(Graphics2D g2d,
-                                 JPanel target,
-                                 CanvasRow row) {
-        val startX = SwingUtilities.convertPoint(row, 0, 0, target).x;
+    public void paintGrid(Graphics2D g2d, CanvasRow firstRow) {
+        val target = new Target(g2d, firstRow, toRowStartX(firstRow));
 
-        paintMajorLines(g2d, row, startX, target.getHeight());
-        paintMinorLines(g2d, row, startX, target.getHeight());
+        paintMajorLines(target);
+        paintMinorLines(target);
     }
 
-    private static void paintMajorLines(Graphics2D g2d,
-                                        CanvasRow row,
-                                        int startX, int height) {
-        g2d.setColor(MAJOR_COLOR);
+    private void paintMajorLines(Target target) {
+        target.switchToMajorColor();
         for (int hour = 0; hour < 24; ++hour) {
-            paintLine(g2d, row, startX, height, hour * 60);
+            paintLine(target, hour * 60);
         }
     }
 
-    private static void paintMinorLines(Graphics2D g2d,
-                                        CanvasRow row,
-                                        int startX, int height) {
-        g2d.setColor(MINOR_COLOR);
-        for(int hour = 0; hour < 23; ++hour) {
+    private void paintMinorLines(Target target) {
+        target.switchToMinorColor();
+        for (int hour = 0; hour < 23; ++hour) {
             int minutes = hour * 60;
-            paintLine(g2d, row, startX, height, minutes + 15);
-            paintLine(g2d, row, startX, height, minutes + 30);
-            paintLine(g2d, row, startX, height, minutes + 45);
+            paintLine(target, minutes + 15);
+            paintLine(target, minutes + 30);
+            paintLine(target, minutes + 45);
         }
     }
 
-    private static void paintLine(Graphics2D g2d,
-                                  CanvasRow row,
-                                  int startX, int height, int minutes) {
-        final int x = row.timeToColumnCenter(minutes) + startX;
-        g2d.drawLine(x, 0, x, height);
+    private void paintLine(Target target, int minutes) {
+        target.drawLine(minutes, canvas.getHeight());
     }
 
+    private int toRowStartX(CanvasRow row) {
+        return SwingUtilities.convertPoint(row, 0, 0, canvas).x;
+    }
+
+    private record Target(Graphics2D g2d, CanvasRow firstRow, int startX) {
+        void switchToMinorColor() {
+            g2d.setColor(MINOR_COLOR);
+        }
+
+        void switchToMajorColor() {
+            g2d.setColor(MAJOR_COLOR);
+        }
+
+        void drawLine(int minutes, int height) {
+            val x = minutesToLocation(minutes);
+            g2d.drawLine(x, 0, x, height);
+        }
+
+        private int minutesToLocation(int minutes) {
+            return firstRow.timeToColumnCenter(minutes) + startX;
+        }
+    }
 }
