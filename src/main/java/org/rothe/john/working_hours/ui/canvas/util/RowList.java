@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas;
+package org.rothe.john.working_hours.ui.canvas.util;
 
 import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.AbstractZoneRow;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-class RowList {
+public class RowList {
     private final List<CanvasRow> rows = new ArrayList<>();
 
     public void clear() {

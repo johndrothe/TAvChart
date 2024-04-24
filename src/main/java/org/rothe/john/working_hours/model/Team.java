@@ -2,7 +2,6 @@ package org.rothe.john.working_hours.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.rothe.john.working_hours.util.Zone;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;

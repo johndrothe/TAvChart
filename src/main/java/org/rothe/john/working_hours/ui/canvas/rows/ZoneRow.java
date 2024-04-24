@@ -2,8 +2,8 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.util.Palette;
-import org.rothe.john.working_hours.util.Zone;
+import org.rothe.john.working_hours.ui.canvas.util.Palette;
+import org.rothe.john.working_hours.model.Zone;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,7 +19,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     @Override
-    protected int getRowRightLocation() {
+    protected int getRowMaxX() {
         return getWidth() - getRowFooterWidth();
     }
 
@@ -27,7 +27,7 @@ public class ZoneRow extends AbstractZoneRow {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         val g2d = (Graphics2D) g;
-        val hourColumnWidth = getHourColumnWidth();
+        val hourColumnWidth = getCanvasInfo().getHourColumnWidth();
         val offset = getOffsetHours();
 
         paintRowHeader(g2d);
@@ -45,7 +45,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintTimeZone(Graphics2D g2d, int hourUtc, int offset, double hourColumnWidth) {
-        val x = timeToColumnStart(hourUtc * 60);
+        val x = getCanvasInfo().timeToColumnStart(hourUtc * 60);
 
         g2d.setColor(lineHintColor);
         g2d.drawLine(x, 6, x, getHeight() - 6);
@@ -56,8 +56,12 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintRowFooter(Graphics2D g2d) {
+        val x = getCanvasInfo().timeToColumnStart(24 * 60)+ TEXT_MARGIN;
         g2d.setColor(getTextColor());
-        drawLeftJustified(g2d, getRowFooter(),
-                timeToColumnStart(24 * 60) + TEXT_MARGIN);
+        drawLeftJustified(g2d, getRowFooter(), x);
+    }
+
+    private Color getLineHintColor() {
+        return new Color(getLineColor().getRed(), getLineColor().getGreen(), getLineColor().getBlue(), 40);
     }
 }

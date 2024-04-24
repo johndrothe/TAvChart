@@ -1,4 +1,6 @@
-package org.rothe.john.working_hours.util;
+package org.rothe.john.working_hours.ui.canvas.util;
+
+import org.rothe.john.working_hours.model.Zone;
 
 import java.awt.Color;
 import java.util.HashMap;

@@ -2,8 +2,8 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.Getter;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.util.Palette;
-import org.rothe.john.working_hours.util.Zone;
+import org.rothe.john.working_hours.ui.canvas.util.Palette;
+import org.rothe.john.working_hours.model.Zone;
 
 import java.time.LocalTime;
 
@@ -37,12 +37,8 @@ public abstract class AbstractZoneRow extends CanvasRow {
         return h;
     }
 
-    protected int timeToColumnStart(LocalTime time) {
-        return timeToColumnStart(toMinutesUtc(time));
-    }
-
     protected int timeToColumnCenter(LocalTime time) {
-        return timeToColumnCenter(toMinutesUtc(time));
+        return getCanvasInfo().timeToColumnCenter(toMinutesUtc(time));
     }
 
     private int toMinutesUtc(LocalTime time) {

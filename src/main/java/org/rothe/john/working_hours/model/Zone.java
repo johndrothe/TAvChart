@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.util;
+package org.rothe.john.working_hours.model;
 
 import lombok.val;
 
@@ -36,6 +36,19 @@ public class Zone {
     public String getAbbreviation() {
         val zone = TimeZone.getTimeZone(zoneId);
         return zone.getDisplayName(zone.inDaylightTime(new Date()), TimeZone.SHORT);
+    }
+
+    @Override
+    public int hashCode() {
+        return zoneId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Zone z2) {
+            return zoneId.equals(z2.zoneId);
+        }
+        return false;
     }
 
     public String getId() {

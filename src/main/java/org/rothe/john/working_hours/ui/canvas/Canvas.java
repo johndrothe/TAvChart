@@ -8,8 +8,11 @@ import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
-import org.rothe.john.working_hours.util.Palette;
-import org.rothe.john.working_hours.util.Zone;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
+import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
+import org.rothe.john.working_hours.ui.canvas.util.RowList;
+import org.rothe.john.working_hours.ui.canvas.util.Palette;
+import org.rothe.john.working_hours.model.Zone;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -35,8 +38,8 @@ import static javax.swing.BorderFactory.createBevelBorder;
 public class Canvas extends JPanel {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
-    private final GridPainter gridPainter = new GridPainter(this);
-    private final CanvasInfoProxy canvasInfo = new CanvasInfoProxy(rows);
+    private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
+    private final GridPainter gridPainter = new GridPainter(this, canvasInfo);
     private Palette palette = null;
     private Team team = null;
 
@@ -141,30 +144,5 @@ public class Canvas extends JPanel {
 
     private static Insets rowInsets() {
         return new Insets(0, INSET, 2, INSET);
-    }
-
-    private static class CanvasInfoProxy implements CanvasInfo {
-        private final RowList rows;
-        private int headerWidth = 0;
-        private int footerWidth = 0;
-
-        public CanvasInfoProxy(RowList rows) {
-            this.rows = rows;
-        }
-
-        @Override
-        public int getRowHeaderWidth() {
-            return headerWidth;
-        }
-
-        @Override
-        public int getRowFooterWidth() {
-            return footerWidth;
-        }
-
-        public void update(Graphics2D g2d) {
-            headerWidth = rows.getColumnHeaderWidth(g2d);
-            footerWidth = rows.getColumnFooterWidth(g2d);
-        }
     }
 }

@@ -2,7 +2,7 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.util.Palette;
+import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import lombok.Getter;
 import lombok.val;
 
@@ -25,16 +25,16 @@ public class MemberRow extends AbstractZoneRow {
         val g2d = (Graphics2D) g;
 
         g2d.setColor(getTextColor());
-        drawCentered(g2d, getDisplayString(), getRowLeftLocation(), getRowDrawWidth());
+        drawCentered(g2d, getDisplayString(), getRowMinX(), getRowWidth());
     }
 
     @Override
-    protected int getRowLeftLocation() {
+    protected int getRowMinX() {
         return timeToColumnCenter(member.availability().normal().start());
     }
 
     @Override
-    protected int getRowRightLocation() {
+    protected int getRowMaxX() {
         return timeToColumnCenter(member.availability().normal().end());
     }
 
