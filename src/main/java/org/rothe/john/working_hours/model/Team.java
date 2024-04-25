@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -20,6 +21,28 @@ public class Team {
     public Team(String name, List<Member> members) {
         this.name = name;
         this.members.addAll(members);
+    }
+
+    public static Team fromCsv(String fileName, String csvContents) {
+        if (csvContents.isEmpty()) {
+            return null;
+        }
+        return new Team(toTeamName(fileName), membersFromCsv(csvContents));
+    }
+
+    private static List<Member> membersFromCsv(String csvContents) {
+        return Arrays.stream(csvContents.split("\n"))
+                .skip(1)//column headers
+                .map(row -> row.split(", ?"))
+                .map(Member::fromCsv)
+                .toList();
+    }
+
+    private static String toTeamName(String fileName) {
+        if (fileName.toLowerCase().endsWith(".csv")) {
+            return fileName.substring(0, fileName.length() - 4);
+        }
+        return fileName;
     }
 
     public List<Member> getMembers() {
@@ -50,6 +73,6 @@ public class Team {
     }
 
     private String csvHeader() {
-        return "Name, Position, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End";
+        return "Name, Position, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End\n";
     }
 }

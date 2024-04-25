@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.canvas.rows.AbstractZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
@@ -11,9 +12,8 @@ import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
-import org.rothe.john.working_hours.ui.canvas.util.RowList;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.ui.canvas.util.RowList;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -26,7 +26,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static java.awt.GridBagConstraints.BOTH;
@@ -68,6 +67,8 @@ public class Canvas extends JPanel {
     public void setTeam(Team team) {
         this.team = team;
         initialize();
+        revalidate();
+        repaint();
     }
 
     private void initialize() {

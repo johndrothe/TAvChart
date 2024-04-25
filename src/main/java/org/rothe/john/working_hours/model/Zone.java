@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.model;
 
 import lombok.val;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -77,5 +78,15 @@ public class Zone {
 
     private static int toHours(int seconds) {
         return (int)Math.round(seconds / 60.0 / 60.0);
+    }
+
+    public static Zone fromCsv(String id) {
+        try {
+            return new Zone(ZoneId.of(id));
+        } catch(DateTimeException dte) {
+            System.err.println("Invalid Zone ID '"+id+"':  Using default '"+ZoneId.systemDefault()+"'");
+            dte.printStackTrace();
+        }
+        return new Zone(ZoneId.systemDefault());
     }
 }

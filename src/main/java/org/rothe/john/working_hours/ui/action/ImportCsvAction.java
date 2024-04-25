@@ -1,7 +1,8 @@
-package org.rothe.john.working_hours.ui;
+package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.ui.CsvFileFilter;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 
 import javax.swing.AbstractAction;
@@ -13,27 +14,25 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-public class ExportCsvAction extends AbstractAction {
+public class ImportCsvAction extends AbstractAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final JComponent parent;
     private final Canvas canvas;
 
-    public ExportCsvAction(JComponent parent, Canvas canvas) {
-        super("Export");
+    public ImportCsvAction(JComponent parent, Canvas canvas) {
+        super("Import");
         this.parent = parent;
         this.canvas = canvas;
     }
 
-    public static void write(Path path, Team team) {
+    public static Team read(Path path) {
         try {
-            Files.writeString(path, team.toCsv(), CREATE, TRUNCATE_EXISTING);
+            return Team.fromCsv(path.getFileName().toString(), Files.readString(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,14 +40,13 @@ public class ExportCsvAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        val team = canvas.getTeam();
-        if (isNull(team)) {
+        val path = selectFile();
+        if (isNull(path)) {
             return;
         }
-
-        val path = selectFile();
-        if (nonNull(path)) {
-            write(path, canvas.getTeam());
+        Team team = read(path);
+        if(nonNull(team)) {
+            canvas.setTeam(team);
         }
     }
 
@@ -62,10 +60,10 @@ public class ExportCsvAction extends AbstractAction {
 
     private JFileChooser newChooser() {
         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Export to CSV");
-        chooser.setApproveButtonText("Export");
+        chooser.setDialogTitle("Import from CSV");
+        chooser.setApproveButtonText("Import");
         chooser.setDragEnabled(false);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
