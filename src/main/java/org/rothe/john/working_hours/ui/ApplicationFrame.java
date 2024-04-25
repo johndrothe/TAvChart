@@ -15,8 +15,8 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
-    private final Toolbar toolBar = new Toolbar();
     private final Canvas canvas = new Canvas();
+    private final Toolbar toolBar = new Toolbar(canvas);
 
     public ApplicationFrame() {
         super("Team Scheduler - 0.0.1");

@@ -2,7 +2,6 @@ package org.rothe.john.working_hours.ui.canvas.util;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -21,8 +20,8 @@ public class GridPainter {
         this.canvasInfo = canvasInfo;
     }
 
-    public void paintGrid(Graphics2D g2d, CanvasRow firstRow) {
-        val target = new Target(canvasInfo, g2d, toRowStartX(firstRow));
+    public void paintGrid(Graphics2D g2d, JPanel exampleRow) {
+        val target = new Target(canvasInfo, g2d, toRowStartX(exampleRow));
 
         paintMajorLines(target);
         paintMinorLines(target);
@@ -49,8 +48,8 @@ public class GridPainter {
         target.drawLine(minutesUtc, canvas.getHeight());
     }
 
-    private int toRowStartX(CanvasRow row) {
-        return SwingUtilities.convertPoint(row, 0, 0, canvas).x;
+    private int toRowStartX(JPanel exampleRow) {
+        return SwingUtilities.convertPoint(exampleRow, 0, 0, canvas).x;
     }
 
     private record Target(CanvasInfo canvasInfo, Graphics2D g2d, int startX) {

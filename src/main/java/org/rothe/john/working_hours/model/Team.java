@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
+
 public class Team {
     private final List<Member> members = new ArrayList<>();
     @Getter
@@ -39,5 +41,15 @@ public class Team {
 
     private Stream<Zone> getMemberZoneIds() {
         return members.stream().map(Member::zone);
+    }
+
+    public String toCsv() {
+        return getMembers().stream()
+                .map(Member::toCsv)
+                .collect(joining("\n", csvHeader(), "\n"));
+    }
+
+    private String csvHeader() {
+        return "Name, Position, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End";
     }
 }

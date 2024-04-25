@@ -1,5 +1,6 @@
 package org.rothe.john.working_hours.ui.canvas;
 
+import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
@@ -25,6 +26,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.awt.GridBagConstraints.BOTH;
@@ -41,6 +43,8 @@ public class Canvas extends JPanel {
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
     private final GridPainter gridPainter = new GridPainter(this, canvasInfo);
     private Palette palette = null;
+
+    @Getter
     private Team team = null;
 
     public Canvas() {
@@ -60,7 +64,6 @@ public class Canvas extends JPanel {
         }
         super.paintChildren(g);
     }
-
 
     public void setTeam(Team team) {
         this.team = team;
