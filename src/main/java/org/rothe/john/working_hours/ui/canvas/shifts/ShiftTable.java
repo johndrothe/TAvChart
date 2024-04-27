@@ -4,7 +4,15 @@ import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Zone;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 // Algorithm Notes
@@ -65,12 +73,11 @@ class ShiftTable {
 
     private List<Shift> findShifts() {
         val shifts = new ArrayList<Shift>();
-        val wrappedChanges = new ArrayList<>(shiftChanges);
-        wrappedChanges.add(wrappedChanges.getFirst());
+        val changeTimes = getWrapAroundShiftChanges();
 
-        for (int i = 0; i < wrappedChanges.size() - 1; ++i) {
-            int start = wrappedChanges.get(i);
-            int end = wrappedChanges.get(i + 1);
+        for (int i = 0; i < changeTimes.size() - 1; ++i) {
+            int start = changeTimes.get(i);
+            int end = changeTimes.get(i + 1);
 
             if (getShiftMembers(start).isEmpty()) {
                 continue;
@@ -78,6 +85,14 @@ class ShiftTable {
             shifts.add(new Shift(start, end, getShiftMembers(start)));
         }
         return shifts;
+    }
+
+    // the list of shift changes with the first at  the beginning and
+    // the end of the list
+    private List<Integer> getWrapAroundShiftChanges() {
+        val list = new ArrayList<>(shiftChanges);
+        list.add(list.getFirst());
+        return list;
     }
 
     private List<Integer> findShiftChanges() {
