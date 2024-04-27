@@ -14,11 +14,6 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 public class ShiftPainter {
-    // TODO:
-    // if the longest contains all members, use it
-    // if the longest is missing members, then find the largest that includes those members
-    // find the longest contiguous overlap (i.e. "shift")
-
     private final Canvas canvas;
     private final CanvasInfo canvasInfo;
 

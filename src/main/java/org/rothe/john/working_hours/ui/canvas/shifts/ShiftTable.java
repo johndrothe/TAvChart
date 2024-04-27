@@ -4,20 +4,19 @@ import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Zone;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
+// Algorithm Notes
+// Goal: Find the longest contiguous overlaps (i.e. "shifts")
+//
+// if the longest contains all members, use it
+// if the longest is missing members, then find the largest that includes those members
+
 class ShiftTable {
+    private static final int[] SHIFT_TIMES = shiftTimes();
     private final HashMap<Integer, Set<Member>> membersByShiftStart = new HashMap<>();
     private final List<Shift> shifts;
     private final List<Integer> shiftChanges;
@@ -34,7 +33,6 @@ class ShiftTable {
     }
 
     public List<Shift> getLargestShifts() {
-        // find the longest contiguous overlap (i.e. "shift")
         return getShiftsBySize(getMaxShiftSize());
     }
 
@@ -57,13 +55,15 @@ class ShiftTable {
     }
 
     private void addMembers(Collection<Member> members) {
-        addShiftSlots(members.stream().flatMap(ShiftTable::toSlots).toList());
+        members.stream().flatMap(ShiftTable::toSlots).forEach(this::addShiftSlot);
     }
 
-    private void addShiftSlots(List<ShiftSlot> slots) {
-        for (ShiftSlot slot : slots) {
-            membersByShiftStart.computeIfAbsent(slot.minutesUtc, HashSet::new).add(slot.member);
-        }
+    private void addShiftSlot(ShiftSlot slot) {
+        getShiftMembers(slot.minutesUtc).add(slot.member);
+    }
+
+    private Set<Member> getShiftMembers(int shiftTime) {
+        return membersByShiftStart.computeIfAbsent(shiftTime, HashSet::new);
     }
 
     private List<Shift> findShifts() {
@@ -75,10 +75,10 @@ class ShiftTable {
             int start = wrappedChanges.get(i);
             int end = wrappedChanges.get(i + 1);
 
-            if (isNull(membersByShiftStart.get(start)) || membersByShiftStart.get(start).isEmpty()) {
+            if (getShiftMembers(start).isEmpty()) {
                 continue;
             }
-            shifts.add(new Shift(start, end, membersByShiftStart.get(start)));
+            shifts.add(new Shift(start, end, getShiftMembers(start)));
         }
         return shifts;
     }
@@ -86,14 +86,14 @@ class ShiftTable {
     private List<Integer> findShiftChanges() {
         val list = new ArrayList<Integer>();
 
-        Set<Member> previousMembers = membersByShiftStart.get(Zone.MINUTES_IN_A_DAY);
-        for (int minutesUtc = 0; minutesUtc <= Zone.MINUTES_IN_A_DAY; minutesUtc += 15) {
-            val currentMembers = membersByShiftStart.get(minutesUtc);
+        Set<Member> previousMembers = getShiftMembers(Zone.MINUTES_IN_A_DAY);
+        for (int shiftTime : SHIFT_TIMES) {
+            val currentMembers = getShiftMembers(shiftTime);
             if (Objects.equals(previousMembers, currentMembers)) {
                 continue;
             }
             previousMembers = currentMembers;
-            list.add(minutesUtc);
+            list.add(shiftTime);
         }
         return list;
     }
@@ -102,13 +102,18 @@ class ShiftTable {
         val start = member.getNormalStartMinutesUtc();
         val end = member.getNormalEndMinutesUtc();
 
-        val list = new ArrayList<ShiftSlot>();
-        for (int minutesUtc = 0; minutesUtc < Zone.MINUTES_IN_A_DAY; minutesUtc += 15) {
-            if (minutesUtc >= start && minutesUtc < end) {
-                list.add(new ShiftSlot(minutesUtc, member));
-            }
+        return Arrays.stream(SHIFT_TIMES)
+                .filter( minutesUtc -> minutesUtc >= start && minutesUtc < end)
+                .mapToObj(minutesUtc -> new ShiftSlot(minutesUtc, member));
+    }
+
+    private static int[] shiftTimes() {
+        int[] values = new int[24 * 4 + 1];
+
+        for (int i = 0; i < values.length; ++i) {
+            values[i] = i * 15;
         }
-        return list.stream();
+        return values;
     }
 
     private record ShiftSlot(int minutesUtc, Member member) {

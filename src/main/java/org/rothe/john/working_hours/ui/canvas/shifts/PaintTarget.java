@@ -1,12 +1,17 @@
 package org.rothe.john.working_hours.ui.canvas.shifts;
 
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-record PaintTarget(CanvasInfo canvasInfo, Graphics2D g2d, int startX) {
+@RequiredArgsConstructor
+class PaintTarget {
+    private final CanvasInfo canvasInfo;
+    private final Graphics2D g2d;
+    private final int startX;
 
     private static final Color LINE_COLOR = new Color(0, 0, 255, 40);
     public static final Color FILL_COLOR = new Color(0, 0, 255, 20);
