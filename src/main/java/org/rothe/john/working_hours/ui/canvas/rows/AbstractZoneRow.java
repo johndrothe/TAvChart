@@ -29,19 +29,7 @@ public abstract class AbstractZoneRow extends CanvasRow {
         return zone.getOffsetHours();
     }
 
-    protected static int normalizeHour(int hour) {
-        int h = hour % 24;
-        if (h < 0) {
-            return h + 24;
-        }
-        return h;
-    }
-
     protected int timeToColumnCenter(LocalTime time) {
-        return getCanvasInfo().timeToColumnCenter(toMinutesUtc(time));
-    }
-
-    private int toMinutesUtc(LocalTime time) {
-        return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
+        return getCanvasInfo().timeToColumnCenter(zone.toMinutesUtc(time));
     }
 }

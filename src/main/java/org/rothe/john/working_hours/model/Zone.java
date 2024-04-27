@@ -4,6 +4,7 @@ import lombok.val;
 
 import java.time.DateTimeException;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -15,11 +16,24 @@ import java.util.TimeZone;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 public class Zone {
+    public static final int MINUTES_IN_A_DAY = 24 * 60;
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
     private final ZoneId zoneId;
 
     public Zone(ZoneId zoneId) {
         this.zoneId = zoneId;
+    }
+
+    public static String toClockFormat(int minutes) {
+        return String.format("%02d:%02d", minutes / 60, minutes % 60);
+    }
+
+    public static int normalizeHour(int hour) {
+        int h = hour % 24;
+        if (h < 0) {
+            return h + 24;
+        }
+        return h;
     }
 
     public ZoneRules getRules() {
@@ -46,7 +60,7 @@ public class Zone {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Zone z2) {
+        if (obj instanceof Zone z2) {
             return zoneId.equals(z2.zoneId);
         }
         return false;
@@ -63,8 +77,13 @@ public class Zone {
     public int getOffsetHours() {
         return toHours(getOffsetSeconds());
     }
+
     public int getOffsetSeconds() {
         return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
+    }
+
+    public int toMinutesUtc(LocalTime time) {
+        return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
     }
 
     public String toTransitionDateStr(ZoneRules rules) {
@@ -77,16 +96,21 @@ public class Zone {
     }
 
     private static int toHours(int seconds) {
-        return (int)Math.round(seconds / 60.0 / 60.0);
+        return (int) Math.round(seconds / 60.0 / 60.0);
     }
 
     public static Zone fromCsv(String id) {
         try {
             return new Zone(ZoneId.of(id));
-        } catch(DateTimeException dte) {
-            System.err.println("Invalid Zone ID '"+id+"':  Using default '"+ZoneId.systemDefault()+"'");
+        } catch (DateTimeException dte) {
+            System.err.println("Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
             dte.printStackTrace();
         }
         return new Zone(ZoneId.systemDefault());
+    }
+
+    @Override
+    public String toString() {
+        return zoneId.toString();
     }
 }

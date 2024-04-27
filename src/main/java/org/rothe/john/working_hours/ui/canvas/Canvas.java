@@ -12,6 +12,7 @@ import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
+import org.rothe.john.working_hours.ui.canvas.shifts.ShiftPainter;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.ui.canvas.util.RowList;
 
@@ -41,6 +42,7 @@ public class Canvas extends JPanel {
     private final RowList rows = new RowList();
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
     private final GridPainter gridPainter = new GridPainter(this, canvasInfo);
+    private final ShiftPainter shiftPainter = new ShiftPainter(this, canvasInfo);
     private Palette palette = null;
 
     @Getter
@@ -55,20 +57,32 @@ public class Canvas extends JPanel {
         initialize();
     }
 
-    @Override
-    protected void paintChildren(Graphics g) {
-        canvasInfo.update((Graphics2D) g);
-        if (!rows.isEmpty()) {
-            gridPainter.paintGrid((Graphics2D) g, rows.getFirst());
-        }
-        super.paintChildren(g);
-    }
-
     public void setTeam(Team team) {
         this.team = team;
         initialize();
         revalidate();
         repaint();
+    }
+
+    @Override
+    protected void paintChildren(Graphics g) {
+        canvasInfo.update((Graphics2D) g);
+        paintUnder((Graphics2D) g);
+        super.paintChildren(g);
+        paintOver((Graphics2D) g);
+    }
+
+    private void paintOver(Graphics2D g2d) {
+        if (!rows.isEmpty()) {
+            shiftPainter.paintOver(g2d, rows.getFirst());
+        }
+    }
+
+    private void paintUnder(Graphics2D g2d) {
+        if (!rows.isEmpty()) {
+            gridPainter.paintGrid(g2d, rows.getFirst());
+            shiftPainter.paintUnder(g2d, rows.getFirst());
+        }
     }
 
     private void initialize() {
@@ -78,6 +92,7 @@ public class Canvas extends JPanel {
         } else {
             initTeamCanvas();
         }
+        shiftPainter.initialize();
     }
 
     private void initBlankCanvas() {

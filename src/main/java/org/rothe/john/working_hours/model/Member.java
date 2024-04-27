@@ -1,5 +1,9 @@
 package org.rothe.john.working_hours.model;
 
+import java.util.Collection;
+
+import static java.util.stream.Collectors.joining;
+
 public record Member(String name, String position, String location, Zone zone, Availability availability) {
     public Member(String name, String position, String location, Zone zone) {
         this(name, position, location, zone, Availability.standard());
@@ -22,5 +26,20 @@ public record Member(String name, String position, String location, Zone zone, A
                 new Availability(
                         Period.fromCsv(values[4], values[5]),
                         Period.fromCsv(values[6], values[7])));
+    }
+
+    public int getNormalStartMinutesUtc() {
+        return zone.toMinutesUtc(availability.normal().start());
+    }
+
+    public int getNormalEndMinutesUtc() {
+        return zone.toMinutesUtc(availability.normal().end());
+    }
+
+    public static String toNameList(Collection<Member> members) {
+        return members.stream()
+                .map(Member::name)
+                .sorted()
+                .collect(joining(", "));
     }
 }
