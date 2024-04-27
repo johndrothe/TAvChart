@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 // if the longest is missing members, then find the largest that includes those members
 
 class ShiftTable {
-    private static final int[] SHIFT_TIMES = shiftTimes();
     private final HashMap<Integer, Set<Member>> membersByShiftStart = new HashMap<>();
     private final List<Shift> shifts;
     private final List<Integer> shiftChanges;
@@ -85,7 +84,7 @@ class ShiftTable {
         val list = new ArrayList<Integer>();
 
         Set<Member> previousMembers = getShiftMembers(Zone.MINUTES_IN_A_DAY);
-        for (int shiftTime : SHIFT_TIMES) {
+        for (int shiftTime : ShiftTimes.get()) {
             val currentMembers = getShiftMembers(shiftTime);
             if (Objects.equals(previousMembers, currentMembers)) {
                 continue;
@@ -100,18 +99,9 @@ class ShiftTable {
         val start = member.getNormalStartMinutesUtc();
         val end = member.getNormalEndMinutesUtc();
 
-        return Arrays.stream(SHIFT_TIMES)
+        return ShiftTimes.stream()
                 .filter(minutesUtc -> minutesUtc >= start && minutesUtc < end)
                 .mapToObj(minutesUtc -> new ShiftSlot(minutesUtc, member));
-    }
-
-    private static int[] shiftTimes() {
-        int[] values = new int[24 * 4 + 1];
-
-        for (int i = 0; i < values.length; ++i) {
-            values[i] = i * 15;
-        }
-        return values;
     }
 
     private record ShiftSlot(int minutesUtc, Member member) {
