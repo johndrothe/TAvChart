@@ -7,8 +7,6 @@ import org.rothe.john.working_hours.model.Zone;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.Objects.isNull;
-
 // Algorithm Notes
 // Goal: Find the longest contiguous overlaps (i.e. "shifts")
 //
@@ -103,7 +101,7 @@ class ShiftTable {
         val end = member.getNormalEndMinutesUtc();
 
         return Arrays.stream(SHIFT_TIMES)
-                .filter( minutesUtc -> minutesUtc >= start && minutesUtc < end)
+                .filter(minutesUtc -> minutesUtc >= start && minutesUtc < end)
                 .mapToObj(minutesUtc -> new ShiftSlot(minutesUtc, member));
     }
 
