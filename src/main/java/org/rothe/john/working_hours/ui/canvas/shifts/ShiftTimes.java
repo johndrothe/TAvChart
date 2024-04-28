@@ -1,30 +1,21 @@
 package org.rothe.john.working_hours.ui.canvas.shifts;
 
-import java.util.Arrays;
+import org.rothe.john.working_hours.model.Zone;
+
 import java.util.stream.IntStream;
 
 class ShiftTimes {
-    private static final int[] SHIFT_TIMES = shiftTimes();
-
     private ShiftTimes() {
 
     }
 
     public static int[] get() {
-        return SHIFT_TIMES;
+        return stream().toArray();
     }
 
     public static IntStream stream() {
-        return Arrays.stream(SHIFT_TIMES);
+        return IntStream.iterate(0,
+                value -> value <= Zone.MINUTES_IN_A_DAY,
+                value -> value + 15);
     }
-
-    private static int[] shiftTimes() {
-        int[] values = new int[24 * 4 + 1];
-
-        for (int i = 0; i < values.length; ++i) {
-            values[i] = i * 15;
-        }
-        return values;
-    }
-
 }
