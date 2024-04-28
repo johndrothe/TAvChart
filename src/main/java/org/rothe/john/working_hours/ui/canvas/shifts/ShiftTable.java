@@ -87,12 +87,11 @@ class ShiftTable {
         return shifts;
     }
 
-    // the list of shift changes with the first at  the beginning and
+    // the list of shift changes with the first at the beginning and
     // the end of the list
     private List<Integer> getWrapAroundShiftChanges() {
-        val list = new ArrayList<>(shiftChanges);
-        list.add(list.getFirst());
-        return list;
+        return Stream.concat(shiftChanges.stream(), Stream.of(shiftChanges.getFirst()))
+                .toList();
     }
 
     private List<Integer> findShiftChanges() {
