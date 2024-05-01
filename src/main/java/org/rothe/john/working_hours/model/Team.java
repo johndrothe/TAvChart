@@ -73,6 +73,6 @@ public class Team {
     }
 
     private String csvHeader() {
-        return "Name, Position, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End\n";
+        return "Name, Role, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End\n";
     }
 }

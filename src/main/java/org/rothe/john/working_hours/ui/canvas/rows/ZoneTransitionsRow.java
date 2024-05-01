@@ -1,19 +1,16 @@
 package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.util.GBCBuilder;
 
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.List;
-
-import static java.awt.GridBagConstraints.WEST;
-import static javax.swing.SwingConstants.HORIZONTAL;
 
 // Note that the daylight savings time offset from UTC is always one higher in locations that use it.
 public class ZoneTransitionsRow extends CanvasRow {
@@ -52,23 +49,22 @@ public class ZoneTransitionsRow extends CanvasRow {
     }
 
     private static GridBagConstraints titleConstraints() {
-        return newConstraints(0, 3, new Insets(0, 20, 5, 5));
+        return defaultConstraints().gridx(0).gridwidth(3).insets(0, 20, 5, 5).build();
     }
 
     private static GridBagConstraints zoneConstraints() {
-        return newConstraints(0, 1, new Insets(5, 40, 0, 0));
+        return defaultConstraints().gridx(0).insets(5, 40, 0, 0).build();
     }
 
     private static GridBagConstraints abbreviationConstraints() {
-        return newConstraints(1, 1, new Insets(5, 20, 0, 0));
+        return defaultConstraints().gridx(1).insets(5, 20, 0, 0).build();
     }
 
     private static GridBagConstraints datesConstraints() {
-        return newConstraints(2, 1, new Insets(5, 25, 0, 0));
+        return defaultConstraints().gridx(2).insets(5, 25, 0, 0).build();
     }
 
-    private static GridBagConstraints newConstraints(int gridX, int gridWidth, Insets insets) {
-        return new GridBagConstraints(gridX, -1, gridWidth, 1,
-                1.0, 0.0, WEST, HORIZONTAL, insets, 0, 0);
+    private static GBCBuilder defaultConstraints() {
+        return new GBCBuilder().weightx(1.0).anchorWest().fillHorizontal();
     }
 }

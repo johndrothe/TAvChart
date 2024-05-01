@@ -39,6 +39,6 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private String getDisplayString() {
-        return String.format("%s (%s / %s)", member.name(), member.position(), member.location());
+        return String.format("%s (%s / %s)", member.name(), member.role(), member.location());
     }
 }

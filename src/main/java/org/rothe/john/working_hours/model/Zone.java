@@ -74,6 +74,13 @@ public class Zone {
         return zoneId.getId();
     }
 
+    public String getRawZoneId() {
+        if (zoneId.equals(ZoneOffset.UTC)) {
+            return "UTC";
+        }
+        return zoneId.getId();
+    }
+
     public int getOffsetHours() {
         return toHours(getOffsetSeconds());
     }

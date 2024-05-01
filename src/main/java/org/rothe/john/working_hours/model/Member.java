@@ -1,17 +1,19 @@
 package org.rothe.john.working_hours.model;
 
 import java.util.Collection;
+import java.util.Comparator;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
-public record Member(String name, String position, String location, Zone zone, Availability availability) {
-    public Member(String name, String position, String location, Zone zone) {
-        this(name, position, location, zone, Availability.standard());
+public record Member(String name, String role, String location, Zone zone, Availability availability) {
+    public Member(String name, String role, String location, Zone zone) {
+        this(name, role, location, zone, Availability.standard());
     }
 
     public String toCsv() {
         return String.format("%s, %s, %s, %s, %s, %s, %s, %s",
-                name(), position(), location(), zone().getId(),
+                name(), role(), location(), zone().getId(),
                 availability().normal().start(),
                 availability().normal().end(),
                 availability().lunch().start(),
@@ -41,5 +43,11 @@ public record Member(String name, String position, String location, Zone zone, A
                 .map(Member::name)
                 .sorted()
                 .collect(joining(", "));
+    }
+
+    public static Comparator<Member> offsetNameCompartor() {
+        final Comparator<Member> z = comparing(m -> m.zone().getOffsetHours());
+        final Comparator<Member> n = comparing(Member::name);
+        return z.thenComparing(n);
     }
 }

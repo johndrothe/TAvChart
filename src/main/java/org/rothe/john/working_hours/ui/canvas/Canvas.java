@@ -10,32 +10,30 @@ import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
+import org.rothe.john.working_hours.ui.canvas.shifts.ShiftPainter;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
-import org.rothe.john.working_hours.ui.canvas.shifts.ShiftPainter;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.ui.canvas.util.RowList;
+import org.rothe.john.working_hours.ui.util.GBCBuilder;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.awt.GridBagConstraints.BOTH;
-import static java.awt.GridBagConstraints.CENTER;
-import static java.awt.GridBagConstraints.NONE;
-import static java.awt.GridBagConstraints.WEST;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
-import static javax.swing.BorderFactory.createBevelBorder;
+import static javax.swing.BorderFactory.createCompoundBorder;
+import static javax.swing.BorderFactory.createEmptyBorder;
+import static javax.swing.BorderFactory.createLineBorder;
 
 public class Canvas extends JPanel {
     private static final int INSET = 5;
@@ -52,7 +50,7 @@ public class Canvas extends JPanel {
         super();
         setBackground(Color.WHITE);
         setOpaque(true);
-        setBorder(createBevelBorder(BevelBorder.RAISED));
+        setBorder(border());
         setLayout(new GridBagLayout());
         initialize();
     }
@@ -144,24 +142,33 @@ public class Canvas extends JPanel {
     }
 
     private void addSpacerGlue() {
-        add(Box.createGlue(), new GridBagConstraints(0, -1, 27, 1,
-                1.0, 1.0, CENTER, BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+        add(Box.createGlue(), spacerConstraints());
+    }
+
+    private static GridBagConstraints spacerConstraints() {
+        return defaultConstraints().weighty(1.0).insets(0).build();
     }
 
     private static GridBagConstraints transitionsConstraints() {
-        return new GridBagConstraints(0, -1, 27, 1,
-                0.0, 0.0, WEST, NONE,
-                new Insets(30, INSET, 2, INSET), 20, 20);
+        return defaultConstraints().anchorWest().fillNone()
+                .insets(30, INSET, 2, INSET).ipadx(30).ipady(20).build();
     }
 
     private static GridBagConstraints rowConstraints() {
-        return new GridBagConstraints(0, -1, 27, 1,
-                1.0, 0.0, CENTER, BOTH,
-                rowInsets(), 0, 30);
+        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(30).build();
     }
 
-    private static Insets rowInsets() {
-        return new Insets(0, INSET, 2, INSET);
+    private static GBCBuilder defaultConstraints() {
+        return new GBCBuilder().gridx(0).gridwidth(27).weightx(1.0).fillBoth();
+    }
+
+    private Border border() {
+        return createCompoundBorder(outerBorder(), createEmptyBorder(5, 0, 0, 0));
+    }
+
+    private Border outerBorder() {
+        return createCompoundBorder(
+                createLineBorder(Color.BLACK, 1),
+                createEmptyBorder(10, 10, 10, 10));
     }
 }
