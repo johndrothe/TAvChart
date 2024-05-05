@@ -1,41 +1,49 @@
 package org.rothe.john.working_hours.ui.toolbar;
 
+import lombok.val;
 import org.rothe.john.working_hours.ui.toolbar.action.*;
 
-import javax.swing.JButton;
 import javax.swing.JToolBar;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Toolbar extends JToolBar {
-    private final List<ToolbarAction> actions = new ArrayList<>();
-
     public Toolbar() {
         super();
         setFloatable(false);
-        initializeButtons();
     }
 
     public void displayChanged(final DisplayChangeEvent event) {
-        actions.forEach(a -> a.displayChanged(event));
+        removeAll();
+        createButtons(event);
+        revalidate();
+        repaint();
     }
 
-    public JButton add(ToolbarAction a) {
-        actions.add(a);
-        return super.add(a);
-    }
+    private void createButtons(DisplayChangeEvent event) {
+        val table = event.table().orElse(null);
+        val canvas = event.canvas().orElse(null);
 
-    private void initializeButtons() {
-        add(new ImportCsvAction(this));
-        add(new ExportCsvAction(this));
+        add(new ImportCsvAction(table));
+        add(new ExportCsvAction(table));
+
         addSeparator();
-        add(new CopyAction(this));
-        add(new PasteAction(this));
+        add(new CopyAction(table));
+        add(new PasteAction(table));
+
+        //TODO: undo manager
         addSeparator();
         add(new UndoAction(this));
         add(new RedoAction(this));
-        addSeparator();
-        add(new MoveUpAction(this));
-        add(new MoveDownAction(this));
+
+        if (event.isTableDisplayed()) {
+            addSeparator();
+            add(new MoveUpAction(table));
+            add(new MoveDownAction(table));
+        }
+
+        if (event.isCanvasDisplayed()) {
+            addSeparator();
+            add(new ExportImageAction(canvas));
+        }
     }
+
 }

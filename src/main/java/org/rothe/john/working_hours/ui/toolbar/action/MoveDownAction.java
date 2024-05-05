@@ -17,8 +17,4 @@ public class MoveDownAction extends ToolbarAction {
     public void actionPerformed(ActionEvent e) {
 
     }
-
-    public void displayChanged(DisplayChangeEvent event) {
-        setEnabled(event.isTableDisplayed());
-    }
 }

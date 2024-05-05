@@ -1,5 +1,7 @@
 package org.rothe.john.working_hours.ui.table;
 
+import lombok.Getter;
+import lombok.val;
 import org.rothe.john.working_hours.event.TeamChangedEvent;
 import org.rothe.john.working_hours.event.TeamListener;
 import org.rothe.john.working_hours.event.Teams;
@@ -12,9 +14,8 @@ import java.awt.BorderLayout;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class MembersTablePanel extends JPanel implements TeamListener {
-    private final JPanel centerPanel = new JPanel(new BorderLayout());
+    @Getter
     private final MembersTable table = new MembersTable();
-    private final JScrollPane scrollPane = new JScrollPane(table);
 
     private Team team;
 
@@ -23,9 +24,10 @@ public class MembersTablePanel extends JPanel implements TeamListener {
         setBorder(createEmptyBorder(10, 10, 10, 10));
         setOpaque(false);
 
-        add(centerPanel, BorderLayout.CENTER);
+        val centerPanel = new JPanel(new BorderLayout());
         centerPanel.setOpaque(true);
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
+        centerPanel.add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
     public void register() {
@@ -39,5 +41,9 @@ public class MembersTablePanel extends JPanel implements TeamListener {
     public void teamChanged(TeamChangedEvent event) {
         this.team = event.team();
         table.setTeam(team);
+    }
+
+    private void resizeTable() {
+
     }
 }

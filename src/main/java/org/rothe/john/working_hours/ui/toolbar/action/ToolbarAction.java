@@ -7,8 +7,4 @@ public abstract class ToolbarAction extends AbstractAction {
     protected ToolbarAction(String name, Icon icon) {
         super(name, icon);
     }
-
-    public void displayChanged(DisplayChangeEvent event) {
-
-    }
 }

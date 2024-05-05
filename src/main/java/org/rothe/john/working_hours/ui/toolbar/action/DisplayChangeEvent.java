@@ -1,21 +1,33 @@
 package org.rothe.john.working_hours.ui.toolbar.action;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.rothe.john.working_hours.ui.canvas.Canvas;
+import org.rothe.john.working_hours.ui.table.MembersTable;
+
+import java.util.Optional;
+
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class DisplayChangeEvent {
+    @Getter
     private final boolean canvasDisplayed;
+    private final Canvas canvas;
+    private final MembersTable table;
 
-    public static DisplayChangeEvent of(boolean canvasDisplayed) {
-        return new DisplayChangeEvent(canvasDisplayed);
-    }
-
-    private DisplayChangeEvent(boolean canvasDisplayed) {
-        this.canvasDisplayed = canvasDisplayed;
-    }
-
-    public boolean isCanvasDisplayed() {
-        return canvasDisplayed;
+    public static DisplayChangeEvent of(MembersTable table, Canvas canvas, boolean canvasDisplayed) {
+        return new DisplayChangeEvent(canvasDisplayed, canvas, table);
     }
 
     public boolean isTableDisplayed() {
-        return !canvasDisplayed;
+        return !isCanvasDisplayed();
+    }
+
+    public Optional<Canvas> canvas() {
+        return Optional.ofNullable(canvas);
+    }
+
+    public Optional<MembersTable> table() {
+        return Optional.ofNullable(table);
     }
 }

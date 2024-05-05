@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.ui;
 
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
+import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
 import org.rothe.john.working_hours.ui.toolbar.Toolbar;
 import org.rothe.john.working_hours.ui.toolbar.action.DisplayChangeEvent;
@@ -41,6 +42,8 @@ public class ApplicationFrame extends JFrame {
         canvas.register();
         tablePanel.register();
 
+        tabChanged(null);
+
         Teams.fireTeamChanged(this, "New", SampleFactory.newTeam());
     }
 
@@ -79,6 +82,7 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void tabChanged(ChangeEvent event) {
-        toolBar.displayChanged(DisplayChangeEvent.of(tabbedPane.getSelectedIndex() == 1));
+        toolBar.displayChanged(DisplayChangeEvent.of(tablePanel.getTable(), canvas,
+                tabbedPane.getSelectedIndex() == 1));
     }
 }

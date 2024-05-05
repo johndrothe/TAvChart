@@ -4,9 +4,9 @@ import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.CsvFileFilter;
-import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.ui.util.Images;
 
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -20,14 +20,15 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-public class ExportCsvAction extends ToolbarAction {
+public class ExportImageAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
-    private final MembersTable table;
+    private final JComponent parent;
+    //TODO: export icon
 
-    public ExportCsvAction(MembersTable table) {
+    public ExportImageAction(JComponent parent) {
         super("Export", Images.load("save.png"));
-        this.table = table;
+        this.parent = parent;
     }
 
     public static void write(Path path, Team team) {
@@ -53,7 +54,7 @@ public class ExportCsvAction extends ToolbarAction {
 
     private Path selectFile(String defaultFileName) {
         val chooser = newChooser(defaultFileName);
-        if (chooser.showOpenDialog(table.getParent()) == APPROVE_OPTION) {
+        if (chooser.showOpenDialog(parent.getParent()) == APPROVE_OPTION) {
             return chooser.getSelectedFile().toPath();
         }
         return null;
