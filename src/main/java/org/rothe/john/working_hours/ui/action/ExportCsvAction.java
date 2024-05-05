@@ -1,9 +1,10 @@
 package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
+import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.CsvFileFilter;
-import org.rothe.john.working_hours.ui.canvas.Canvas;
+import org.rothe.john.working_hours.ui.util.Images;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -24,12 +25,10 @@ public class ExportCsvAction extends AbstractAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final JComponent parent;
-    private final Canvas canvas;
 
-    public ExportCsvAction(JComponent parent, Canvas canvas) {
-        super("Export");
+    public ExportCsvAction(JComponent parent) {
+        super("Export", Images.load("save.png"));
         this.parent = parent;
-        this.canvas = canvas;
     }
 
     public static void write(Path path, Team team) {
@@ -42,14 +41,14 @@ public class ExportCsvAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        val team = canvas.getTeam();
+        val team = Teams.getTeam();
         if (isNull(team)) {
             return;
         }
 
         val path = selectFile(defaultFileName(team));
         if (nonNull(path)) {
-            write(path, canvas.getTeam());
+            write(path, team);
         }
     }
 

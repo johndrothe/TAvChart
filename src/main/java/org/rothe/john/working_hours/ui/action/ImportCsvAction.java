@@ -1,9 +1,10 @@
 package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
+import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.CsvFileFilter;
-import org.rothe.john.working_hours.ui.canvas.Canvas;
+import org.rothe.john.working_hours.ui.util.Images;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -15,19 +16,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 public class ImportCsvAction extends AbstractAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final JComponent parent;
-    private final Canvas canvas;
 
-    public ImportCsvAction(JComponent parent, Canvas canvas) {
-        super("Import");
+    public ImportCsvAction(JComponent parent) {
+        super("Import", Images.load("load.png"));
         this.parent = parent;
-        this.canvas = canvas;
     }
 
     public static Team read(Path path) {
@@ -44,10 +42,9 @@ public class ImportCsvAction extends AbstractAction {
         if (isNull(path)) {
             return;
         }
+
         Team team = read(path);
-        if(nonNull(team)) {
-            canvas.setTeam(team);
-        }
+        Teams.fireTeamChanged(this, "Import " + path.getFileName().toString(), team);
     }
 
     private Path selectFile() {

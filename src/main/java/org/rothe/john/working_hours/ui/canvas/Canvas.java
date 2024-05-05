@@ -2,6 +2,9 @@ package org.rothe.john.working_hours.ui.canvas;
 
 import lombok.Getter;
 import lombok.val;
+import org.rothe.john.working_hours.event.TeamChangedEvent;
+import org.rothe.john.working_hours.event.TeamListener;
+import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.model.Zone;
@@ -35,7 +38,7 @@ import static javax.swing.BorderFactory.createCompoundBorder;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.BorderFactory.createLineBorder;
 
-public class Canvas extends JPanel {
+public class Canvas extends JPanel implements TeamListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
@@ -55,8 +58,16 @@ public class Canvas extends JPanel {
         initialize();
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void register() {
+        Teams.addTeamListener(this);
+    }
+
+    public void unregister() {
+        Teams.removeTeamListener(this);
+    }
+
+    public void teamChanged(TeamChangedEvent event) {
+        this.team = event.team();
         initialize();
         revalidate();
         repaint();

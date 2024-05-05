@@ -1,11 +1,14 @@
 package org.rothe.john.working_hours.model;
 
+import lombok.With;
+
 import java.util.Collection;
 import java.util.Comparator;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
+@With
 public record Member(String name, String role, String location, Zone zone, Availability availability) {
     public Member(String name, String role, String location, Zone zone) {
         this(name, role, location, zone, Availability.standard());

@@ -36,6 +36,14 @@ public class Zone {
         return h;
     }
 
+    public static Zone[] getAvailableZones() {
+        return ZoneOffset.getAvailableZoneIds().stream()
+                .sorted()
+                .map(ZoneId::of)
+                .map(Zone::new)
+                .toArray(Zone[]::new);
+    }
+
     public ZoneRules getRules() {
         return zoneId.getRules();
     }
