@@ -1,7 +1,10 @@
 package org.rothe.john.working_hours.model;
 
+import lombok.With;
+
 import java.time.LocalTime;
 
+@With
 public record Availability(Period normal, Period lunch) {
     public static Availability standard() {
         return new Availability(

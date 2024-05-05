@@ -3,12 +3,15 @@ package org.rothe.john.working_hours.ui;
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
+import org.rothe.john.working_hours.ui.toolbar.Toolbar;
+import org.rothe.john.working_hours.ui.toolbar.action.DisplayChangeEvent;
 import org.rothe.john.working_hours.util.SampleFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,6 +19,7 @@ import java.awt.event.WindowEvent;
 import static java.awt.BorderLayout.CENTER;
 
 public class ApplicationFrame extends JFrame {
+    private final Toolbar toolBar = new Toolbar();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final MembersTablePanel tablePanel = new MembersTablePanel();
@@ -29,6 +33,8 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void initialize() {
+        getContentPane().add(toolBar, BorderLayout.NORTH);
+
         initCenter();
         doLayout();
 
@@ -45,6 +51,7 @@ public class ApplicationFrame extends JFrame {
 
         tabbedPane.add("Team Members", tablePanel);
         tabbedPane.add("Working Hours", newCanvasPanel());
+        tabbedPane.addChangeListener(this::tabChanged);
         tabbedPane.setSelectedIndex(1);
     }
 
@@ -69,5 +76,9 @@ public class ApplicationFrame extends JFrame {
         public void windowClosing(WindowEvent e) {
             exitApplication();
         }
+    }
+
+    private void tabChanged(ChangeEvent event) {
+        toolBar.displayChanged(DisplayChangeEvent.of(tabbedPane.getSelectedIndex() == 1));
     }
 }

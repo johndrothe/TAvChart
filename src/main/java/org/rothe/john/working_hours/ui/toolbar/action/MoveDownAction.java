@@ -1,12 +1,11 @@
-package org.rothe.john.working_hours.ui.action;
+package org.rothe.john.working_hours.ui.toolbar.action;
 
 import org.rothe.john.working_hours.ui.util.Images;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import java.awt.event.ActionEvent;
 
-public class MoveDownAction extends AbstractAction {
+public class MoveDownAction extends ToolbarAction {
     private final JComponent parent;
 
     public MoveDownAction(JComponent parent) {
@@ -19,4 +18,7 @@ public class MoveDownAction extends AbstractAction {
 
     }
 
+    public void displayChanged(DisplayChangeEvent event) {
+        setEnabled(event.isTableDisplayed());
+    }
 }

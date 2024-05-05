@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.action;
+package org.rothe.john.working_hours.ui.toolbar.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
@@ -6,7 +6,6 @@ import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.CsvFileFilter;
 import org.rothe.john.working_hours.ui.util.Images;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-public class ExportCsvAction extends AbstractAction {
+public class ExportCsvAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final JComponent parent;

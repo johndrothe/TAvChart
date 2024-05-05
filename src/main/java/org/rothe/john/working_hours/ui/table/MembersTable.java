@@ -1,11 +1,10 @@
 package org.rothe.john.working_hours.ui.table;
 
-import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.table.editors.ZoneEditor;
 
 import javax.swing.JTable;
-import java.util.List;
 
 public class MembersTable extends JTable {
 
@@ -17,8 +16,8 @@ public class MembersTable extends JTable {
         setDefaultEditor(Zone.class, new ZoneEditor());
     }
 
-    public void setMembers(List<Member> members) {
-        getModel().setMembers(members);
+    public void setTeam(Team team) {
+        getModel().setTeam(team);
     }
 
     @Override

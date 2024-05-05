@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.With;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -12,15 +13,16 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 
+@With
 public class Team {
-    private final List<Member> members = new ArrayList<>();
     @Getter
     @Setter
     private String name;
+    private List<Member> members;
 
     public Team(String name, List<Member> members) {
         this.name = name;
-        this.members.addAll(members);
+        this.members = new ArrayList<>(members);
     }
 
     public static Team fromCsv(String fileName, String csvContents) {
@@ -47,10 +49,6 @@ public class Team {
 
     public List<Member> getMembers() {
         return Collections.unmodifiableList(members);
-    }
-
-    public void addMember(Member member) {
-        this.members.add(member);
     }
 
     public List<Zone> getZones() {
