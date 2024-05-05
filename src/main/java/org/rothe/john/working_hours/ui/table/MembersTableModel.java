@@ -9,6 +9,7 @@ import org.rothe.john.working_hours.model.Zone;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class MembersTableModel extends AbstractTableModel {
             case NAME, ROLE, LOCATION -> {
                 return String.class;
             }
-            case HOURS_START, HOURS_END, LUNCH_START, LUNCH_END -> {
+            case START_TIME, END_TIME, LUNCH_START, LUNCH_END -> {
                 return LocalTime.class;
             }
             case ZONE -> {
@@ -92,10 +93,10 @@ public class MembersTableModel extends AbstractTableModel {
             case LOCATION -> {
                 return member.location();
             }
-            case HOURS_START -> {
+            case START_TIME -> {
                 return member.availability().normalStart();
             }
-            case HOURS_END -> {
+            case END_TIME -> {
                 return member.availability().normalEnd();
             }
             case LUNCH_START -> {
@@ -120,8 +121,15 @@ public class MembersTableModel extends AbstractTableModel {
             return;
         }
 
-        val newTeam = team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
-        SwingUtilities.invokeLater(new TeamChanged(columnIndex, newTeam));
+        try {
+            val newTeam = team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
+            SwingUtilities.invokeLater(new TeamChanged(columnIndex, newTeam));
+        } catch (DateTimeParseException e) {
+            System.err.printf("Ignoring invalid value '%s' entered as the '%s' for team member '%s'.%n",
+                    aValue,
+                    Columns.getColumn(columnIndex).getDescription(),
+                    members.get(rowIndex).name());
+        }
     }
 
     private List<Member> updatedMembers(Object aValue, int rowIndex, int columnIndex) {
@@ -141,10 +149,10 @@ public class MembersTableModel extends AbstractTableModel {
             case LOCATION -> {
                 return member.withLocation(aValue.toString());
             }
-            case HOURS_START -> {
+            case START_TIME -> {
                 return member.withAvailability(member.availability().withNormalStart(toTime(aValue)));
             }
-            case HOURS_END -> {
+            case END_TIME -> {
                 return member.withAvailability(member.availability().withNormalEnd(toTime(aValue)));
             }
             case LUNCH_START -> {
@@ -161,7 +169,19 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private static LocalTime toTime(Object aValue) {
-        return LocalTime.parse(aValue.toString());
+        return roundToQuarterHour(LocalTime.parse(aValue.toString()));
+    }
+
+    private static LocalTime roundToQuarterHour(LocalTime time) {
+        return LocalTime.of(time.getHour(), round15(time.getMinute()));
+    }
+
+    private static int round15(int minutes) {
+        val mod = minutes % 15;
+        if(mod > 7) {
+            return minutes - mod + 15;
+        }
+        return minutes - mod;
     }
 
     private static class TeamChanged implements Runnable {

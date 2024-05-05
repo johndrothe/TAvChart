@@ -1,12 +1,15 @@
 package org.rothe.john.working_hours.ui.table;
 
+import lombok.Getter;
+
+@Getter
 public enum Columns {
 
     NAME("Name"),
     ROLE("Role"),
     LOCATION("Location"),
-    HOURS_START("Hours Start"),
-    HOURS_END("Hours End"),
+    START_TIME("Start Start"),
+    END_TIME("End Time"),
     LUNCH_START("Lunch Start"),
     LUNCH_END("Lunch End"),
     ZONE("Time Zone");
@@ -15,14 +18,6 @@ public enum Columns {
 
     Columns(String description) {
         this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getColumnIndex() {
-        return this.ordinal();
     }
 
     public static Columns getColumn(int index) {
