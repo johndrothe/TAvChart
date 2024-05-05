@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.model;
 
 import lombok.With;
 
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -17,10 +18,10 @@ public record Member(String name, String role, String location, Zone zone, Avail
     public String toCsv() {
         return String.format("%s, %s, %s, %s, %s, %s, %s, %s",
                 name(), role(), location(), zone().getId(),
-                availability().normal().start(),
-                availability().normal().end(),
-                availability().lunch().start(),
-                availability().lunch().end());
+                availability().normalStart(),
+                availability().normalEnd(),
+                availability().lunchStart(),
+                availability().lunchEnd());
     }
 
     public static Member fromCsv(String[] values) {
@@ -29,16 +30,20 @@ public record Member(String name, String role, String location, Zone zone, Avail
                 values[2],
                 Zone.fromCsv(values[3]),
                 new Availability(
-                        Period.fromCsv(values[4], values[5]),
-                        Period.fromCsv(values[6], values[7])));
+                        LocalTime.parse(values[4]),
+                        LocalTime.parse(values[5]),
+                        LocalTime.parse(values[6]),
+                        LocalTime.parse(values[7])
+                )
+        );
     }
 
     public int getNormalStartMinutesUtc() {
-        return zone.toMinutesUtc(availability.normal().start());
+        return zone.toMinutesUtc(availability.normalStart());
     }
 
     public int getNormalEndMinutesUtc() {
-        return zone.toMinutesUtc(availability.normal().end());
+        return zone.toMinutesUtc(availability.normalEnd());
     }
 
     public static String toNameList(Collection<Member> members) {

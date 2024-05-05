@@ -93,16 +93,16 @@ public class MembersTableModel extends AbstractTableModel {
                 return member.location();
             }
             case HOURS_START -> {
-                return member.availability().normal().start();
+                return member.availability().normalStart();
             }
             case HOURS_END -> {
-                return member.availability().normal().end();
+                return member.availability().normalEnd();
             }
             case LUNCH_START -> {
-                return member.availability().lunch().start();
+                return member.availability().lunchStart();
             }
             case LUNCH_END -> {
-                return member.availability().lunch().end();
+                return member.availability().lunchEnd();
             }
             case ZONE -> {
                 return member.zone();
@@ -142,26 +142,26 @@ public class MembersTableModel extends AbstractTableModel {
                 return member.withLocation(aValue.toString());
             }
             case HOURS_START -> {
-                val avail = member.availability();
-                return member.withAvailability(avail.withNormal(avail.normal().withStart(LocalTime.parse(aValue.toString()))));
+                return member.withAvailability(member.availability().withNormalStart(toTime(aValue)));
             }
             case HOURS_END -> {
-                val avail = member.availability();
-                return member.withAvailability(avail.withNormal(avail.normal().withEnd(LocalTime.parse(aValue.toString()))));
+                return member.withAvailability(member.availability().withNormalEnd(toTime(aValue)));
             }
             case LUNCH_START -> {
-                val avail = member.availability();
-                return member.withAvailability(avail.withLunch(avail.lunch().withStart(LocalTime.parse(aValue.toString()))));
+                return member.withAvailability(member.availability().withLunchStart(toTime(aValue)));
             }
             case LUNCH_END -> {
-                val avail = member.availability();
-                return member.withAvailability(avail.withLunch(avail.lunch().withEnd(LocalTime.parse(aValue.toString()))));
+                return member.withAvailability(member.availability().withLunchEnd(toTime(aValue)));
             }
             case ZONE -> {
                 return member.withZone((Zone) aValue);
             }
         }
         return member;
+    }
+
+    private static LocalTime toTime(Object aValue) {
+        return LocalTime.parse(aValue.toString());
     }
 
     private static class TeamChanged implements Runnable {

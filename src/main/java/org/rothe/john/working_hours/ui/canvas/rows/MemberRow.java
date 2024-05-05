@@ -30,12 +30,12 @@ public class MemberRow extends AbstractZoneRow {
 
     @Override
     protected int getRowMinX() {
-        return timeToColumnCenter(member.availability().normal().start());
+        return timeToColumnCenter(member.availability().normalStart());
     }
 
     @Override
     protected int getRowMaxX() {
-        return timeToColumnCenter(member.availability().normal().end());
+        return timeToColumnCenter(member.availability().normalEnd());
     }
 
     private String getDisplayString() {

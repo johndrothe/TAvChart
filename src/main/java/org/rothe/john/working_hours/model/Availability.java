@@ -5,11 +5,13 @@ import lombok.With;
 import java.time.LocalTime;
 
 @With
-public record Availability(Period normal, Period lunch) {
+public record Availability(LocalTime normalStart, LocalTime normalEnd, LocalTime lunchStart, LocalTime lunchEnd) {
     public static Availability standard() {
         return new Availability(
-                new Period(LocalTime.of(8, 0), LocalTime.of(17, 0)),
-                new Period(LocalTime.of(12, 0), LocalTime.of(13, 0))
+                LocalTime.of(8, 0),
+                LocalTime.of(17, 0),
+                LocalTime.of(12, 0),
+                LocalTime.of(13, 0)
         );
     }
 }
