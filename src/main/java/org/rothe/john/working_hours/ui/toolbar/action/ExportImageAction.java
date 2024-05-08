@@ -24,10 +24,9 @@ public class ExportImageAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final JComponent parent;
-    //TODO: export icon
 
     public ExportImageAction(JComponent parent) {
-        super("Export", Images.load("save.png"));
+        super("Export", Images.load("export_image.png"));
         this.parent = parent;
     }
 
