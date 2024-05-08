@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.ui.table;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
+import org.rothe.john.working_hours.model.Availability;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.model.Time;
@@ -24,7 +25,7 @@ public class MembersTableModel extends AbstractTableModel {
         this.team = team;
         this.members.clear();
 
-        if(nonNull(team)) {
+        if (nonNull(team)) {
             this.members.addAll(team.getMembers());
         }
         fireTableStructureChanged();
@@ -140,7 +141,8 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private Member updatedMember(Object aValue, Member member, int columnIndex) {
-        switch (Columns.getColumn(columnIndex)) {
+        val column = Columns.getColumn(columnIndex);
+        switch (column) {
             case NAME -> {
                 return member.withName(aValue.toString());
             }
@@ -150,17 +152,8 @@ public class MembersTableModel extends AbstractTableModel {
             case LOCATION -> {
                 return member.withLocation(aValue.toString());
             }
-            case START_TIME -> {
-                return member.withAvailability(member.availability().withNormalStart(toTime(aValue)));
-            }
-            case END_TIME -> {
-                return member.withAvailability(member.availability().withNormalEnd(toTime(aValue)));
-            }
-            case LUNCH_START -> {
-                return member.withAvailability(member.availability().withLunchStart(toTime(aValue)));
-            }
-            case LUNCH_END -> {
-                return member.withAvailability(member.availability().withLunchEnd(toTime(aValue)));
+            case START_TIME, END_TIME, LUNCH_START, LUNCH_END -> {
+                return member.withAvailability(updatedAvailability(aValue, member, column));
             }
             case ZONE -> {
                 return member.withZone((Zone) aValue);
@@ -169,17 +162,39 @@ public class MembersTableModel extends AbstractTableModel {
         return member;
     }
 
+    private Availability updatedAvailability(Object aValue, Member member, Columns column) {
+        return updatedAvailability(toTime(aValue), member.availability(), column);
+    }
+
+    private Availability updatedAvailability(Time value, Availability availability, Columns column) {
+        switch (column) {
+            case START_TIME -> {
+                return availability.withNormalStart(value);
+            }
+            case END_TIME -> {
+                return availability.withNormalEnd(value);
+            }
+            case LUNCH_START -> {
+                return availability.withLunchStart(value);
+            }
+            case LUNCH_END -> {
+                return availability.withLunchEnd(value);
+            }
+            default -> throw new IllegalArgumentException("Invalid availability column: " + column);
+        }
+    }
+
     private static Time toTime(Object aValue) {
         return roundToQuarterHour(Time.parse(aValue.toString()));
     }
 
     private static Time roundToQuarterHour(Time time) {
-        return Time.at(time.getHour(), round15(time.getMinute()));
+        return Time.at(time.hour(), round15(time.minute()));
     }
 
     private static int round15(int minutes) {
         val mod = minutes % 15;
-        if(mod > 7) {
+        if (mod > 7) {
             return minutes - mod + 15;
         }
         return minutes - mod;

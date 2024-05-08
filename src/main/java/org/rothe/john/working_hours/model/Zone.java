@@ -94,7 +94,7 @@ public class Zone {
     }
 
     public int toMinutesUtc(Time time) {
-        return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
+        return normalizeHour(time.hour() - getOffsetHours()) * 60 + time.minute();
     }
 
     public String toTransitionDateStr(ZoneRules rules) {

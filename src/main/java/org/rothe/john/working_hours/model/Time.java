@@ -31,11 +31,11 @@ public class Time {
         return ZonedDateTime.of(LocalDate.now(), time, zone.getRawZoneId());
     }
 
-    public int getHour() {
+    public int hour() {
         return time.getHour();
     }
 
-    public int getMinute() {
+    public int minute() {
         return time.getMinute();
     }
 

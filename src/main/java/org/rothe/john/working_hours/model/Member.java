@@ -2,7 +2,6 @@ package org.rothe.john.working_hours.model;
 
 import lombok.With;
 
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Comparator;
 
