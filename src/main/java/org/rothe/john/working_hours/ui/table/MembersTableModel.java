@@ -189,7 +189,7 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private static Time roundToQuarterHour(Time time) {
-        return Time.at(time.hour(), round15(time.minute()));
+        return Time.at(time.getHour(), round15(time.getMinute()));
     }
 
     private static int round15(int minutes) {
