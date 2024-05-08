@@ -4,6 +4,7 @@ import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.Zone;
 
 import javax.swing.SwingUtilities;
@@ -168,12 +169,12 @@ public class MembersTableModel extends AbstractTableModel {
         return member;
     }
 
-    private static LocalTime toTime(Object aValue) {
-        return roundToQuarterHour(LocalTime.parse(aValue.toString()));
+    private static Time toTime(Object aValue) {
+        return roundToQuarterHour(Time.parse(aValue.toString()));
     }
 
-    private static LocalTime roundToQuarterHour(LocalTime time) {
-        return LocalTime.of(time.getHour(), round15(time.getMinute()));
+    private static Time roundToQuarterHour(Time time) {
+        return Time.at(time.getHour(), round15(time.getMinute()));
     }
 
     private static int round15(int minutes) {

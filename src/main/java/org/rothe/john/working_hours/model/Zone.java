@@ -4,7 +4,6 @@ import lombok.val;
 
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -76,17 +75,14 @@ public class Zone {
 
     public String getId() {
         if (zoneId.equals(ZoneOffset.UTC)) {
-            return "GMT/Greenwich";
+            return "UTC";
         }
         // return zoneId.getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault());
         return zoneId.getId();
     }
 
-    public String getRawZoneId() {
-        if (zoneId.equals(ZoneOffset.UTC)) {
-            return "UTC";
-        }
-        return zoneId.getId();
+    public ZoneId getRawZoneId() {
+        return zoneId;
     }
 
     public int getOffsetHours() {
@@ -97,7 +93,7 @@ public class Zone {
         return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
     }
 
-    public int toMinutesUtc(LocalTime time) {
+    public int toMinutesUtc(Time time) {
         return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
     }
 

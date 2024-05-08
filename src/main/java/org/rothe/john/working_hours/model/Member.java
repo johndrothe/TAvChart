@@ -30,10 +30,10 @@ public record Member(String name, String role, String location, Zone zone, Avail
                 values[2],
                 Zone.fromCsv(values[3]),
                 new Availability(
-                        LocalTime.parse(values[4]),
-                        LocalTime.parse(values[5]),
-                        LocalTime.parse(values[6]),
-                        LocalTime.parse(values[7])
+                        Time.parse(values[4]),
+                        Time.parse(values[5]),
+                        Time.parse(values[6]),
+                        Time.parse(values[7])
                 )
         );
     }
