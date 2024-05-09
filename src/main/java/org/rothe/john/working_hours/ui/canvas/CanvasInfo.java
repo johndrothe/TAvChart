@@ -10,4 +10,12 @@ public interface CanvasInfo {
     int timeToColumnStart(int minutesUtc);
 
     int timeToColumnCenter(int minutesUtc);
+
+    default int getBorderHour() {
+        return 0;
+    }
+
+    default int getCenterHour() {
+        return 12;
+    }
 }

@@ -49,7 +49,7 @@ public class CanvasInfoImpl implements CanvasInfo {
         if (rows.isEmpty()) {
             return 0.0;
         }
-        return (rows.getFirst().getWidth() - (headerWidth + footerWidth)) / 24.0;
+        return (rows.getFirst().getWidth() - (headerWidth + footerWidth)) / 25.0;
     }
 
 }

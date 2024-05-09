@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
@@ -76,6 +77,9 @@ public class Canvas extends JPanel implements TeamListener {
     @Override
     protected void paintChildren(Graphics g) {
         canvasInfo.update((Graphics2D) g);
+
+        applyRenderingHints((Graphics2D) g);
+
         paintUnder((Graphics2D) g);
         super.paintChildren(g);
         paintOver((Graphics2D) g);
@@ -181,5 +185,14 @@ public class Canvas extends JPanel implements TeamListener {
         return createCompoundBorder(
                 createLineBorder(Color.BLACK, 1),
                 createEmptyBorder(10, 10, 10, 10));
+    }
+
+    private static void applyRenderingHints(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
     }
 }

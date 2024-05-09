@@ -10,4 +10,12 @@ public record Availability(Time normalStart, Time normalEnd, Time lunchStart, Ti
                 Time.at(12), Time.at(13)
         );
     }
+
+    public static Availability standard(int startHour) {
+        return new Availability(
+                Time.at(startHour),
+                Time.at(startHour + 9),
+                Time.at(startHour + 4),
+                Time.at(startHour + 5));
+    }
 }

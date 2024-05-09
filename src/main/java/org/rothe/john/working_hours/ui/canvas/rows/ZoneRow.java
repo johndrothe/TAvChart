@@ -32,7 +32,7 @@ public class ZoneRow extends AbstractZoneRow {
 
         paintRowHeader(g2d);
 
-        for (int hourUtc = 0; hourUtc < 24; ++hourUtc) {
+        for (int hourUtc = 0; hourUtc < 25; ++hourUtc) {
             paintTimeZone(g2d, hourUtc, offset, hourColumnWidth);
         }
 
@@ -56,7 +56,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintRowFooter(Graphics2D g2d) {
-        val x = getCanvasInfo().timeToColumnStart(24 * 60)+ TEXT_MARGIN;
+        val x = getCanvasInfo().timeToColumnStart(25 * 60)+ TEXT_MARGIN;
         g2d.setColor(getTextColor());
         drawLeftJustified(g2d, getRowFooter(), x);
     }
