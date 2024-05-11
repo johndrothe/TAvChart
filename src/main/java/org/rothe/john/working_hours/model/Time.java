@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public class Time {
     private final LocalTime local;
@@ -26,6 +27,10 @@ public class Time {
 
     public static Time of(Zone zone, LocalTime time) {
         return new Time(zone, time);
+    }
+
+    public static Time fromHoursUtc(Zone zone, int hoursUtc){
+        return of(zone, fromUtc(zone, hoursUtc));
     }
 
     private Time(Zone zone, LocalTime local) {
@@ -71,6 +76,12 @@ public class Time {
                 .withZoneSameInstant(ZoneOffset.UTC);
     }
 
+    private static LocalTime fromUtc(Zone zone, int hourUtc) {
+        return ZonedDateTime.of(LocalDate.now(), LocalTime.of(hourUtc, 0), ZoneOffset.UTC)
+                .withZoneSameInstant(zone.getRawZoneId())
+                .toLocalTime();
+    }
+
     public static int toHours(int seconds) {
         return (int) Math.round(seconds / 60.0 / 60.0);
     }
@@ -85,5 +96,13 @@ public class Time {
             return minutes - mod + 15;
         }
         return minutes - mod;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Time t){
+            return Objects.equals(local, t.local) && Objects.equals(zone, t.zone);
+        }
+        return false;
     }
 }
