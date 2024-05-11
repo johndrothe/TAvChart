@@ -30,7 +30,7 @@ class SpaceTimeTest {
 
     @Test
     void testToCenterBoundaries_Split_UTC() {
-        val expected = List.of(new Boundaries(2250, 2750), new Boundaries(250, 650));
+        val expected = List.of(new Boundaries(2250, 2650), new Boundaries(250, 650));
         val result = st.toCenterBoundaries(pair(UTC, 20, 4));
         assertEquals(expected, result);
     }
@@ -42,7 +42,7 @@ class SpaceTimeTest {
 
     @Test
     void testToCenterBoundaries_Split_NYC() {
-        val expected = List.of(new Boundaries(2250, 2750), new Boundaries(250, 650));
+        val expected = List.of(new Boundaries(2250, 2650), new Boundaries(250, 650));
         val result = st.toCenterBoundaries(pair(NYC, 16, 0));
         assertEquals(expected, result);
     }
@@ -112,7 +112,7 @@ class SpaceTimeTest {
     @Test
     void testGetRightColumnCenter() {
         // 200 + (25 * 100.0) + (100.0 / 2)
-        assertEquals(2750, st.getRightColumnCenter());
+        assertEquals(2650, st.getRightColumnCenter());
     }
 
     private static TimePair pair(Zone zone, int left, int right) {

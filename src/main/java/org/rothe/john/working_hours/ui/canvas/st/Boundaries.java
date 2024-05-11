@@ -1,5 +1,10 @@
 package org.rothe.john.working_hours.ui.canvas.st;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class Boundaries{
     private final int left;
     private final int right;
