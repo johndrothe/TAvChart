@@ -30,6 +30,8 @@ public class ZoneRow extends AbstractZoneRow {
         val hourColumnWidth = getCanvasInfo().getHourColumnWidth();
         val offset = getOffsetHours();
 
+        paintRowShape(g);
+
         paintRowHeader(g2d);
 
         for (int hourUtc = 0; hourUtc < 25; ++hourUtc) {
@@ -37,6 +39,14 @@ public class ZoneRow extends AbstractZoneRow {
         }
 
         paintRowFooter(g2d);
+    }
+
+    private void paintRowShape(Graphics g) {
+        g.setColor(getFillColor());
+        fillRowArea(g, getRowMinX(), getRowWidth(), getHeight());
+
+        g.setColor(getLineColor());
+        drawRowBorder(g, getRowMinX(), getRowWidth(), getHeight());
     }
 
     private void paintRowHeader(Graphics2D g2d) {

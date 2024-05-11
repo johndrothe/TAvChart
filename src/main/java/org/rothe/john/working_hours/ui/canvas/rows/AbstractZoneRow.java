@@ -29,6 +29,6 @@ public abstract class AbstractZoneRow extends CanvasRow {
     }
 
     protected int timeToColumnCenter(Time time) {
-        return getCanvasInfo().timeToColumnCenter(time.totalMinutesInUtc());
+        return getSpaceTime().toColumnCenter(time);
     }
 }

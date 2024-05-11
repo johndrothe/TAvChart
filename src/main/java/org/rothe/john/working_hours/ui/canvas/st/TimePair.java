@@ -28,7 +28,7 @@ public record TimePair(Time left, Time right) {
         val leftUtc = left.totalMinutesInUtc();
         val rightUtc = adjustedRightMinutesUtc();
         
-        return splitUtc <= rightUtc && splitUtc >= leftUtc;
+        return splitUtc < rightUtc && splitUtc > leftUtc;
     }
 
     private int toSplitMinutes(int hourUtc){

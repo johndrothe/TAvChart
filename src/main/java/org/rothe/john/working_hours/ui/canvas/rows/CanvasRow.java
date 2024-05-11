@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -16,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 @Getter(AccessLevel.PROTECTED)
 public abstract class CanvasRow extends JPanel {
     private final CanvasInfo canvasInfo;
+    private final SpaceTime spaceTime;
     private final Color textColor = Color.BLACK;
     private final Color lineColor;
     private final Color fillColor;
@@ -23,21 +25,11 @@ public abstract class CanvasRow extends JPanel {
     protected CanvasRow(CanvasInfo canvasInfo, Color fillColor, Color lineColor) {
         super(new BorderLayout());
         this.canvasInfo = canvasInfo;
+        this.spaceTime = SpaceTime.from(canvasInfo);
         this.fillColor = fillColor;
         this.lineColor = lineColor;
         setFont(getFont().deriveFont(Font.PLAIN));
         setOpaque(false);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        g.setColor(fillColor);
-        fillRowArea(g, getRowMinX(), getRowWidth(), getHeight());
-
-        g.setColor(lineColor);
-        drawRowBorder(g, getRowMinX(), getRowWidth(), getHeight());
     }
 
     protected int getRowMinX() {
@@ -91,12 +83,12 @@ public abstract class CanvasRow extends JPanel {
         return g2d.getFontMetrics().getStringBounds(text, g2d);
     }
 
-    private static void fillRowArea(Graphics g, int x, int width, int height) {
+    protected static void fillRowArea(Graphics g, int x, int width, int height) {
         val arc = height / 3;
         g.fillRoundRect(x + 1, 1, width - 2, height - 2, arc, arc);
     }
 
-    private static void drawRowBorder(Graphics g, int x, int width, int height) {
+    protected static void drawRowBorder(Graphics g, int x, int width, int height) {
         val arc = height / 3;
         g.drawRoundRect(x + 1, 1, width - 2, height - 2, arc, arc);
     }

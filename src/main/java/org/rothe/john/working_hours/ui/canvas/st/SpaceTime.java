@@ -19,7 +19,7 @@ public class SpaceTime {
         return splitAroundBorder(time).stream().map(this::toBoundaries).toList();
     }
 
-    List<TimePair> splitAroundBorder(TimePair time) {
+    public List<TimePair> splitAroundBorder(TimePair time) {
         return time.splitAround(canvasInfo.getBorderHour());
     }
 
@@ -48,7 +48,7 @@ public class SpaceTime {
     }
 
     int getRightColumnCenter() {
-        return toColumnCenter(25 * 60, headerWidth(), hourColumnWidth());
+        return toColumnCenter(24 * 60, headerWidth(), hourColumnWidth());
     }
 
     public int toColumnCenter(Time time) {

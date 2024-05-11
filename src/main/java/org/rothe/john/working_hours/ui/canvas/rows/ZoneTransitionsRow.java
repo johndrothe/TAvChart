@@ -8,6 +8,7 @@ import org.rothe.john.working_hours.ui.util.GBCBuilder;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.List;
@@ -26,6 +27,20 @@ public class ZoneTransitionsRow extends CanvasRow {
 
         setLayout(new GridBagLayout());
         initialize();
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        paintRowShape(g);
+    }
+
+    private void paintRowShape(Graphics g) {
+        g.setColor(getFillColor());
+        fillRowArea(g, getRowMinX(), getRowWidth(), getHeight());
+
+        g.setColor(getLineColor());
+        drawRowBorder(g, getRowMinX(), getRowWidth(), getHeight());
     }
 
     private void initialize() {

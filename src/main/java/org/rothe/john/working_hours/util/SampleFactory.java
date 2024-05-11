@@ -27,7 +27,9 @@ public abstract class SampleFactory {
                 toMember("Person #4", "NYC", "11:00-20:00", toZone("America/New_York"), 11),
                 toMember("Person #5", "CHI", "08:00-17:00", toZone("America/Chicago")),
                 toMember("Person #7", "PL", "08:00-17:00", toZone("Poland")),
-                toMember("Person #9", "LAX", "08:00-17:00", toZone("America/Los_Angeles"))
+                toMember("Person #9", "LAX", "08:00-17:00", toZone("America/Los_Angeles")),
+                toMember("Person #10", "LAX", "10:00-19:00", toZone("America/Los_Angeles"), 10),
+                toMember("Person #11", "LAX", "12:00-21:00", toZone("America/Los_Angeles"), 12)
         );
     }
 
