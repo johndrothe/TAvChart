@@ -1,6 +1,7 @@
 package org.rothe.john.working_hours.model;
 
 import lombok.With;
+import lombok.val;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import static java.util.stream.Collectors.joining;
 @With
 public record Member(String name, String role, String location, Zone zone, Availability availability) {
     public Member(String name, String role, String location, Zone zone) {
-        this(name, role, location, zone, Availability.standard());
+        this(name, role, location, zone, Availability.businessHours(zone));
     }
 
     public String toCsv() {
@@ -24,25 +25,21 @@ public record Member(String name, String role, String location, Zone zone, Avail
     }
 
     public static Member fromCsv(String[] values) {
-        return new Member(values[0],
-                values[1],
-                values[2],
-                Zone.fromCsv(values[3]),
-                new Availability(
-                        Time.parse(values[4]),
-                        Time.parse(values[5]),
-                        Time.parse(values[6]),
-                        Time.parse(values[7])
-                )
+        val member = new Member(values[0], values[1], values[2], Zone.fromCsv(values[3]));
+        return member.withAvailability(availability(member.zone(),
+                values[4], values[5],
+                values[6], values[7]));
+    }
+
+    private static Availability availability(Zone zone,
+                                             String nStart, String nEnd,
+                                             String lStart, String lEnd) {
+        return new Availability(
+                Time.parse(zone, nStart),
+                Time.parse(zone, nEnd),
+                Time.parse(zone, lStart),
+                Time.parse(zone, lEnd)
         );
-    }
-
-    public int getNormalStartMinutesUtc() {
-        return zone.toMinutesUtc(availability.normalStart());
-    }
-
-    public int getNormalEndMinutesUtc() {
-        return zone.toMinutesUtc(availability.normalEnd());
     }
 
     public static String toNameList(Collection<Member> members) {

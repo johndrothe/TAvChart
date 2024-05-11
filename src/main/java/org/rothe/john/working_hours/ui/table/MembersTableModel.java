@@ -163,7 +163,7 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private Availability updatedAvailability(Object aValue, Member member, Columns column) {
-        return updatedAvailability(toTime(aValue), member.availability(), column);
+        return updatedAvailability(toTime(member.zone(), aValue), member.availability(), column);
     }
 
     private Availability updatedAvailability(Time value, Availability availability, Columns column) {
@@ -184,20 +184,8 @@ public class MembersTableModel extends AbstractTableModel {
         }
     }
 
-    private static Time toTime(Object aValue) {
-        return roundToQuarterHour(Time.parse(aValue.toString()));
-    }
-
-    private static Time roundToQuarterHour(Time time) {
-        return Time.at(time.getHour(), round15(time.getMinute()));
-    }
-
-    private static int round15(int minutes) {
-        val mod = minutes % 15;
-        if (mod > 7) {
-            return minutes - mod + 15;
-        }
-        return minutes - mod;
+    private static Time toTime(Zone zone, Object aValue) {
+        return Time.parse(zone, aValue.toString()).roundToQuarterHour();
     }
 
     private static class TeamChanged implements Runnable {

@@ -137,7 +137,8 @@ public class Canvas extends JPanel implements TeamListener {
 
         members.stream()
                 .map(toRow)
-                .sorted(zoneRowComparator())
+                // optional zone sorting
+                // .sorted(zoneRowComparator())
                 .forEach(this::addRow);
     }
 

@@ -86,15 +86,11 @@ public class Zone {
     }
 
     public int getOffsetHours() {
-        return toHours(getOffsetSeconds());
+        return Time.toHours(getOffsetSeconds());
     }
 
     public int getOffsetSeconds() {
         return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
-    }
-
-    public int toMinutesUtc(Time time) {
-        return normalizeHour(time.getHour() - getOffsetHours()) * 60 + time.getMinute();
     }
 
     public String toTransitionDateStr(ZoneRules rules) {
@@ -104,10 +100,6 @@ public class Zone {
         return String.format("(%s   →   %s)",
                 prev.getDateTimeBefore().format(TRANSITION_FORMATTER),
                 next.getDateTimeAfter().format(TRANSITION_FORMATTER));
-    }
-
-    private static int toHours(int seconds) {
-        return (int) Math.round(seconds / 60.0 / 60.0);
     }
 
     public static Zone fromCsv(String id) {

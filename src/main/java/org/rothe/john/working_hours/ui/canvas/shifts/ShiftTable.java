@@ -110,8 +110,8 @@ class ShiftTable {
     }
 
     private static Stream<ShiftSlot> toSlots(Member member) {
-        val start = member.getNormalStartMinutesUtc();
-        val end = member.getNormalEndMinutesUtc();
+        val start = member.availability().normalStart().totalMinutesInUtc();
+        val end = member.availability().normalEnd().totalMinutesInUtc();
 
         return ShiftTimes.stream()
                 .filter(minutesUtc -> minutesUtc >= start && minutesUtc < end)
