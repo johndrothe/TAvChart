@@ -1,7 +1,7 @@
 package org.rothe.john.working_hours.ui.canvas.shifts;
 
 import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.model.Time;
 
 import java.util.Collection;
 import java.util.Set;
@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.joining;
 public record Shift(int start, int end, Set<Member> members) {
     public int duration() {
         if (end < start) {
-            return start - (end + Zone.MINUTES_IN_A_DAY);
+            return start - (end + Time.MINUTES_IN_A_DAY);
         }
         return end - start;
     }
@@ -31,8 +31,8 @@ public record Shift(int start, int end, Set<Member> members) {
     @Override
     public String toString() {
         return String.format("(%s - %s): [%s]",
-                Zone.toClockFormat(start()),
-                Zone.toClockFormat(end()),
+                Time.toClockFormat(start()),
+                Time.toClockFormat(end()),
                 Member.toNameList(members())
         );
     }

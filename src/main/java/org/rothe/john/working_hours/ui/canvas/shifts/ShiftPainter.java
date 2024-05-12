@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.ui.canvas.shifts;
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -13,12 +14,13 @@ import static java.util.Objects.isNull;
 public class ShiftPainter {
     private final Canvas canvas;
     private final CanvasInfo canvasInfo;
-
+    private final SpaceTime spaceTime;
     private ShiftTable table;
 
     public ShiftPainter(Canvas canvas, CanvasInfo canvasInfo) {
         this.canvas = canvas;
         this.canvasInfo = canvasInfo;
+        this.spaceTime = SpaceTime.from(canvasInfo);
         this.table = null;
     }
 
@@ -26,7 +28,7 @@ public class ShiftPainter {
         if (isNull(canvas.getTeam())) {
             this.table = null;
         } else {
-            this.table = ShiftTable.of(canvas.getTeam().getMembers());
+            this.table = ShiftTable.of(canvas.getTeam().getMembers(), spaceTime);
         }
     }
 

@@ -1,8 +1,11 @@
 package org.rothe.john.working_hours.ui.canvas.shifts;
 
 import lombok.val;
+import org.rothe.john.working_hours.model.Availability;
 import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.model.Time;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
+import org.rothe.john.working_hours.ui.canvas.st.TimePair;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,18 +26,20 @@ import java.util.stream.Stream;
 
 class ShiftTable {
     private final HashMap<Integer, Set<Member>> membersByShiftStart = new HashMap<>();
+    private final SpaceTime spaceTime;
     private final List<Shift> shifts;
     private final List<Integer> shiftChanges;
 
-    private ShiftTable(Collection<Member> members) {
+    private ShiftTable(Collection<Member> members, SpaceTime spaceTime) {
+        this.spaceTime = spaceTime;
         this.addMembers(members);
         this.shiftChanges = findShiftChanges();
         this.shifts = findShifts();
     }
 
-    public static ShiftTable of(Collection<Member> members) {
+    public static ShiftTable of(Collection<Member> members, SpaceTime spaceTime) {
         // TODO: Create a shift slot collector?
-        return new ShiftTable(members);
+        return new ShiftTable(members, spaceTime);
     }
 
     public List<Shift> getLargestShifts() {
@@ -60,7 +65,7 @@ class ShiftTable {
     }
 
     private void addMembers(Collection<Member> members) {
-        members.stream().flatMap(ShiftTable::toSlots).forEach(this::addShiftSlot);
+        members.stream().flatMap(this::toSlots).forEach(this::addShiftSlot);
     }
 
     private void addShiftSlot(ShiftSlot slot) {
@@ -90,6 +95,9 @@ class ShiftTable {
     // the list of shift changes with the first at the beginning and
     // the end of the list
     private List<Integer> getWrapAroundShiftChanges() {
+        if (shiftChanges.isEmpty()) {
+            return List.of();
+        }
         return Stream.concat(shiftChanges.stream(), Stream.of(shiftChanges.getFirst()))
                 .toList();
     }
@@ -97,25 +105,46 @@ class ShiftTable {
     private List<Integer> findShiftChanges() {
         val list = new ArrayList<Integer>();
 
-        Set<Member> previousMembers = getShiftMembers(Zone.MINUTES_IN_A_DAY);
+        Set<Member> previousMembers = getShiftMembers(Time.MINUTES_IN_A_DAY);
         for (int shiftTime : ShiftTimes.get()) {
             val currentMembers = getShiftMembers(shiftTime);
             if (Objects.equals(previousMembers, currentMembers)) {
                 continue;
             }
+
+//            printShiftChange(shiftTime, previousMembers, currentMembers);
             previousMembers = currentMembers;
             list.add(shiftTime);
         }
         return list;
     }
 
-    private static Stream<ShiftSlot> toSlots(Member member) {
-        val start = member.availability().normalStart().totalMinutesInUtc();
-        val end = member.availability().normalEnd().totalMinutesInUtc();
+    private static void printShiftChange(int shiftTime,
+                                         Set<Member> previousMembers,
+                                         Set<Member> currentMembers) {
+        System.err.printf("Shift change at %s  - %s --> %s %n",
+                Time.toClockFormat(shiftTime),
+                previousMembers.stream().map(Member::name).toList(),
+                currentMembers.stream().map(Member::name).toList()
+        );
+    }
+
+    private Stream<ShiftSlot> toSlots(Member member) {
+        return spaceTime.splitAroundBorder(normal(member.availability())).stream()
+                .flatMap(pair -> toSlots(member, pair.left(), pair.right()));
+    }
+
+    private static Stream<ShiftSlot> toSlots(Member member, Time startTime, Time endTime) {
+        val start = startTime.totalMinutesInUtc();
+        val end = endTime.totalMinutesInUtc();
 
         return ShiftTimes.stream()
                 .filter(minutesUtc -> minutesUtc >= start && minutesUtc < end)
                 .mapToObj(minutesUtc -> new ShiftSlot(minutesUtc, member));
+    }
+
+    private TimePair normal(Availability availability) {
+        return new TimePair(availability.normalStart(), availability.normalEnd());
     }
 
     private record ShiftSlot(int minutesUtc, Member member) {

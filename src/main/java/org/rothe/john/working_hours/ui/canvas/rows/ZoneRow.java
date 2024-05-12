@@ -1,6 +1,7 @@
 package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
+import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.model.Zone;
@@ -61,7 +62,7 @@ public class ZoneRow extends AbstractZoneRow {
         g2d.drawLine(x, 6, x, getHeight() - 6);
 
         g2d.setColor(getTextColor());
-        val hourStr = Integer.toString(Zone.normalizeHour(hourUtc + offset));
+        val hourStr = Integer.toString(Time.normalizeHour(hourUtc + offset));
         drawCentered(g2d, hourStr, x, hourColumnWidth);
     }
 

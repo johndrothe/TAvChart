@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class Time {
+    public static final int MINUTES_IN_A_DAY = 24 * 60;
     private final LocalTime local;
     private final ZonedDateTime utc;
     private final Zone zone;
@@ -37,6 +38,18 @@ public class Time {
         this.zone = zone;
         this.local = local;
         this.utc = toUtc(zone, local);
+    }
+
+    public static String toClockFormat(int minutes) {
+        return String.format("%02d:%02d", minutes / 60, minutes % 60);
+    }
+
+    public static int normalizeHour(int hour) {
+        int h = hour % 24;
+        if (h < 0) {
+            return h + 24;
+        }
+        return h;
     }
 
     public int hourLocal() {

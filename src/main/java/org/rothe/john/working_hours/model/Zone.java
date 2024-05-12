@@ -15,24 +15,11 @@ import java.util.TimeZone;
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 public class Zone {
-    public static final int MINUTES_IN_A_DAY = 24 * 60;
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
     private final ZoneId zoneId;
 
     public Zone(ZoneId zoneId) {
         this.zoneId = zoneId;
-    }
-
-    public static String toClockFormat(int minutes) {
-        return String.format("%02d:%02d", minutes / 60, minutes % 60);
-    }
-
-    public static int normalizeHour(int hour) {
-        int h = hour % 24;
-        if (h < 0) {
-            return h + 24;
-        }
-        return h;
     }
 
     public static Zone[] getAvailableZones() {
@@ -106,7 +93,7 @@ public class Zone {
         try {
             return new Zone(ZoneId.of(id));
         } catch (DateTimeException dte) {
-            System.err.println("Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
+            System.err.println("Warning: Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
             dte.printStackTrace();
         }
         return new Zone(ZoneId.systemDefault());

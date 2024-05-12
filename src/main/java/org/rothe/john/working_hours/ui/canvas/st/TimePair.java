@@ -9,7 +9,6 @@ import java.util.Objects;
 import static org.rothe.john.working_hours.model.Time.fromHoursUtc;
 
 public record TimePair(Time left, Time right) {
-    private static final int DAY_IN_MINUTES = 24 * 60;
 
     public List<TimePair> splitAround(int hourUtc) {
         if(isSplitBetween(hourUtc)) {
@@ -33,14 +32,14 @@ public record TimePair(Time left, Time right) {
 
     private int toSplitMinutes(int hourUtc){
         if(hourUtc == 0) {
-            return DAY_IN_MINUTES;
+            return Time.MINUTES_IN_A_DAY;
         }
         return hourUtc * 60;
     }
 
     int adjustedRightMinutesUtc() {
         if (right.totalMinutesInUtc() < left.totalMinutesInUtc()) {
-            return right.totalMinutesInUtc() + DAY_IN_MINUTES;
+            return right.totalMinutesInUtc() + Time.MINUTES_IN_A_DAY;
         }
         return right.totalMinutesInUtc();
     }
