@@ -22,16 +22,30 @@ have to be very lean to keep from chewing up that precious overlap time.
 Considering the number of combined and near-shore teams we have, a tool that quickly 
 generated this kind of diagram could be very valuable.
 
+# Status
+The current version is _workable_ but certainly not complete.
 
-# Current Wishlist
+You can add, remove, and edit members.
+
+<div style="width:600px">
+![swing_working_hours_0-0-1.drawio.png](docs/swing_working_hours_0-0-1.drawio.png)
+</div>
+
+# Wishlist
 Many (if not all) of the following items are not implemented.
 
+* Display
+  * Complete handling for "Working Hours" that span days.
+    * The text isn't right yet
+  * Lunch Hour display
+  * Center the canvas on a user-selected time
+    * now it's always 0->24/0
+  * Mouse handlers for changing the center canvas time
+    * For teams that aren't working (entirely) in north america
+  * Mouse handlers for changing a member's working hours
 * Data Entry
-  * Optional CSV Import
-  * Directly enter team members, their locations, and their positions
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
-  * Assume working hours of 08:00 - 17:00 in their "home" time zone
   * Pull their normal working hours from Outlook (if easily available)
   * Multi-select any number of additional time zones
 * Output separate diagrams for each section of a year
