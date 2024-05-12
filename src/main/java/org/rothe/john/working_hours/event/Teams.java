@@ -58,16 +58,16 @@ public class Teams {
      * Forwards the given notification event to all <code>TeamListeners</code>
      * that registered themselves as listeners.
      *
-     * @param e the event to be forwarded
+     * @param event the event to be forwarded
      * @see #addTeamListener
      * @see TeamChangedEvent
      * @see EventListenerList
      */
-    public static void fireTeamChanged(TeamChangedEvent e) {
+    public static void fireTeamChanged(TeamChangedEvent event) {
         if(SwingUtilities.isEventDispatchThread()) {
-            fireTeamChangedImpl(e);
+            fireTeamChangedImpl(event);
         } else {
-            SwingUtilities.invokeLater(new FiringTeamChanged(e));
+            SwingUtilities.invokeLater(() -> fireTeamChangedImpl(event));
         }
     }
 
@@ -86,18 +86,4 @@ public class Teams {
     public static TeamListener[] getListeners() {
         return listenerList.getListeners(TeamListener.class);
     }
-
-    private static class FiringTeamChanged implements Runnable {
-        private final TeamChangedEvent event;
-
-        public FiringTeamChanged(TeamChangedEvent event) {
-            this.event = event;
-        }
-
-        @Override
-        public void run() {
-            fireTeamChanged(event);
-        }
-    }
-
 }
