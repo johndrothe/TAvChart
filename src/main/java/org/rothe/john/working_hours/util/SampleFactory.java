@@ -16,7 +16,7 @@ public abstract class SampleFactory {
     }
 
     public static Team newTeam() {
-        return new Team("Winners", demoMembers());
+        return new Team("Winners", debugMembers());
     }
 
     public static List<Member> debugMembers() {

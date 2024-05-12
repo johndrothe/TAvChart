@@ -8,15 +8,16 @@ import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import lombok.Getter;
 import lombok.val;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Comparator;
 import java.util.List;
 
 @Getter
 public class MemberRow extends AbstractZoneRow {
+    private static final Color LUNCH_FILL = new Color(230, 230, 230);
+    private static final Color LUNCH_LINE = new Color(210, 210, 210);
+
     private final Member member;
 
     public MemberRow(CanvasInfo canvasInfo, Member member, Palette palette) {
@@ -30,34 +31,49 @@ public class MemberRow extends AbstractZoneRow {
         super.paintComponent(g);
         val g2d = (Graphics2D) g;
 
-        val boundaries = getBoundaries();
+        val normalBoundaries = normalBoundaries();
 
-        paintRowShapes(g2d, toShapes(boundaries));
+        paintShapes(g2d, toShapes(normalBoundaries), toShapes(lunchBoundaries()));
 
-        // TODO: render the text in pieces across the schedule, if necessary
-        boundaries.stream()
-                .max(Comparator.comparing(Boundaries::width))
-                .ifPresent(b -> drawRowText(g2d, b));
+        drawText(g2d, normalBoundaries);
     }
 
-    private void drawRowText(Graphics2D g2d, Boundaries boundaries) {
+    private void drawText(Graphics2D g2d, List<Boundaries> normalBoundaries) {
+        // TODO: render the text in pieces across the schedule, if necessary
+        normalBoundaries.stream()
+                .max(Comparator.comparing(Boundaries::width))
+                .ifPresent(b -> drawText(g2d, b));
+    }
+
+    private void drawText(Graphics2D g2d, Boundaries boundaries) {
         g2d.setColor(getTextColor());
         drawCentered(g2d, getDisplayString(), boundaries.left(), boundaries.width());
     }
 
-    private void paintRowShapes(Graphics2D g2d, List<Shape> shapes) {
-        shapes.forEach(s -> paintRowShape(g2d, s));
+    private void paintShapes(Graphics2D g2d, List<Shape> normal, List<Shape> lunch) {
+        //, getFillColor(), getLineColor());
+        //, LUNCH_FILL, getLineColor());
+
+        normal.forEach(s -> fill(g2d, s, getFillColor()));
+        lunch.forEach(s -> fill(g2d, s, LUNCH_FILL));
+        normal.forEach(s -> draw(g2d, s, getLineColor()));
     }
 
-    private void paintRowShape(Graphics2D g, Shape s) {
-        g.setColor(getFillColor());
+    private void fill(Graphics2D g, Shape s, Color fill) {
+        g.setColor(fill);
         g.fill(s);
-        g.setColor(getLineColor());
+    }
+
+    private void draw(Graphics2D g, Shape s, Color line) {
+        g.setColor(line);
         g.draw(s);
     }
 
-    private List<Boundaries> getBoundaries() {
+    private List<Boundaries> normalBoundaries() {
         return getSpaceTime().toCenterBoundaries(normalPair());
+    }
+    private List<Boundaries> lunchBoundaries() {
+        return getSpaceTime().toCenterBoundaries(lunchPair());
     }
 
     private List<Shape> toShapes(List<Boundaries> boundaries) {
@@ -68,6 +84,11 @@ public class MemberRow extends AbstractZoneRow {
         return new TimePair(
                 member.availability().normalStart(),
                 member.availability().normalEnd());
+    }
+    private TimePair lunchPair() {
+        return new TimePair(
+                member.availability().lunchStart(),
+                member.availability().lunchEnd());
     }
 
     private Shape toShape(Boundaries boundaries) {
