@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.event;
 import lombok.val;
 import org.rothe.john.working_hours.model.Team;
 
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -63,6 +64,14 @@ public class Teams {
      * @see EventListenerList
      */
     public static void fireTeamChanged(TeamChangedEvent e) {
+        if(SwingUtilities.isEventDispatchThread()) {
+            fireTeamChangedImpl(e);
+        } else {
+            SwingUtilities.invokeLater(new FiringTeamChanged(e));
+        }
+    }
+
+    private static void fireTeamChangedImpl(TeamChangedEvent e) {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
         // Process the listeners last to first, notifying
@@ -76,6 +85,19 @@ public class Teams {
 
     public static TeamListener[] getListeners() {
         return listenerList.getListeners(TeamListener.class);
+    }
+
+    private static class FiringTeamChanged implements Runnable {
+        private final TeamChangedEvent event;
+
+        public FiringTeamChanged(TeamChangedEvent event) {
+            this.event = event;
+        }
+
+        @Override
+        public void run() {
+            fireTeamChanged(event);
+        }
     }
 
 }

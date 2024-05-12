@@ -2,13 +2,8 @@ package org.rothe.john.working_hours.ui.table;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
-import org.rothe.john.working_hours.model.Availability;
-import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.model.*;
 
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -28,7 +23,7 @@ public class MembersTableModel extends AbstractTableModel {
         if (nonNull(team)) {
             this.members.addAll(team.getMembers());
         }
-        fireTableStructureChanged();
+        fireTableDataChanged();
     }
 
     @Override
@@ -125,7 +120,7 @@ public class MembersTableModel extends AbstractTableModel {
 
         try {
             val newTeam = team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
-            SwingUtilities.invokeLater(new TeamChanged(columnIndex, newTeam));
+            fireTeamChanged(columnIndex, newTeam);
         } catch (DateTimeParseException e) {
             System.err.printf("Ignoring invalid value '%s' entered as the '%s' for team member '%s'.%n",
                     aValue,
@@ -188,18 +183,7 @@ public class MembersTableModel extends AbstractTableModel {
         return Time.parse(zone, aValue.toString()).roundToQuarterHour();
     }
 
-    private static class TeamChanged implements Runnable {
-        private final Team team;
-        private final String change;
-
-        public TeamChanged(int columnIndex, Team newTeam) {
-            this.change = Columns.getColumn(columnIndex).getDescription();
-            this.team = newTeam;
-        }
-
-        @Override
-        public void run() {
-            Teams.fireTeamChanged(this, change, team);
-        }
+    private void fireTeamChanged(int columnIndex, Team newTeam) {
+        Teams.fireTeamChanged(this, Columns.getColumn(columnIndex).getDescription(), newTeam);
     }
 }

@@ -22,6 +22,10 @@ public class Zone {
         this.zoneId = zoneId;
     }
 
+    public static Zone utc() {
+        return new Zone(ZoneOffset.UTC);
+    }
+
     public static Zone[] getAvailableZones() {
         return ZoneOffset.getAvailableZoneIds().stream()
                 .sorted()

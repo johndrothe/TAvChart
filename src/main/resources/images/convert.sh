@@ -3,5 +3,5 @@
 for file in `ls -1 *.svg`; do
     base=`basename ${file} .svg`
     convert -geometry 16x16 ${file} ${base}.png
-    convert ${base}.png -transparent white ${base}.png
+    convert ${base}.png -strip -transparent white ${base}.png
 done
