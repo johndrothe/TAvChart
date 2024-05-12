@@ -10,10 +10,13 @@ import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.ui.util.Images;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public class MemberAddAction extends ToolbarAction {
@@ -26,6 +29,9 @@ public class MemberAddAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(nonNull(table.getCellEditor())) {
+            table.getCellEditor().cancelCellEditing();
+        }
         addMember(Teams.getTeam());
     }
 
@@ -51,18 +57,26 @@ public class MemberAddAction extends ToolbarAction {
                 Availability.businessHours(zone));
     }
 
-    private void fireTeamChanged(Team newTeam) {
-        Teams.fireTeamChanged(this, String.valueOf(getValue(NAME)), newTeam);
-    }
-
     private void editNewMember(int index) {
         table.clearSelection();
         table.addRowSelectionInterval(index, index);
         table.addColumnSelectionInterval(0, 0);
         table.editCellAt(index, 0);
 
-        if(nonNull(table.getEditorComponent())) {
-            table.getEditorComponent().requestFocusInWindow();
+        editNewMemberName(table.getEditorComponent());
+    }
+
+    private void editNewMemberName(Component component) {
+        if(isNull(component)) {
+            return;
         }
+        component.requestFocusInWindow();
+        if(component instanceof JTextComponent t) {
+            t.selectAll();
+        }
+    }
+
+    private void fireTeamChanged(Team newTeam) {
+        Teams.fireTeamChanged(this, String.valueOf(getValue(NAME)), newTeam);
     }
 }
