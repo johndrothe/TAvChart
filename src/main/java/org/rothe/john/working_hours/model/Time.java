@@ -36,7 +36,7 @@ public class Time {
 
     private Time(Zone zone, LocalTime local) {
         this.zone = zone;
-        this.local = local;
+        this.local = local.withSecond(0).withNano(0);
         this.utc = toUtc(zone, local);
     }
 
@@ -82,6 +82,10 @@ public class Time {
 
     public Zone zone() {
         return zone;
+    }
+
+    public Time inUtc() {
+        return Time.at(Zone.utc(), hourUtc(), minuteUtc());
     }
 
     private static ZonedDateTime toUtc(Zone zone, LocalTime localTime) {
