@@ -68,6 +68,6 @@ public record TimePair(Time left, Time right) {
 
     private boolean contains(int totalMinutesUtc) {
         return left.totalMinutesInUtc() <= totalMinutesUtc
-                && totalMinutesUtc <= adjustedRightMinutesUtc();
+                && totalMinutesUtc < adjustedRightMinutesUtc();
     }
 }

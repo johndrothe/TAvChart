@@ -122,4 +122,9 @@ public class Time {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(local, zone);
+    }
 }

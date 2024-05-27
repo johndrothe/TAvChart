@@ -1,11 +1,13 @@
 package org.rothe.john.working_hours.ui.canvas.shift2;
 
+import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
 import org.rothe.john.working_hours.util.SampleFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +27,7 @@ public class ShiftCalculator {
     }
 
     public static void main(String[] args) {
-        ShiftCalculator calculator = new ShiftCalculator(SampleFactory.demoMembers(), null);
+        ShiftCalculator calculator = new ShiftCalculator(SampleFactory.debugMembers(), null);
         System.err.println("<changes>");
         for(ShiftChange c : calculator.shiftChanges()) {
             System.err.printf("    %s (%s) - %s%n", c.time(), c.time().zone(), c.members().stream().map(Member::name).toList());
@@ -34,12 +36,23 @@ public class ShiftCalculator {
     }
 
     public List<Shift2> shifts() {
+        val changes = new ArrayList<>(shiftChanges());
+        if(changes.isEmpty()) {
+            return List.of();
+        }
+        changes.add(changes.getFirst());
+
+        // Pairing and/or gathering iterator?
+
+        val it = changes.listIterator(1);
+        while(it.hasNext()) {
+//            it.
+        }
         return List.of();
     }
 
     public List<ShiftChange> shiftChanges() {
         return shiftChangeTimes().stream()
-                .peek(System.err::println)
                 .map(this::toShiftChange)
                 .toList();
     }
