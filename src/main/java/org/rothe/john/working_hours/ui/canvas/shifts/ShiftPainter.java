@@ -29,22 +29,19 @@ public class ShiftPainter {
         }
     }
 
-    // TODO: Convert this logic to use SpaceTime's split around the same way MemberRow does.
     // TODO: Consider creating shifts for contiguous segments with the same team members so that the user can choose which to display.
-
-
     public void paintUnder(Graphics2D g2d, JPanel exampleRow) {
         val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
         val canvasHeight = canvas.getHeight();
 
-        table.largestShift().forEach(s -> target.fillShift(s.time(), canvasHeight));
-        table.shiftChanges().forEach(s -> target.drawLine(s.time().totalMinutesInUtc(), canvasHeight));
+        table.largestShift().forEach(shift -> target.fill(shift.time(), canvasHeight));
+        table.shiftChanges().forEach(change -> target.draw(change.time(), canvasHeight));
     }
 
     public void paintOver(Graphics2D g2d, JPanel exampleRow) {
         val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
 
-        table.largestShift().forEach(s -> target.drawShift(s.time(), canvas.getHeight()));
+        table.largestShift().forEach(shift -> target.draw(shift.time(), canvas.getHeight()));
     }
 
     private int toRowStartX(JPanel exampleRow) {
