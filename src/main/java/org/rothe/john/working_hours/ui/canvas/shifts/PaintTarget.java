@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.ui.canvas.shifts;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.canvas.st.TimePair;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -23,19 +24,19 @@ class PaintTarget {
         g2d.drawLine(x, 0, x, height);
     }
 
-    void fillShift(int startMinutesUtc, int endMinutesUtc, int height) {
-        val x1 = minutesToLocation(startMinutesUtc);
-        val x2 = minutesToLocation(endMinutesUtc);
+    void fillShift(TimePair pair, int height) {
+        val x1 = minutesToLocation(pair.left().totalMinutesInUtc());
+        val x2 = minutesToLocation(pair.right().totalMinutesInUtc());
         val width = x2 - x1;
 
         g2d.setColor(FILL_COLOR);
         g2d.fillRect(x1, 0, width, height);
     }
 
-    void drawShift(int startMinutesUtc, int endMinutesUtc, int height) {
+    void drawShift(TimePair pair, int height) {
         g2d.setColor(LINE_COLOR);
-        drawLine(startMinutesUtc, height);
-        drawLine(endMinutesUtc, height);
+        drawLine(pair.left().totalMinutesInUtc(), height);
+        drawLine(pair.right().totalMinutesInUtc(), height);
     }
 
     private int minutesToLocation(int minutesUtc) {

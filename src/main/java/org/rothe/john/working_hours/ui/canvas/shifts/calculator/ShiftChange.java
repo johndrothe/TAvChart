@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.shift2;
+package org.rothe.john.working_hours.ui.canvas.shifts.calculator;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;

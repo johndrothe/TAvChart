@@ -16,7 +16,7 @@ public abstract class SampleFactory {
     }
 
     public static Team newTeam() {
-        return new Team("Winners", debugMembers());
+        return new Team("Winners", debugShiftMembers());
     }
 
     public static List<Member> debugMembers() {
@@ -30,6 +30,18 @@ public abstract class SampleFactory {
                 toMember("Person #9", "LAX", "08:00-17:00", toZone("America/Los_Angeles")),
                 toMember("Person #10", "LAX", "10:00-19:00", toZone("America/Los_Angeles"), 10),
                 toMember("Person #11", "LAX", "12:00-21:00", toZone("America/Los_Angeles"), 12)
+        );
+    }
+
+    public static List<Member> debugShiftMembers() {
+        return List.of(
+                toMember("Person #1", "UTC", "00:00-09:00", toZone("Z"), 19),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 20),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 21),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 22),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 23),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"),  20),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"),  21)
         );
     }
 
@@ -60,8 +72,8 @@ public abstract class SampleFactory {
     private static Availability officeHours(Zone zone, int startHour) {
         return new Availability(
                 Time.at(zone, startHour),
-                Time.at(zone, startHour + 9),
-                Time.at(zone, startHour + 4),
-                Time.at(zone, startHour + 5));
+                Time.at(zone, Time.normalizeHour(startHour + 9)),
+                Time.at(zone, Time.normalizeHour(startHour + 4)),
+                Time.at(zone, Time.normalizeHour(startHour + 5)));
     }
 }
