@@ -51,9 +51,6 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private void paintShapes(Graphics2D g2d, List<Shape> normal, List<Shape> lunch) {
-        //, getFillColor(), getLineColor());
-        //, LUNCH_FILL, getLineColor());
-
         normal.forEach(s -> fill(g2d, s, getFillColor()));
         lunch.forEach(s -> fill(g2d, s, LUNCH_FILL));
         normal.forEach(s -> draw(g2d, s, getLineColor()));

@@ -1,34 +1,31 @@
-package org.rothe.john.working_hours.ui.canvas.shifts;
+package org.rothe.john.working_hours.ui.canvas.collaboration;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
+import org.rothe.john.working_hours.ui.canvas.collaboration.calculator.CollabCalculator;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 
 import static java.util.Objects.isNull;
 
-public class ShiftPainter {
+public class CollabZonePainter {
     private final Canvas canvas;
     private final CanvasInfo canvasInfo;
-    private final SpaceTime spaceTime;
-    private ShiftTable table;
+    private CollabCalculator calculator;
 
-    public ShiftPainter(Canvas canvas, CanvasInfo canvasInfo) {
+    public CollabZonePainter(Canvas canvas, CanvasInfo canvasInfo) {
         this.canvas = canvas;
         this.canvasInfo = canvasInfo;
-        this.spaceTime = SpaceTime.from(canvasInfo);
-        this.table = null;
+        this.calculator = null;
     }
 
     public void initialize() {
         if (isNull(canvas.getTeam())) {
-            this.table = null;
+            this.calculator = null;
         } else {
-            this.table = ShiftTable.of(canvas.getTeam().getMembers(), spaceTime);
+            this.calculator = CollabCalculator.of(canvas.getTeam().getMembers());
         }
     }
 
@@ -36,18 +33,14 @@ public class ShiftPainter {
         val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
         val canvasHeight = canvas.getHeight();
 
-        table.getLargestShifts()
-                .forEach(s -> target.fillShift(s.start(), s.end(), canvasHeight));
-
-        table.getShiftChanges()
-                .forEach(s -> target.drawLine(s, canvasHeight));
+        calculator.largest().forEach(shift -> target.fill(shift.time(), canvasHeight));
+        calculator.shiftChanges().forEach(change -> target.draw(change.time(), canvasHeight));
     }
 
     public void paintOver(Graphics2D g2d, JPanel exampleRow) {
         val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
 
-        table.getLargestShifts()
-                .forEach(s -> target.drawShift(s.start(), s.end(), canvas.getHeight()));
+        calculator.largest().forEach(shift -> target.draw(shift.time(), canvas.getHeight()));
     }
 
     private int toRowStartX(JPanel exampleRow) {

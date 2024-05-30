@@ -13,7 +13,7 @@ import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
-import org.rothe.john.working_hours.ui.canvas.shifts.ShiftPainter;
+import org.rothe.john.working_hours.ui.canvas.collaboration.CollabZonePainter;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
@@ -44,7 +44,7 @@ public class Canvas extends JPanel implements TeamListener {
     private final RowList rows = new RowList();
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
     private final GridPainter gridPainter = new GridPainter(this, canvasInfo);
-    private final ShiftPainter shiftPainter = new ShiftPainter(this, canvasInfo);
+    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, canvasInfo);
     private Palette palette = null;
 
     @Getter
@@ -87,14 +87,14 @@ public class Canvas extends JPanel implements TeamListener {
 
     private void paintOver(Graphics2D g2d) {
         if (!rows.isEmpty()) {
-            shiftPainter.paintOver(g2d, rows.getFirst());
+            collabZonePainter.paintOver(g2d, rows.getFirst());
         }
     }
 
     private void paintUnder(Graphics2D g2d) {
         if (!rows.isEmpty()) {
             gridPainter.paintGrid(g2d, rows.getFirst());
-            shiftPainter.paintUnder(g2d, rows.getFirst());
+            collabZonePainter.paintUnder(g2d, rows.getFirst());
         }
     }
 
@@ -105,7 +105,7 @@ public class Canvas extends JPanel implements TeamListener {
         } else {
             initTeamCanvas();
         }
-        shiftPainter.initialize();
+        collabZonePainter.initialize();
     }
 
     private void initBlankCanvas() {

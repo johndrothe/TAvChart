@@ -36,7 +36,7 @@ public class Time {
 
     private Time(Zone zone, LocalTime local) {
         this.zone = zone;
-        this.local = local;
+        this.local = local.withSecond(0).withNano(0);
         this.utc = toUtc(zone, local);
     }
 
@@ -84,6 +84,10 @@ public class Time {
         return zone;
     }
 
+    public Time inUtc() {
+        return Time.at(Zone.utc(), hourUtc(), minuteUtc());
+    }
+
     private static ZonedDateTime toUtc(Zone zone, LocalTime localTime) {
         return ZonedDateTime.of(LocalDate.now(), localTime, zone.getRawZoneId())
                 .withZoneSameInstant(ZoneOffset.UTC);
@@ -117,5 +121,10 @@ public class Time {
             return Objects.equals(local, t.local) && Objects.equals(zone, t.zone);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(local, zone);
     }
 }

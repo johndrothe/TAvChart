@@ -37,6 +37,9 @@ Many (if not all) of the following items are not implemented.
 * Display
   * Complete handling for "Working Hours" that span days.
     * The text isn't right yet
+  * Collaboration Zones (A.K.A. "Shifts")
+    * Create zones for contiguous time periods that have the same team members.
+    * Allow the user to choose which zones to display
   * Lunch Hour display
   * Center the canvas on a user-selected time
     * now it's always 0->24/0
