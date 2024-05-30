@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.shifts;
+package org.rothe.john.working_hours.ui.canvas.collaboration;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Time;

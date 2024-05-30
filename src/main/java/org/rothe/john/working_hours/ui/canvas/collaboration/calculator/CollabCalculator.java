@@ -1,64 +1,57 @@
-package org.rothe.john.working_hours.ui.canvas.shifts.calculator;
+package org.rothe.john.working_hours.ui.canvas.collaboration.calculator;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
-import org.rothe.john.working_hours.util.SampleFactory;
 
 import java.util.*;
 import java.util.stream.Stream;
 
-public class ShiftCalculator {
+public class CollabCalculator {
     private final List<Member> members;
 
-    private ShiftCalculator(Collection<Member> members) {
+    private CollabCalculator(Collection<Member> members) {
         this.members = members.stream().toList();
     }
 
-    public static ShiftCalculator of(Collection<Member> members) {
-        return new ShiftCalculator(members);
+    public static CollabCalculator of(Collection<Member> members) {
+        return new CollabCalculator(members);
     }
 
-    public static void main(String[] args) {
-        ShiftCalculator calculator = new ShiftCalculator(SampleFactory.debugMembers());
-        System.err.println("<changes>");
-        for (ShiftChange c : calculator.shiftChanges()) {
-            System.err.printf("    %s (%s) - %s%n", c.time(), c.time().zone(), c.members().stream().map(Member::name).toList());
-        }
-        System.err.println("</changes>");
-
-
-        System.err.println(Shift.toListString(calculator.findShifts()));
-    }
-
-    public List<Shift> largestShift() {
-        return findShifts().stream()
-                .sorted(Comparator.comparing(Shift::size).reversed().thenComparing(Shift::duration))
+    public List<CollabZone> largest() {
+        return findCollabZones().stream()
+                .sorted(comparator())
                 .limit(1)
                 .toList();
     }
 
-    private List<Shift> findShifts() {
+    private static Comparator<CollabZone> comparator() {
+        return Comparator.comparing(CollabZone::size)
+                .reversed()
+                .thenComparing(CollabZone::duration);
+    }
+
+    private List<CollabZone> findCollabZones() {
         val changes = new ArrayList<>(shiftChanges());
         if (changes.isEmpty()) {
             return List.of();
         }
 
-        List<Shift> list = new ArrayList<>();
+        List<CollabZone> list = new ArrayList<>();
         val it = PairingIterator.of(changes);
         while (it.hasNext()) {
             val pair = it.next();
             if (pair.left().members().isEmpty()) {
                 continue;
             }
-            list.add(toShift(pair));
+            list.add(toCollabZone(pair));
         }
         return Collections.unmodifiableList(list);
     }
 
-    private Shift toShift(PairingIterator.Pair<ShiftChange> pair) {
-        return new Shift(toTimePair(pair), Set.copyOf(pair.left().members()));
+    private CollabZone toCollabZone(PairingIterator.Pair<ShiftChange> pair) {
+        return new CollabZone(toTimePair(pair), Set.copyOf(pair.left().members()));
     }
 
     private TimePair toTimePair(PairingIterator.Pair<ShiftChange> pair) {

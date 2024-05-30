@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.shifts.calculator;
+package org.rothe.john.working_hours.ui.canvas.collaboration.calculator;
 
 import lombok.val;
 
