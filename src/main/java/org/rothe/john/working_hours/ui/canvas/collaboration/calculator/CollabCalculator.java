@@ -1,12 +1,14 @@
 package org.rothe.john.working_hours.ui.canvas.collaboration.calculator;
 
-import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
+import org.rothe.john.working_hours.ui.util.Pair;
 
 import java.util.*;
 import java.util.stream.Stream;
+
+import static java.util.function.Predicate.not;
 
 public class CollabCalculator {
     private final List<Member> members;
@@ -33,28 +35,17 @@ public class CollabCalculator {
     }
 
     private List<CollabZone> findCollabZones() {
-        val changes = new ArrayList<>(shiftChanges());
-        if (changes.isEmpty()) {
-            return List.of();
-        }
-
-        List<CollabZone> list = new ArrayList<>();
-        val it = PairingIterator.of(changes);
-        while (it.hasNext()) {
-            val pair = it.next();
-            if (pair.left().members().isEmpty()) {
-                continue;
-            }
-            list.add(toCollabZone(pair));
-        }
-        return Collections.unmodifiableList(list);
+        return Pair.asPairStream(shiftChanges())
+                .filter(not(p -> p.left().members().isEmpty()))
+                .map(this::toCollabZone)
+                .toList();
     }
 
-    private CollabZone toCollabZone(PairingIterator.Pair<ShiftChange> pair) {
+    private CollabZone toCollabZone(Pair<ShiftChange> pair) {
         return new CollabZone(toTimePair(pair), Set.copyOf(pair.left().members()));
     }
 
-    private TimePair toTimePair(PairingIterator.Pair<ShiftChange> pair) {
+    private TimePair toTimePair(Pair<ShiftChange> pair) {
         return new TimePair(pair.left().time(), pair.right().time());
     }
 
