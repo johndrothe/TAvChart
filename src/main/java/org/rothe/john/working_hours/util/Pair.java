@@ -48,12 +48,14 @@ public class Pair<T> {
             }
         }
 
+        @Override
         public Pair<T> next() {
             val pair = new Pair<>(left, it.next());
             left = pair.right();
             return pair;
         }
 
+        @Override
         public boolean hasNext() {
             return it.hasNext();
         }
