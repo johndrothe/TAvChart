@@ -2,7 +2,6 @@ package org.rothe.john.working_hours.ui.canvas.collaboration;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.ui.canvas.st.Boundaries;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
@@ -18,10 +17,10 @@ class PaintTarget {
     private final int startX;
     private final SpaceTime spaceTime;
 
-    public PaintTarget(CanvasInfo canvasInfo, Graphics2D g2d, int startX) {
+    public PaintTarget(SpaceTime spaceTime, Graphics2D g2d, int startX) {
         this.g2d = g2d;
         this.startX = startX;
-        this.spaceTime = SpaceTime.from(canvasInfo);
+        this.spaceTime = spaceTime;
     }
 
     void draw(Time time, int height) {

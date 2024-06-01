@@ -1,27 +1,25 @@
 package org.rothe.john.working_hours.ui.canvas.util;
 
 import lombok.val;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 
 public class GridPainter {
     private static final Color MINOR_COLOR = new Color(0, 0, 0, 10);
     private static final Color MAJOR_COLOR = new Color(0, 0, 0, 40);
 
     private final JPanel canvas;
-    private final CanvasInfo canvasInfo;
+    private final SpaceTime spaceTime;
 
-    public GridPainter(JPanel canvas, CanvasInfo canvasInfo) {
+    public GridPainter(JPanel canvas, SpaceTime spaceTime) {
         this.canvas = canvas;
-        this.canvasInfo = canvasInfo;
+        this.spaceTime = spaceTime;
     }
 
     public void paintGrid(Graphics2D g2d, JPanel exampleRow) {
-        val target = new Target(canvasInfo, g2d, toRowStartX(exampleRow));
+        val target = new Target(spaceTime, g2d, toRowStartX(exampleRow));
 
         paintMajorLines(target);
         paintMinorLines(target);
@@ -52,7 +50,7 @@ public class GridPainter {
         return SwingUtilities.convertPoint(exampleRow, 0, 0, canvas).x;
     }
 
-    private record Target(CanvasInfo canvasInfo, Graphics2D g2d, int startX) {
+    private record Target(SpaceTime spaceTime, Graphics2D g2d, int startX) {
         void switchToMinorColor() {
             g2d.setColor(MINOR_COLOR);
         }
@@ -67,7 +65,7 @@ public class GridPainter {
         }
 
         private int minutesToLocation(int minutesUtc) {
-            return canvasInfo.timeToColumnCenter(minutesUtc) + startX;
+            return spaceTime.toColumnCenter(minutesUtc) + startX;
         }
     }
 }

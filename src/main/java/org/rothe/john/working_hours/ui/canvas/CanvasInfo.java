@@ -1,15 +1,15 @@
 package org.rothe.john.working_hours.ui.canvas;
 
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
+
 public interface CanvasInfo {
+    SpaceTime spaceTIme();
+
     int getRowHeaderWidth();
 
     int getRowFooterWidth();
 
     double getHourColumnWidth();
-
-    int timeToColumnStart(int minutesUtc);
-
-    int timeToColumnCenter(int minutesUtc);
 
     default int getBorderHour() {
         return 0;

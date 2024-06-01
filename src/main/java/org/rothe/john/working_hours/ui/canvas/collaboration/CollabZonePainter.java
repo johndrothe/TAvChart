@@ -2,8 +2,8 @@ package org.rothe.john.working_hours.ui.canvas.collaboration;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.ui.canvas.collaboration.calculator.CollabCalculator;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,12 +12,12 @@ import static java.util.Objects.isNull;
 
 public class CollabZonePainter {
     private final Canvas canvas;
-    private final CanvasInfo canvasInfo;
+    private final SpaceTime spaceTime;
     private CollabCalculator calculator;
 
-    public CollabZonePainter(Canvas canvas, CanvasInfo canvasInfo) {
+    public CollabZonePainter(Canvas canvas, SpaceTime spaceTime) {
         this.canvas = canvas;
-        this.canvasInfo = canvasInfo;
+        this.spaceTime = spaceTime;
         this.calculator = null;
     }
 
@@ -30,7 +30,7 @@ public class CollabZonePainter {
     }
 
     public void paintUnder(Graphics2D g2d, JPanel exampleRow) {
-        val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
+        val target = new PaintTarget(spaceTime, g2d, toRowStartX(exampleRow));
         val canvasHeight = canvas.getHeight();
 
         calculator.largest().forEach(shift -> target.fill(shift.time(), canvasHeight));
@@ -38,7 +38,7 @@ public class CollabZonePainter {
     }
 
     public void paintOver(Graphics2D g2d, JPanel exampleRow) {
-        val target = new PaintTarget(canvasInfo, g2d, toRowStartX(exampleRow));
+        val target = new PaintTarget(spaceTime, g2d, toRowStartX(exampleRow));
 
         calculator.largest().forEach(shift -> target.draw(shift.time(), canvas.getHeight()));
     }

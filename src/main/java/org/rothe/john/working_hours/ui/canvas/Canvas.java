@@ -14,6 +14,7 @@ import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
 import org.rothe.john.working_hours.ui.canvas.collaboration.CollabZonePainter;
+import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
@@ -43,8 +44,9 @@ public class Canvas extends JPanel implements TeamListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
-    private final GridPainter gridPainter = new GridPainter(this, canvasInfo);
-    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, canvasInfo);
+    private final SpaceTime spaceTime = canvasInfo.spaceTIme();
+    private final GridPainter gridPainter = new GridPainter(this, spaceTime);
+    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, spaceTime);
     private Palette palette = null;
 
     @Getter

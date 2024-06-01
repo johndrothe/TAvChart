@@ -1,19 +1,14 @@
 package org.rothe.john.working_hours.ui.canvas.st;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
 import java.util.List;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor()
 public class SpaceTime {
     private final CanvasInfo canvasInfo;
-
-    public static SpaceTime from(CanvasInfo canvasInfo) {
-        return new SpaceTime(canvasInfo);
-    }
 
     public List<Boundaries> toCenterBoundaries(TimePair time) {
         return splitAroundBorder(time).stream().map(this::toBoundaries).toList();
@@ -53,6 +48,10 @@ public class SpaceTime {
 
     public int toColumnCenter(Time time) {
         return toColumnCenter(time.totalMinutesInUtc(), headerWidth(), hourColumnWidth());
+    }
+
+    public int toColumnCenter(int minutesUtc) {
+        return toColumnCenter(minutesUtc, headerWidth(), hourColumnWidth());
     }
 
     static int toColumnCenter(int minutesUtc, int headerWidth, double hourColumnWidth) {

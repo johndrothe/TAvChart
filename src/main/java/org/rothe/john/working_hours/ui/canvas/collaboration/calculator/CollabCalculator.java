@@ -35,7 +35,7 @@ public class CollabCalculator {
     }
 
     private List<CollabZone> findCollabZones() {
-        return Pair.asPairStream(shiftChanges())
+        return Pair.stream(prependLast(shiftChanges()))
                 .filter(not(p -> p.left().members().isEmpty()))
                 .map(this::toCollabZone)
                 .toList();
@@ -84,5 +84,12 @@ public class CollabCalculator {
                 .map(Member::availability)
                 .flatMap(a -> Stream.of(a.normalStart(), a.normalEnd()))
                 .map(Time::inUtc);
+    }
+
+    private static <T> List<T> prependLast(List<T> list) {
+        if(list.isEmpty()) {
+            return List.of();
+        }
+        return Stream.concat(Stream.of(list.getLast()), list.stream()).toList();
     }
 }

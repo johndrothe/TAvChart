@@ -25,7 +25,7 @@ public abstract class CanvasRow extends JPanel {
     protected CanvasRow(CanvasInfo canvasInfo, Color fillColor, Color lineColor) {
         super(new BorderLayout());
         this.canvasInfo = canvasInfo;
-        this.spaceTime = SpaceTime.from(canvasInfo);
+        this.spaceTime = canvasInfo.spaceTIme();
         this.fillColor = fillColor;
         this.lineColor = lineColor;
         setFont(getFont().deriveFont(Font.PLAIN));

@@ -16,7 +16,7 @@ public class Pair<T> {
         this.right = right;
     }
 
-    public static <T> Stream<Pair<T>> asPairStream(List<T> list) {
+    public static <T> Stream<Pair<T>> stream(List<T> list) {
         Iterable<Pair<T>> iterable = () -> new PairingIterator<>(list);
         return StreamSupport.stream(iterable.spliterator(), false);
     }
@@ -35,8 +35,8 @@ public class Pair<T> {
 
         PairingIterator(List<T> list) {
             this.it = List.copyOf(list).iterator();
-            if (!list.isEmpty()) {
-                this.left = list.getLast();
+            if (it.hasNext()) {
+                this.left = it.next();
             }
         }
 
