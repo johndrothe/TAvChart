@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.ui.canvas.st;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.rothe.john.working_hours.model.Time;
+import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
@@ -17,7 +18,7 @@ class SpaceTimeTest {
     private final Zone NYC = Zone.fromCsv("America/New_York");
 
     private final CanvasInfo canvasInfo = mock(CanvasInfo.class);
-    private final SpaceTime st = SpaceTime.from(canvasInfo);
+    private final SpaceTime st = new SpaceTime(canvasInfo);
 
     SpaceTimeTest() {
         mockCanvasInfo();

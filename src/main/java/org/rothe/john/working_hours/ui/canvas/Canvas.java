@@ -44,7 +44,7 @@ public class Canvas extends JPanel implements TeamListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
     private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
-    private final SpaceTime spaceTime = canvasInfo.spaceTIme();
+    private final SpaceTime spaceTime = canvasInfo.spaceTime();
     private final GridPainter gridPainter = new GridPainter(this, spaceTime);
     private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, spaceTime);
     private Palette palette = null;

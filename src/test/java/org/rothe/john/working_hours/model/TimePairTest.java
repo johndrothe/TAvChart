@@ -1,9 +1,7 @@
-package org.rothe.john.working_hours.ui.canvas.st;
+package org.rothe.john.working_hours.model;
 
 import lombok.val;
 import org.junit.jupiter.api.Test;
-import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.model.Zone;
 
 import java.time.Duration;
 import java.util.List;

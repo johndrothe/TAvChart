@@ -2,10 +2,7 @@ package org.rothe.john.working_hours.ui.toolbar.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
-import org.rothe.john.working_hours.model.Availability;
-import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.model.*;
 import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.util.Images;
 
@@ -54,7 +51,8 @@ public class MemberAddAction extends ToolbarAction {
 
     private Member newMember(String role, String location, Zone zone) {
         return new Member("New Member", role, location, zone,
-                Availability.businessHours(zone));
+                TimePair.businessNormal(zone),
+                TimePair.businessLunch(zone));
     }
 
     private void editNewMember(int index) {

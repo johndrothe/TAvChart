@@ -3,7 +3,7 @@ package org.rothe.john.working_hours.ui.canvas;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 
 public interface CanvasInfo {
-    SpaceTime spaceTIme();
+    SpaceTime spaceTime();
 
     int getRowHeaderWidth();
 

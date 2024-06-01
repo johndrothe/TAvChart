@@ -2,7 +2,10 @@ package org.rothe.john.working_hours.ui.table;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
-import org.rothe.john.working_hours.model.*;
+import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.model.Time;
+import org.rothe.john.working_hours.model.Zone;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalTime;
@@ -91,16 +94,16 @@ public class MembersTableModel extends AbstractTableModel {
                 return member.location();
             }
             case START_TIME -> {
-                return member.availability().normalStart();
+                return member.normal().left();
             }
             case END_TIME -> {
-                return member.availability().normalEnd();
+                return member.normal().right();
             }
             case LUNCH_START -> {
-                return member.availability().lunchStart();
+                return member.lunch().left();
             }
             case LUNCH_END -> {
-                return member.availability().lunchEnd();
+                return member.lunch().right();
             }
             case ZONE -> {
                 return member.zone();
@@ -147,36 +150,23 @@ public class MembersTableModel extends AbstractTableModel {
             case LOCATION -> {
                 return member.withLocation(aValue.toString());
             }
-            case START_TIME, END_TIME, LUNCH_START, LUNCH_END -> {
-                return member.withAvailability(updatedAvailability(aValue, member, column));
+            case START_TIME -> {
+                return member.withNormal(member.normal().withLeft(toTime(member.zone(), aValue)));
+            }
+            case END_TIME -> {
+                return member.withNormal(member.normal().withRight(toTime(member.zone(), aValue)));
+            }
+            case LUNCH_START -> {
+                return member.withLunch(member.lunch().withLeft(toTime(member.zone(), aValue)));
+            }
+            case LUNCH_END -> {
+                return member.withLunch(member.lunch().withRight(toTime(member.zone(), aValue)));
             }
             case ZONE -> {
                 return member.withZone((Zone) aValue);
             }
         }
         return member;
-    }
-
-    private Availability updatedAvailability(Object aValue, Member member, Columns column) {
-        return updatedAvailability(toTime(member.zone(), aValue), member.availability(), column);
-    }
-
-    private Availability updatedAvailability(Time value, Availability availability, Columns column) {
-        switch (column) {
-            case START_TIME -> {
-                return availability.withNormalStart(value);
-            }
-            case END_TIME -> {
-                return availability.withNormalEnd(value);
-            }
-            case LUNCH_START -> {
-                return availability.withLunchStart(value);
-            }
-            case LUNCH_END -> {
-                return availability.withLunchEnd(value);
-            }
-            default -> throw new IllegalArgumentException("Invalid availability column: " + column);
-        }
     }
 
     private static Time toTime(Zone zone, Object aValue) {

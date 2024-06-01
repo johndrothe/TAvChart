@@ -1,12 +1,11 @@
 package org.rothe.john.working_hours.ui.canvas.rows;
 
+import lombok.Getter;
+import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 import org.rothe.john.working_hours.ui.canvas.st.Boundaries;
-import org.rothe.john.working_hours.ui.canvas.st.TimePair;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
-import lombok.Getter;
-import lombok.val;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -67,25 +66,14 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private List<Boundaries> normalBoundaries() {
-        return getSpaceTime().toCenterBoundaries(normalPair());
+        return getSpaceTime().toCenterBoundaries(member.normal());
     }
     private List<Boundaries> lunchBoundaries() {
-        return getSpaceTime().toCenterBoundaries(lunchPair());
+        return getSpaceTime().toCenterBoundaries(member.lunch());
     }
 
     private List<Shape> toShapes(List<Boundaries> boundaries) {
         return boundaries.stream().map(this::toShape).toList();
-    }
-
-    private TimePair normalPair() {
-        return new TimePair(
-                member.availability().normalStart(),
-                member.availability().normalEnd());
-    }
-    private TimePair lunchPair() {
-        return new TimePair(
-                member.availability().lunchStart(),
-                member.availability().lunchEnd());
     }
 
     private Shape toShape(Boundaries boundaries) {
@@ -99,12 +87,12 @@ public class MemberRow extends AbstractZoneRow {
 
     @Override
     protected int getRowMinX() {
-        return timeToColumnCenter(member.availability().normalStart());
+        return timeToColumnCenter(member.normal().left());
     }
 
     @Override
     protected int getRowMaxX() {
-        return timeToColumnCenter(member.availability().normalEnd());
+        return timeToColumnCenter(member.normal().right());
     }
 
     private String getDisplayString() {

@@ -24,7 +24,7 @@ public class CanvasInfoImpl implements CanvasInfo {
     }
 
     @Override
-    public SpaceTime spaceTIme() {
+    public SpaceTime spaceTime() {
         return spaceTime;
     }
 

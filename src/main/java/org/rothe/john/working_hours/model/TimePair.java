@@ -1,7 +1,7 @@
-package org.rothe.john.working_hours.ui.canvas.st;
+package org.rothe.john.working_hours.model;
 
+import lombok.With;
 import lombok.val;
-import org.rothe.john.working_hours.model.Time;
 
 import java.time.Duration;
 import java.util.List;
@@ -10,7 +10,16 @@ import java.util.Objects;
 import static org.rothe.john.working_hours.model.Time.MINUTES_IN_A_DAY;
 import static org.rothe.john.working_hours.model.Time.fromHoursUtc;
 
+@With
 public record TimePair(Time left, Time right) {
+
+    public static TimePair businessNormal(Zone zone) {
+        return new TimePair(Time.at(zone, 8), Time.at(zone, 17));
+    }
+
+    public static TimePair businessLunch(Zone zone) {
+        return new TimePair(Time.at(zone, 12), Time.at(zone, 13));
+    }
 
     public List<TimePair> splitAround(int hourUtc) {
         if (isSplitBetween(hourUtc)) {

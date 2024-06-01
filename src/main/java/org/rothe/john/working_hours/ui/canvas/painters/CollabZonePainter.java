@@ -6,7 +6,7 @@ import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.collaboration.CollabCalculator;
 import org.rothe.john.working_hours.ui.canvas.st.Boundaries;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
-import org.rothe.john.working_hours.ui.canvas.st.TimePair;
+import org.rothe.john.working_hours.model.TimePair;
 
 import javax.swing.*;
 import java.awt.*;

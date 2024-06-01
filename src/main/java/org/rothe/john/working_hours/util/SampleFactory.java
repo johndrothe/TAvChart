@@ -1,10 +1,6 @@
 package org.rothe.john.working_hours.util;
 
-import org.rothe.john.working_hours.model.Availability;
-import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.model.*;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -40,8 +36,8 @@ public abstract class SampleFactory {
                 toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 21),
                 toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 22),
                 toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 23),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"),  20),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"),  21)
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 20),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 21)
         );
     }
 
@@ -66,14 +62,18 @@ public abstract class SampleFactory {
     }
 
     private static Member toMember(String name, String role, String location, Zone zone, int startHour) {
-        return toMember(name, role, location, zone).withAvailability(officeHours(zone, startHour));
+        return toMember(name, role, location, zone)
+                .withNormal(officeNormal(zone, startHour))
+                .withLunch(officeLunch(zone, startHour));
     }
 
-    private static Availability officeHours(Zone zone, int startHour) {
-        return new Availability(
-                Time.at(zone, startHour),
-                Time.at(zone, Time.normalizeHour(startHour + 9)),
-                Time.at(zone, Time.normalizeHour(startHour + 4)),
+    private static TimePair officeNormal(Zone zone, int startHour) {
+        return new TimePair(Time.at(zone, startHour),
+                Time.at(zone, Time.normalizeHour(startHour + 9)));
+    }
+
+    private static TimePair officeLunch(Zone zone, int startHour) {
+        return new TimePair(Time.at(zone, Time.normalizeHour(startHour + 4)),
                 Time.at(zone, Time.normalizeHour(startHour + 5)));
     }
 }

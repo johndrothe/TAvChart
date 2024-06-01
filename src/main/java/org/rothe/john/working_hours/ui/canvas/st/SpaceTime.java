@@ -2,6 +2,7 @@ package org.rothe.john.working_hours.ui.canvas.st;
 
 import lombok.AllArgsConstructor;
 import org.rothe.john.working_hours.model.Time;
+import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
 
 import java.util.List;

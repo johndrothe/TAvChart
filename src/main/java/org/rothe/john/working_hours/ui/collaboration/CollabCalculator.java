@@ -2,7 +2,7 @@ package org.rothe.john.working_hours.ui.collaboration;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.ui.canvas.st.TimePair;
+import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.util.Pair;
 
 import java.util.Collection;
@@ -62,12 +62,7 @@ public class CollabCalculator {
     }
 
     private boolean isPresentAt(Member member, Time time) {
-        return toNormalPair(member).contains(time);
-    }
-
-    private TimePair toNormalPair(Member member) {
-        return new TimePair(member.availability().normalStart(),
-                member.availability().normalEnd());
+        return member.normal().contains(time);
     }
 
     private List<Time> shiftChangeTimes() {
@@ -79,8 +74,8 @@ public class CollabCalculator {
 
     private Stream<Time> normalTimes() {
         return members.stream()
-                .map(Member::availability)
-                .flatMap(a -> Stream.of(a.normalStart(), a.normalEnd()))
+                .map(Member::normal)
+                .flatMap(n -> Stream.of(n.left(), n.right()))
                 .map(Time::inUtc);
     }
 
