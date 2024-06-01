@@ -7,19 +7,24 @@ import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.table.editors.LocalTimeEditor;
 import org.rothe.john.working_hours.ui.table.editors.ZoneEditor;
 
-import javax.swing.JTable;
+import javax.swing.*;
 import java.time.LocalTime;
 import java.util.Optional;
 
 public class MembersTable extends JTable {
     private Team team;
-    public MembersTable(){
+
+    public MembersTable() {
         super(new MembersTableModel());
         setCellSelectionEnabled(true);
         setRowHeight(26);
 
         setDefaultEditor(LocalTime.class, new LocalTimeEditor());
         setDefaultEditor(Zone.class, new ZoneEditor());
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public void setTeam(Team team) {
@@ -30,7 +35,7 @@ public class MembersTable extends JTable {
 
     @Override
     public MembersTableModel getModel() {
-        return (MembersTableModel)super.getModel();
+        return (MembersTableModel) super.getModel();
     }
 
     public Optional<Member> getSelectedMember() {
