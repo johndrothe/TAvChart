@@ -5,10 +5,11 @@ import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
 import org.rothe.john.working_hours.util.Pair;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
-
-import static java.util.function.Predicate.not;
 
 public class CollabCalculator {
     private final List<Member> members;
@@ -22,23 +23,20 @@ public class CollabCalculator {
     }
 
     public List<CollabZone> largest() {
-        return findCollabZones().stream()
+        return findZones()
                 .sorted(comparator())
                 .limit(1)
                 .toList();
     }
 
-    private static Comparator<CollabZone> comparator() {
-        return Comparator.comparing(CollabZone::size)
-                .reversed()
-                .thenComparing(CollabZone::duration);
+    public List<CollabZone> zones() {
+        return findZones().toList();
     }
 
-    private List<CollabZone> findCollabZones() {
+    private Stream<CollabZone> findZones() {
         return Pair.stream(prependLast(shiftChanges()))
-                .filter(not(p -> p.left().members().isEmpty()))
-                .map(this::toCollabZone)
-                .toList();
+                .filter(p -> p.left().hasMembers())
+                .map(this::toCollabZone);
     }
 
     private CollabZone toCollabZone(Pair<ShiftChange> pair) {
@@ -91,5 +89,11 @@ public class CollabCalculator {
             return List.of();
         }
         return Stream.concat(Stream.of(list.getLast()), list.stream()).toList();
+    }
+
+    private static Comparator<CollabZone> comparator() {
+        return Comparator.comparing(CollabZone::size)
+                .reversed()
+                .thenComparing(CollabZone::duration);
     }
 }
