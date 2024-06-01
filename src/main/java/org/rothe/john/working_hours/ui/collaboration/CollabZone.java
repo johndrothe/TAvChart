@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.collaboration.calculator;
+package org.rothe.john.working_hours.ui.collaboration;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;

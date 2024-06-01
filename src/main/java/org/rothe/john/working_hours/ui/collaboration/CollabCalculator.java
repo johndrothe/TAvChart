@@ -1,9 +1,9 @@
-package org.rothe.john.working_hours.ui.canvas.collaboration.calculator;
+package org.rothe.john.working_hours.ui.collaboration;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.ui.canvas.st.TimePair;
-import org.rothe.john.working_hours.ui.util.Pair;
+import org.rothe.john.working_hours.util.Pair;
 
 import java.util.*;
 import java.util.stream.Stream;

@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.util;
+package org.rothe.john.working_hours.ui.canvas.painters;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;

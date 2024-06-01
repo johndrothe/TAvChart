@@ -1,7 +1,7 @@
 package org.rothe.john.working_hours.ui.toolbar.action;
 
 import org.rothe.john.working_hours.ui.table.MembersTable;
-import org.rothe.john.working_hours.ui.util.Images;
+import org.rothe.john.working_hours.util.Images;
 
 import java.awt.event.ActionEvent;
 

@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.util;
+package org.rothe.john.working_hours.util;
 
 import javax.swing.ImageIcon;
 import java.net.URL;

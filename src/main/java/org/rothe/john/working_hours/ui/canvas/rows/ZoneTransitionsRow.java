@@ -3,7 +3,7 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.val;
 import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.util.GBCBuilder;
+import org.rothe.john.working_hours.util.GBCBuilder;
 
 import javax.swing.JLabel;
 import java.awt.Color;

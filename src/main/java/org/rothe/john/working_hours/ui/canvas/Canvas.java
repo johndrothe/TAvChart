@@ -13,13 +13,13 @@ import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
 import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
-import org.rothe.john.working_hours.ui.canvas.collaboration.CollabZonePainter;
+import org.rothe.john.working_hours.ui.canvas.painters.CollabZonePainter;
 import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
-import org.rothe.john.working_hours.ui.canvas.util.GridPainter;
+import org.rothe.john.working_hours.ui.canvas.painters.GridPainter;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.ui.canvas.util.RowList;
-import org.rothe.john.working_hours.ui.util.GBCBuilder;
+import org.rothe.john.working_hours.util.GBCBuilder;
 
 import javax.swing.Box;
 import javax.swing.JPanel;

@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.util;
+package org.rothe.john.working_hours.util;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
