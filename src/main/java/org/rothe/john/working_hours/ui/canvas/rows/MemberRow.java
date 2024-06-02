@@ -14,8 +14,8 @@ import java.util.List;
 
 @Getter
 public class MemberRow extends AbstractZoneRow {
-    private static final Color LUNCH_FILL = new Color(230, 230, 230);
-    private static final Color LUNCH_LINE = new Color(210, 210, 210);
+    private static final Color LUNCH_LINE = new Color(255, 0, 255, 25);
+
 
     private final Member member;
 
@@ -51,7 +51,7 @@ public class MemberRow extends AbstractZoneRow {
 
     private void paintShapes(Graphics2D g2d, List<Shape> normal, List<Shape> lunch) {
         normal.forEach(s -> fill(g2d, s, getFillColor()));
-        lunch.forEach(s -> fill(g2d, s, LUNCH_FILL));
+        lunch.forEach(s -> drawLunch(g2d, s));
         normal.forEach(s -> draw(g2d, s, getLineColor()));
     }
 
@@ -65,9 +65,29 @@ public class MemberRow extends AbstractZoneRow {
         g.draw(s);
     }
 
+    private void drawLunch(Graphics2D g, Shape s) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(LUNCH_LINE);
+        g2.draw(s);
+        g2.setClip(s);
+
+        drawDiagonals(g2, toDiagonals(s.getBounds(), true));
+        drawDiagonals(g2, toDiagonals(s.getBounds(), false));
+
+        g2.dispose();
+    }
+
+    private void drawDiagonals(Graphics2D g2, Diagonals diagonals) {
+        final int DIAGONAL_SPACING = 5;
+        for (int x = diagonals.startX(); x < diagonals.endX(); x += DIAGONAL_SPACING) {
+            g2.drawLine(x, diagonals.startY(), x + diagonals.xOffset(), diagonals.endY());
+        }
+    }
+
     private List<Boundaries> normalBoundaries() {
         return getSpaceTime().toCenterBoundaries(member.normal());
     }
+
     private List<Boundaries> lunchBoundaries() {
         return getSpaceTime().toCenterBoundaries(member.lunch());
     }
@@ -97,5 +117,23 @@ public class MemberRow extends AbstractZoneRow {
 
     private String getDisplayString() {
         return String.format("%s (%s / %s)", member.name(), member.role(), member.location());
+    }
+
+    private static Diagonals toDiagonals(Rectangle shapeBounds, boolean drawDown) {
+        final Rectangle bounds = new Rectangle(shapeBounds);
+        bounds.grow(bounds.height, 0);
+
+        final int xOffset = (int) Math.round(bounds.height / Math.sin(Math.PI / 2));
+        final int topY = bounds.y;
+        final int bottomY = bounds.y + bounds.height;
+
+        if (drawDown) {
+            return new Diagonals(bounds.x, bounds.x + bounds.width, xOffset, topY, bottomY);
+        }
+        return new Diagonals(bounds.x, bounds.x + bounds.width, xOffset, bottomY, topY);
+    }
+
+    private record Diagonals(int startX, int endX, int xOffset, int startY, int endY) {
+
     }
 }
