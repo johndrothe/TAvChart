@@ -29,6 +29,7 @@ What works:
 
 * Add, remove, reorder, and edit members.
 * Import / Export CSV
+* Rudimentary PNG Export
 * Time Zone rendering
 * Normal and Lunch Hour(s) rendering
 * Collaboration Zones
@@ -76,7 +77,8 @@ Many (if not all) of the following items are not implemented.
   * Can be used to mark "Overlap Zones" or anything else necessary.
 * Export formats
   * Excel
-  * SVG / PNG
+  * SVG
+  * Full Featured PNG
   * Draw IO (?)
 * As a bonus, consider also generating a combined calendar with holidays for each region / country
   * Daugherty Holidays
