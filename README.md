@@ -25,27 +25,45 @@ generated this kind of diagram could be very valuable.
 # Status
 The current version is _workable_ but certainly not complete.
 
-You can add, remove, and edit members.
+What works:
+
+* Add, remove, reorder, and edit members.
+* Import / Export CSV
+* Time Zone rendering
+* Normal and Lunch Hour(s) rendering
+* Collaboration Zones
+  * Calculation and display
+    * Currently only displays the largest zone
+      * Largest number of team members
+      * Largest number of hours
+    * Calculates all zones that
+      * Start at one shift change and end at the next
+* Displays daylight savings time transition dates for all included zones. 
 
 <div style="width:600px">
-![swing_working_hours_0-0-1.drawio.png](docs/swing_working_hours_0-0-1.drawio.png)
+
+![swing_working_hours_0-0-1](docs/swing_working_hours_0-0-1.png)
 </div>
 
 # Wishlist
 Many (if not all) of the following items are not implemented.
 
-* Display
+* Undo / Redo
+* Canvas / Display
   * Complete handling for "Working Hours" that span days.
     * The text isn't right yet
   * Collaboration Zones (A.K.A. "Shifts")
-    * Create zones for contiguous time periods that have the same team members.
     * Allow the user to choose which zones to display
-  * Lunch Hour display
+    * Calculate zones for contiguous time periods that have the same team members.
+      * These zones would overlap two or more existing zones. 
   * Center the canvas on a user-selected time
-    * now it's always 0->24/0
+    * now it's always 0->24->0 UTC
   * Mouse handlers for changing the center canvas time
     * For teams that aren't working (entirely) in north america
   * Mouse handlers for changing a member's working hours
+* Table Editing
+  * Improved zone selector with search/sort
+  * Proper spreadsheet-esque copy/paste
 * Data Entry
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce

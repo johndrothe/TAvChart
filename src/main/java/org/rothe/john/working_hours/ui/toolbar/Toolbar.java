@@ -25,7 +25,7 @@ public class Toolbar extends JToolBar {
         val canvas = event.canvas().orElse(null);
 
         addStandardActions(table);
-        add(Box.createHorizontalGlue());
+        addSeparator();
 
         if (event.isTableDisplayed()) {
             addTableActions(table);

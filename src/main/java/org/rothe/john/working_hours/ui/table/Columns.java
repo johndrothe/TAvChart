@@ -8,8 +8,8 @@ public enum Columns {
     NAME("Name"),
     ROLE("Role"),
     LOCATION("Location"),
-    START_TIME("Start Start"),
-    END_TIME("End Time"),
+    START_TIME("Normal Start"),
+    END_TIME("Normal End"),
     LUNCH_START("Lunch Start"),
     LUNCH_END("Lunch End"),
     ZONE("Time Zone");
