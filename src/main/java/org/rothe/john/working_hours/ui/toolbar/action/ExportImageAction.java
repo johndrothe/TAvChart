@@ -1,21 +1,19 @@
 package org.rothe.john.working_hours.ui.toolbar.action;
 
 import lombok.val;
-import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.ui.CsvFileFilter;
+import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.util.Images;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
@@ -23,38 +21,51 @@ import static javax.swing.JFileChooser.APPROVE_OPTION;
 public class ExportImageAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
-    private final JComponent parent;
+    private final Canvas canvas;
+    private File lastSelected;
 
-    public ExportImageAction(JComponent parent) {
+    public ExportImageAction(Canvas canvas) {
         super("Export", Images.load("export_image.png"));
-        this.parent = parent;
+        this.canvas = canvas;
     }
 
-    public static void write(Path path, Team team) {
+    private void write(File file) {
         try {
-            Files.writeString(path, team.toCsv(), CREATE, TRUNCATE_EXISTING);
+            ImageIO.write(createImage(), "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private BufferedImage createImage() {
+        BufferedImage image = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = image.createGraphics();
+        try {
+            canvas.print(g);
+        } finally {
+            g.dispose();
+        }
+        return image;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        val team = Teams.getTeam();
+        val team = canvas.getTeam();
         if (isNull(team)) {
             return;
         }
 
-        val path = selectFile(defaultFileName(team));
-        if (nonNull(path)) {
-            write(path, team);
+        val file = selectFile(defaultFileName(team));
+        if (nonNull(file)) {
+            write(file);
+            lastSelected = file;
         }
     }
 
-    private Path selectFile(String defaultFileName) {
+    private File selectFile(String defaultFileName) {
         val chooser = newChooser(defaultFileName);
-        if (chooser.showOpenDialog(parent.getParent()) == APPROVE_OPTION) {
-            return chooser.getSelectedFile().toPath();
+        if (chooser.showOpenDialog(canvas.getParent()) == APPROVE_OPTION) {
+            return chooser.getSelectedFile();
         }
         return null;
     }
@@ -63,16 +74,24 @@ public class ExportImageAction extends ToolbarAction {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogType(JFileChooser.SAVE_DIALOG);
         chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Export to CSV");
+        chooser.setDialogTitle("Export to PNG");
         chooser.setApproveButtonText("Export");
         chooser.setDragEnabled(false);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(HOME);
-        chooser.setSelectedFile(new File(HOME, defaultFileName));
-        chooser.setFileFilter(new CsvFileFilter());
+        chooser.setSelectedFile(getInitialSelection(defaultFileName));
+        chooser.setFileFilter(new PngFileFilter());
         return chooser;
+    }
+
+    private File getInitialSelection(String defaultFileName) {
+        if(nonNull(lastSelected)) {
+            return lastSelected;
+        } else {
+            return new File(HOME, defaultFileName);
+        }
     }
 
     private static String defaultFileName(Team team) {
@@ -84,6 +103,18 @@ public class ExportImageAction extends ToolbarAction {
                 .replace(" ", "_").trim()
                 .replaceAll("[^a-z0-9_-]","@@@@@")
                 .replace("@@@@@", "")
-                .concat(".csv");
+                .concat(".png");
+    }
+
+    private static class PngFileFilter extends FileFilter {
+        @Override
+        public boolean accept(File f) {
+            return f.getName().toLowerCase().endsWith(".png");
+        }
+
+        @Override
+        public String getDescription() {
+            return "Portable Network Graphic (*.png)";
+        }
     }
 }
