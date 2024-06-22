@@ -1,12 +1,11 @@
-A simple "Working Hours Diagram" AKA "Team Schedule Lineup" generator.
-
-This version is a graphical desktop application using Java/Swing. 
+A Java/Swing desktop application that generates diagrams showing the 
+normal working hours of the members of a team. 
 
 # Background
-I drew a daily working hours diagram in Draw IO for a client.
-It was very when trying to figure out where schedules lined up and the time windows we 
-could use to work together. We made great use of it when we were laying out the ceremonies 
-we were going to use.
+This project started with a daily working hours diagram created for a client in Draw IO.
+This allowed the team to see where our schedules lined up and thus how much time we had
+to actively collaborate ("Collaboration Zones"). This was especially useful when deciding
+what Agile ceremonies we had time for and when they should be scheduled.
 
 The following is the original Draw IO diagram.
 <div style="width:600px">
@@ -14,16 +13,16 @@ The following is the original Draw IO diagram.
 ![Working_Hours_no_names.drawio.png](docs/Working_Hours_no_names.drawio.png)
 </div>
 
-
-For example: A quick look at the diagram told us that the scrum master was going to have
+A quick look at the diagram told us that the scrum master was going to have
 access to the entire team only 1.5-2 hours per day. Our daily ceremonies were going to
 have to be very lean to keep from chewing up that precious overlap time.
 
-Considering the number of combined and near-shore teams we have, a tool that quickly 
-generated this kind of diagram could be very valuable.
+Based on this experience, it seemed pretty obvious that we could make great use of an
+application that generated these diagrams.
 
 # Status
-The current version is _workable_ but certainly not complete.
+The current version is at a point that is useful for its original purpose 
+but by no means complete.
 
 What works:
 
