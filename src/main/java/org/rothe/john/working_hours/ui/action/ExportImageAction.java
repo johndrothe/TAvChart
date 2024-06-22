@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Team;
@@ -25,7 +25,7 @@ public class ExportImageAction extends ToolbarAction {
     private File lastSelected;
 
     public ExportImageAction(Canvas canvas) {
-        super("Export", Images.load("export_image.png"));
+        super("Export PNG", Images.load("export_image.png"));
         this.canvas = canvas;
     }
 

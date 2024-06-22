@@ -1,15 +1,15 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.util.Images;
 
 import java.awt.event.ActionEvent;
 
-public class PasteAction extends ToolbarAction {
+public class CopyAction extends ToolbarAction {
     private final MembersTable table;
 
-    public PasteAction(MembersTable table) {
-        super("Paste", Images.load("paste.png"));
+    public CopyAction(MembersTable table) {
+        super("Copy", Images.load("copy.png"));
         this.table = table;
     }
 

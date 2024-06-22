@@ -49,7 +49,8 @@ What works:
 # Wishlist
 Many (if not all) of the following items are not implemented.
 
-* Undo / Redo
+* Context locations for Undo / Redo
+  * i.e. "Go to where the change was"
 * Canvas / Display
   * Complete handling for "Working Hours" that span days.
     * The text isn't right yet

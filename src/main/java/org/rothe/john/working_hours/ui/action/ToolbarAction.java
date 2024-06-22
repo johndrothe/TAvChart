@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;

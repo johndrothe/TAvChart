@@ -1,10 +1,11 @@
 package org.rothe.john.working_hours.ui;
 
 import org.rothe.john.working_hours.event.Teams;
+import org.rothe.john.working_hours.event.undo.UndoListener;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
-import org.rothe.john.working_hours.ui.toolbar.Toolbar;
-import org.rothe.john.working_hours.ui.toolbar.action.DisplayChangeEvent;
+import org.rothe.john.working_hours.ui.action.DisplayChangeEvent;
+import org.rothe.john.working_hours.util.GBCBuilder;
 import org.rothe.john.working_hours.util.SampleFactory;
 
 import javax.swing.*;
@@ -16,11 +17,13 @@ import java.awt.event.WindowEvent;
 import static java.awt.BorderLayout.CENTER;
 
 public class ApplicationFrame extends JFrame {
-    private final Toolbar toolBar = new Toolbar();
+    private final UndoListener listener = new UndoListener();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final MembersTablePanel tablePanel = new MembersTablePanel();
     private final Canvas canvas = new Canvas();
+    private final Toolbar toolBar = new Toolbar(listener);
+    private final MenuBar menuBar = new MenuBar(canvas, tablePanel.getTable(), listener);
 
     public ApplicationFrame() {
         super("Team Scheduler - 0.0.1");
@@ -30,7 +33,9 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void initialize() {
-        getContentPane().add(toolBar, BorderLayout.NORTH);
+        Teams.addTeamListener(listener);
+
+        initNorth();
 
         initCenter();
         doLayout();
@@ -41,6 +46,14 @@ public class ApplicationFrame extends JFrame {
         tabChanged(null);
 
         Teams.fireTeamChanged(this, "New", SampleFactory.newTeam());
+    }
+
+    private void initNorth() {
+        JPanel northPanel = new JPanel(new GridBagLayout());
+        getContentPane().add(northPanel, BorderLayout.NORTH);
+
+        northPanel.add(menuBar, new GBCBuilder().gridy(0).weightx(1.0).fillHorizontal().build());
+        northPanel.add(toolBar, new GBCBuilder().gridy(1).weightx(1.0).fillHorizontal().build());
     }
 
     private void initCenter() {

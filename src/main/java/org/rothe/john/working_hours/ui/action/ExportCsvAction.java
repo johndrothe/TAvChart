@@ -1,9 +1,9 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
+import org.rothe.john.working_hours.io.CsvFileFilter;
 import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.ui.CsvFileFilter;
 import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.util.Images;
 
@@ -26,7 +26,7 @@ public class ExportCsvAction extends ToolbarAction {
     private final MembersTable table;
 
     public ExportCsvAction(MembersTable table) {
-        super("Export", Images.load("save.png"));
+        super("Export CSV", Images.load("save.png"));
         this.table = table;
     }
 

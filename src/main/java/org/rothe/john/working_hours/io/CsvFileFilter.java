@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui;
+package org.rothe.john.working_hours.io;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;

@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;

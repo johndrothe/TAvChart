@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import org.rothe.john.working_hours.event.TeamChangedEvent;
 import org.rothe.john.working_hours.event.TeamListener;
@@ -9,11 +9,11 @@ import org.rothe.john.working_hours.util.Images;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class RedoAction extends ToolbarAction implements TeamListener {
+public class UndoAction extends ToolbarAction implements TeamListener {
     private final UndoListener listener;
 
-    public RedoAction(UndoListener listener) {
-        super("Redo", Images.load("redo.png"));
+    public UndoAction(UndoListener listener) {
+        super("Undo", Images.load("undo.png"));
         this.listener = listener;
 
         Teams.addTeamListener(this);
@@ -21,7 +21,7 @@ public class RedoAction extends ToolbarAction implements TeamListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        listener.redo();
+        listener.undo();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class RedoAction extends ToolbarAction implements TeamListener {
     }
 
     private void updateDisplay() {
-        putValue(SHORT_DESCRIPTION, listener.getRedoPresentationName());
-        setEnabled(listener.canRedo());
+        putValue(SHORT_DESCRIPTION, listener.getUndoPresentationName());
+        setEnabled(listener.canUndo());
     }
 }

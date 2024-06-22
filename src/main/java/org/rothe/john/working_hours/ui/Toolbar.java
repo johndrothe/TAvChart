@@ -1,17 +1,19 @@
-package org.rothe.john.working_hours.ui.toolbar;
+package org.rothe.john.working_hours.ui;
 
 import lombok.val;
-import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.event.undo.UndoListener;
+import org.rothe.john.working_hours.ui.action.*;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTable;
-import org.rothe.john.working_hours.ui.toolbar.action.*;
 
 import javax.swing.*;
 
 public class Toolbar extends JToolBar {
-    public Toolbar() {
+    private final UndoListener listener;
+
+    public Toolbar(UndoListener listener) {
         super();
+        this.listener = listener;
         setFloatable(false);
     }
 
@@ -64,9 +66,6 @@ public class Toolbar extends JToolBar {
     }
 
     private void initializeUndoRedo() {
-        UndoListener listener = new UndoListener();
-        Teams.addTeamListener(listener);
-
         add(new UndoAction(listener));
         add(new RedoAction(listener));
     }

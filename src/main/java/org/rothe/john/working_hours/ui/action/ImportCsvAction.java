@@ -1,9 +1,9 @@
-package org.rothe.john.working_hours.ui.toolbar.action;
+package org.rothe.john.working_hours.ui.action;
 
 import lombok.val;
 import org.rothe.john.working_hours.event.Teams;
+import org.rothe.john.working_hours.io.CsvFileFilter;
 import org.rothe.john.working_hours.model.Team;
-import org.rothe.john.working_hours.ui.CsvFileFilter;
 import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.util.Images;
 
@@ -23,7 +23,7 @@ public class ImportCsvAction extends ToolbarAction {
     private final MembersTable table;
 
     public ImportCsvAction(MembersTable table) {
-        super("Import", Images.load("load.png"));
+        super("Import CSV", Images.load("load.png"));
         this.table = table;
     }
 
