@@ -54,6 +54,9 @@ public class Toolbar extends JToolBar {
     }
 
     private void addStandardActions(MembersTable table) {
+        add(new NewTeamAction(getRootPane()));
+
+        addSeparator();
         add(new ImportCsvAction(table));
         add(new ExportCsvAction(table));
 

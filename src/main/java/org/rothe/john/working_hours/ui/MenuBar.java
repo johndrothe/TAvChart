@@ -44,13 +44,15 @@ public class MenuBar extends JMenuBar {
     private void addFileMenu() {
         val menu = newMenu("File", 'F');
 
+        menu.add(newItem(new NewTeamAction(getRootPane()), 'N'));
+        menu.addSeparator();
         menu.add(new ImportCsvAction(table));
         menu.add(new ExportCsvAction(table));
         menu.addSeparator();
         menu.add(new ExportImageAction(canvas));
         menu.addSeparator();
 
-        menu.add(newItem(new ExitAction(this), 'X'));
+        menu.add(newItem(new ExitAction(getRootPane()), 'X'));
     }
 
     private void addEditMenu() {

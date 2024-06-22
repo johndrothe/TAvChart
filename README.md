@@ -43,10 +43,13 @@ This version has the following features implemented.
   * Collaboration Zones
     * Displays the largest zone (the most team members present for the longest duration).
     * Calculates all zones that start at one shift change and end at the next.
+* Icons for the toolbar / menu bar
+  * The current set is from https://iconoir.com/
 
 
 # Features Wishlist
 
+* Color icons for the toolbar / menu bar 
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
 * Canvas / Display
