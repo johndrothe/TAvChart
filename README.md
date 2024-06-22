@@ -20,44 +20,42 @@ have to be very lean to keep from chewing up that precious overlap time.
 Based on this experience, it seemed pretty obvious that we could make great use of an
 application that generated these diagrams.
 
-# Status
-The current version is at a point that is useful for its original purpose 
+# Current Features
+The latest release is at a point that is useful for its original purpose 
 but by no means complete.
-
-What works:
-
-* Add, remove, reorder, and edit members.
-* Undo / Redo
-* Import / Export CSV
-* Rudimentary PNG Export
-* Time Zone rendering
-* Normal and Lunch Hour(s) rendering
-* Collaboration Zones
-  * Calculation and display
-    * Currently only displays the largest zone
-      * Largest number of team members
-      * Largest number of hours
-    * Calculates all zones that
-      * Start at one shift change and end at the next
-* Displays daylight savings time transition dates for all included zones. 
 
 <div style="width:600px">
 
 ![swing_working_hours_0-1-0](docs/swing_working_hours_0-1-0.png)
 </div>
 
-# Wishlist
-Many (if not all) of the following items are not implemented.
+This version has the following features implemented.
+
+* Undo / Redo
+* Table editing for team members
+  * add/remove, reorder, etc.
+  * Import / Export CSV
+* Working Hours Diagram
+  * Rudimentary PNG Export
+  * Displays every Time Zone with a member in it plus UTC.  
+  * Displays normal and "lunch hour"
+  * Displays daylight savings time transition dates for all included zones.
+  * Collaboration Zones
+    * Displays the largest zone (the most team members present for the longest duration).
+    * Calculates all zones that start at one shift change and end at the next.
+
+
+# Features Wishlist
 
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
 * Canvas / Display
   * Complete handling for "Working Hours" that span days.
     * The text isn't right yet
-  * Collaboration Zones (A.K.A. "Shifts")
+  * Collaboration Zones
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same team members.
-      * These zones would overlap two or more existing zones. 
+      * These zones would overlap two or more of the zones that are currently being calculated. 
   * Center the canvas on a user-selected time
     * now it's always 0->24->0 UTC
   * Mouse handlers for changing the center canvas time
@@ -82,6 +80,6 @@ Many (if not all) of the following items are not implemented.
   * Full Featured PNG
   * Draw IO (?)
 * As a bonus, consider also generating a combined calendar with holidays for each region / country
-  * Daugherty Holidays
+  * Company Holidays
   * "Bank Holidays"
   * Holidays for the selected client (?)
