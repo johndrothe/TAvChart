@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.canvas.st;
+package org.rothe.john.working_hours.ui.canvas.util;
 
 public record Boundaries(int left, int right) {
     public Boundaries(int left, int right) {

@@ -8,45 +8,31 @@ import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.model.Zone;
-import org.rothe.john.working_hours.ui.canvas.rows.AbstractZoneRow;
-import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
-import org.rothe.john.working_hours.ui.canvas.rows.MemberRow;
-import org.rothe.john.working_hours.ui.canvas.rows.ZoneRow;
-import org.rothe.john.working_hours.ui.canvas.rows.ZoneTransitionsRow;
 import org.rothe.john.working_hours.ui.canvas.painters.CollabZonePainter;
-import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
-import org.rothe.john.working_hours.ui.canvas.util.CanvasInfoImpl;
 import org.rothe.john.working_hours.ui.canvas.painters.GridPainter;
+import org.rothe.john.working_hours.ui.canvas.rows.*;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.ui.canvas.util.RowList;
 import org.rothe.john.working_hours.util.GBCBuilder;
 
-import javax.swing.Box;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
-import static javax.swing.BorderFactory.createCompoundBorder;
-import static javax.swing.BorderFactory.createEmptyBorder;
-import static javax.swing.BorderFactory.createLineBorder;
+import static javax.swing.BorderFactory.*;
 
 public class Canvas extends JPanel implements TeamListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
-    private final CanvasInfoImpl canvasInfo = new CanvasInfoImpl(rows);
-    private final SpaceTime spaceTime = canvasInfo.spaceTime();
-    private final GridPainter gridPainter = new GridPainter(this, spaceTime);
-    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, spaceTime);
+    private final CanvasCalculator calculator = new CanvasCalculator(rows);
+    private final GridPainter gridPainter = new GridPainter(this, calculator);
+    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, calculator);
     private Palette palette = null;
 
     @Getter
@@ -78,7 +64,7 @@ public class Canvas extends JPanel implements TeamListener {
 
     @Override
     protected void paintChildren(Graphics g) {
-        canvasInfo.update((Graphics2D) g);
+        calculator.update((Graphics2D) g);
 
         applyRenderingHints((Graphics2D) g);
 
@@ -126,7 +112,7 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     private void addZones(List<Zone> zones) {
-        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(canvasInfo, zoneId, palette);
+        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(calculator, zoneId, palette);
 
         zones.stream()
                 .map(toRow)
@@ -135,7 +121,7 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     private void addMembers(List<Member> members) {
-        final Function<Member, MemberRow> toRow = member -> new MemberRow(canvasInfo, member, palette);
+        final Function<Member, MemberRow> toRow = member -> new MemberRow(calculator, member, palette);
 
         members.stream()
                 .map(toRow)
@@ -154,7 +140,7 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     private void addTransitionsRow(List<Zone> zoneIds) {
-        val row = new ZoneTransitionsRow(canvasInfo, zoneIds);
+        val row = new ZoneTransitionsRow(calculator, zoneIds);
         add(row, transitionsConstraints());
         rows.add(row);
     }

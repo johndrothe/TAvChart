@@ -2,20 +2,18 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Time;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.canvas.util.Palette;
 import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
+import org.rothe.john.working_hours.ui.canvas.util.Palette;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public class ZoneRow extends AbstractZoneRow {
     private static final int TEXT_MARGIN = 5;
     private final Color lineHintColor;
 
-    public ZoneRow(CanvasInfo canvasInfo, Zone zone, Palette palette) {
-        super(canvasInfo, zone, palette);
+    public ZoneRow(CanvasCalculator calculator, Zone zone, Palette palette) {
+        super(calculator, zone, palette);
         lineHintColor = getLineHintColor();
     }
 
@@ -28,7 +26,7 @@ public class ZoneRow extends AbstractZoneRow {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         val g2d = (Graphics2D) g;
-        val hourColumnWidth = getCanvasInfo().getHourColumnWidth();
+        val hourColumnWidth = getCalculator().hourColumnWidth();
         val offset = getOffsetHours();
 
         paintRowShape(g);
@@ -56,7 +54,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintTimeZone(Graphics2D g2d, int hourUtc, int offset, double hourColumnWidth) {
-        val x = getSpaceTime().toColumnStart(hourUtc * 60);
+        val x = getCalculator().toColumnStart(hourUtc * 60);
 
         g2d.setColor(lineHintColor);
         g2d.drawLine(x, 6, x, getHeight() - 6);
@@ -67,7 +65,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintRowFooter(Graphics2D g2d) {
-        val x = getSpaceTime().toColumnStart(25 * 60) + TEXT_MARGIN;
+        val x = getCalculator().toColumnStart(25 * 60) + TEXT_MARGIN;
         g2d.setColor(getTextColor());
         drawLeftJustified(g2d, getRowFooter(), x);
     }

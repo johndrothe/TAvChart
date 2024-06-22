@@ -2,15 +2,11 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Zone;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.working_hours.util.GBCBuilder;
 
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 // Note that the daylight savings time offset from UTC is always one higher in locations that use it.
@@ -21,8 +17,8 @@ public class ZoneTransitionsRow extends CanvasRow {
 
     private final List<Zone> zones;
 
-    public ZoneTransitionsRow(CanvasInfo canvasInfo, List<Zone> zones) {
-        super(canvasInfo, COLOR_FILL, COLOR_LINE);
+    public ZoneTransitionsRow(CanvasCalculator calculator, List<Zone> zones) {
+        super(calculator, COLOR_FILL, COLOR_LINE);
         this.zones = zones;
 
         setLayout(new GridBagLayout());

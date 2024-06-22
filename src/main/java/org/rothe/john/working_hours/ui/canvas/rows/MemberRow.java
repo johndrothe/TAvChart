@@ -3,8 +3,8 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.canvas.st.Boundaries;
+import org.rothe.john.working_hours.ui.canvas.util.Boundaries;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 
 import java.awt.*;
@@ -15,12 +15,10 @@ import java.util.List;
 @Getter
 public class MemberRow extends AbstractZoneRow {
     private static final Color LUNCH_LINE = new Color(255, 0, 255, 25);
-
-
     private final Member member;
 
-    public MemberRow(CanvasInfo canvasInfo, Member member, Palette palette) {
-        super(canvasInfo, member.zone(), palette);
+    public MemberRow(CanvasCalculator calculator, Member member, Palette palette) {
+        super(calculator, member.zone(), palette);
         setOpaque(false);
         this.member = member;
     }
@@ -85,11 +83,11 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private List<Boundaries> normalBoundaries() {
-        return getSpaceTime().toCenterBoundaries(member.normal());
+        return getCalculator().toCenterBoundaries(member.normal());
     }
 
     private List<Boundaries> lunchBoundaries() {
-        return getSpaceTime().toCenterBoundaries(member.lunch());
+        return getCalculator().toCenterBoundaries(member.lunch());
     }
 
     private List<Shape> toShapes(List<Boundaries> boundaries) {

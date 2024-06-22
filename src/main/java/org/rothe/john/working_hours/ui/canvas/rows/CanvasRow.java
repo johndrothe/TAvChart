@@ -3,29 +3,22 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
-import org.rothe.john.working_hours.ui.canvas.CanvasInfo;
-import org.rothe.john.working_hours.ui.canvas.st.SpaceTime;
+import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 @Getter(AccessLevel.PROTECTED)
 public abstract class CanvasRow extends JPanel {
-    private final CanvasInfo canvasInfo;
-    private final SpaceTime spaceTime;
+    private final CanvasCalculator calculator;
     private final Color textColor = Color.BLACK;
     private final Color lineColor;
     private final Color fillColor;
 
-    protected CanvasRow(CanvasInfo canvasInfo, Color fillColor, Color lineColor) {
+    protected CanvasRow(CanvasCalculator calculator, Color fillColor, Color lineColor) {
         super(new BorderLayout());
-        this.canvasInfo = canvasInfo;
-        this.spaceTime = canvasInfo.spaceTime();
+        this.calculator = calculator;
         this.fillColor = fillColor;
         this.lineColor = lineColor;
         setFont(getFont().deriveFont(Font.PLAIN));
@@ -45,15 +38,15 @@ public abstract class CanvasRow extends JPanel {
     }
 
     protected int getRowHeaderWidth() {
-        return canvasInfo.getRowHeaderWidth();
+        return calculator.rowHeaderWidth();
     }
 
     protected int getRowFooterWidth() {
-        return canvasInfo.getRowFooterWidth();
+        return calculator.rowFooterWidth();
     }
 
-    protected CanvasInfo getCanvasInfo() {
-        return canvasInfo;
+    protected CanvasCalculator getCalculator() {
+        return calculator;
     }
 
     protected void drawCentered(Graphics2D g2d, String text, double x, double width) {
