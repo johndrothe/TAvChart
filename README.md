@@ -28,6 +28,7 @@ The current version is _workable_ but certainly not complete.
 What works:
 
 * Add, remove, reorder, and edit members.
+* Undo / Redo
 * Import / Export CSV
 * Rudimentary PNG Export
 * Time Zone rendering
@@ -43,7 +44,7 @@ What works:
 
 <div style="width:600px">
 
-![swing_working_hours_0-0-1](docs/swing_working_hours_0-0-1.png)
+![swing_working_hours_0-1-0](docs/swing_working_hours_0-1-0.png)
 </div>
 
 # Wishlist
