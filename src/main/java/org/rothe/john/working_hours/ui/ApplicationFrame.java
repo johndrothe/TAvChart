@@ -2,18 +2,14 @@ package org.rothe.john.working_hours.ui;
 
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
-import org.rothe.john.working_hours.ui.table.MembersTable;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
 import org.rothe.john.working_hours.ui.toolbar.Toolbar;
 import org.rothe.john.working_hours.ui.toolbar.action.DisplayChangeEvent;
 import org.rothe.john.working_hours.util.SampleFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

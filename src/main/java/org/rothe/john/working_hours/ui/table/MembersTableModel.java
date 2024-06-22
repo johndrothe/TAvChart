@@ -174,6 +174,8 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private void fireTeamChanged(int columnIndex, Team newTeam) {
-        Teams.fireTeamChanged(this, Columns.getColumn(columnIndex).getDescription(), newTeam);
+        Teams.fireTeamChanged(this,
+                "Edit " + Columns.getColumn(columnIndex).getDescription(),
+                newTeam);
     }
 }
