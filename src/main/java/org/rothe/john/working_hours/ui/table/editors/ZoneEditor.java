@@ -1,10 +1,10 @@
 package org.rothe.john.working_hours.ui.table.editors;
 
+import lombok.val;
 import org.rothe.john.working_hours.model.Zone;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
+import javax.swing.*;
+import java.awt.*;
 
 public class ZoneEditor extends DefaultCellEditor {
     public ZoneEditor() {
@@ -17,5 +17,12 @@ public class ZoneEditor extends DefaultCellEditor {
 
     private static DefaultComboBoxModel<Zone> newComboModel() {
         return new DefaultComboBoxModel<>(Zone.getAvailableZones());
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        val component = super.getTableCellEditorComponent(table, value, isSelected, row, column);
+        component.setFont(table.getFont());
+        return component;
     }
 }

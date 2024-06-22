@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
 
 public class ColumnSizing {
     private static final int MINIMUM = 15;
-    private static final int MAXIMUM = 300;
+    private static final int MAXIMUM = 500;
     private static final int PADDING = 10;
     private final JTable table;
 
@@ -31,7 +31,8 @@ public class ColumnSizing {
 
     private int getColumnWidth(int column) {
         return Math.min(MAXIMUM,
-                Math.max(getMaxRowWidth(column),
+                max(getColumnMinimum(column),
+                        getMaxRowWidth(column),
                         getColumn(column).getPreferredWidth()));
     }
 
@@ -44,6 +45,13 @@ public class ColumnSizing {
 
     private int getMaxRowWidth(int row, int column) {
         return getCellRenderer(row, column).getPreferredSize().width;
+    }
+
+    private int getColumnMinimum(final int column) {
+        if (column == Columns.ZONE.ordinal()) {
+            return 300;
+        }
+        return MINIMUM;
     }
 
     private Component getCellRenderer(int row, int column) {
@@ -61,6 +69,10 @@ public class ColumnSizing {
 
     private TableColumn getColumn(int columnIndex) {
         return table.getColumnModel().getColumn(columnIndex);
+    }
+
+    private int max(int v1, int v2, int v3) {
+        return Math.max(v1, Math.max(v2, v3));
     }
 }
 
