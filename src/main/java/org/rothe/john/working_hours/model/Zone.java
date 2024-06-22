@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static java.time.temporal.ChronoField.OFFSET_SECONDS;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class Zone {
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
@@ -36,10 +38,6 @@ public class Zone {
 
     public ZoneRules getRules() {
         return zoneId.getRules();
-    }
-
-    public boolean isFixedOffset() {
-        return zoneId.getRules().isFixedOffset();
     }
 
     public String getAbbrevAndOffset() {
@@ -88,9 +86,20 @@ public class Zone {
         ZoneOffsetTransition next = rules.nextTransition(Instant.now());
         ZoneOffsetTransition prev = rules.previousTransition(Instant.now());
 
-        return String.format("(%s   →   %s)",
-                prev.getDateTimeBefore().format(TRANSITION_FORMATTER),
-                next.getDateTimeAfter().format(TRANSITION_FORMATTER));
+        return String.format("(%s   →   %s)", format(prev), format(next));
+    }
+
+    public boolean hasTransitions() {
+        val rules = zoneId.getRules();
+        return nonNull(rules.previousTransition(Instant.now()))
+                && nonNull(rules.nextTransition(Instant.now()));
+    }
+
+    private static String format(ZoneOffsetTransition transition) {
+        if(isNull(transition)) {
+            return "None";
+        }
+        return transition.getDateTimeBefore().format(TRANSITION_FORMATTER);
     }
 
     public static Zone fromCsv(String id) {

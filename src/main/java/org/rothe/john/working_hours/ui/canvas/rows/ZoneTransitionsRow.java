@@ -47,7 +47,7 @@ public class ZoneTransitionsRow extends CanvasRow {
         add(new JLabel(TITLE), titleConstraints());
 
         zones.stream()
-                .filter(z-> !z.isFixedOffset())
+                .filter(Zone::hasTransitions)
                 .forEach(this::addLabels);
     }
 
