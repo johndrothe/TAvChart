@@ -11,16 +11,16 @@ import javax.swing.*;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import static java.util.Objects.nonNull;
+
 public class MembersTable extends JTable {
     private Team team;
 
     public MembersTable() {
         super(new MembersTableModel());
-        setCellSelectionEnabled(true);
-        setRowHeight(26);
+        updateTableConfiguration();
 
-        setDefaultEditor(LocalTime.class, new LocalTimeEditor());
-        setDefaultEditor(Zone.class, new ZoneEditor());
+        initializeEditors();
     }
 
     public Team getTeam() {
@@ -30,6 +30,10 @@ public class MembersTable extends JTable {
     public void setTeam(Team team) {
         this.team = team;
         getModel().setTeam(team);
+
+        if(nonNull(team)) {
+            SwingUtilities.invokeLater(()-> ColumnSizing.adjust(MembersTable.this));
+        }
         repaint();
     }
 
@@ -44,5 +48,17 @@ public class MembersTable extends JTable {
             return Optional.of(team.getMembers().get(index));
         }
         return Optional.empty();
+    }
+
+    private void updateTableConfiguration() {
+        setCellSelectionEnabled(true);
+        setRowHeight(26);
+        setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        getTableHeader().setReorderingAllowed(false);
+    }
+
+    private void initializeEditors() {
+        setDefaultEditor(LocalTime.class, new LocalTimeEditor());
+        setDefaultEditor(Zone.class, new ZoneEditor());
     }
 }
