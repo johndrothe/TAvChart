@@ -29,6 +29,20 @@ public abstract class SampleFactory {
         );
     }
 
+    public static List<Member> centeringDebugMembers() {
+        return List.of(
+                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("Z"), 13),
+                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("Z"), 13),
+                toMember("CCCCCCC CCCCCCC", "NYC", "08:00-17:00", toZone("America/New_York"), 14),
+                toMember("DDDDD DDDDDDDDD", "NYC", "11:00-20:00", toZone("America/New_York"), 16),
+                toMember("EEE EEEEEEEEEEE", "CHI", "08:00-17:00", toZone("America/Chicago"), 16),
+                toMember("FF FFFFFFFFFFFF", "PL", "08:00-17:00", toZone("Poland"), 16),
+                toMember("GG GGGGGGGGGGGG", "LAX", "08:00-17:00", toZone("America/Los_Angeles"),18),
+                toMember("HHHHH HHHHHHHHH", "LAX", "10:00-19:00", toZone("America/Los_Angeles"), 19),
+                toMember("JJJJ JJJJJJJJJJ", "LAX", "12:00-21:00", toZone("America/Los_Angeles"), 19)
+        );
+    }
+
     public static List<Member> debugShiftMembers() {
         return List.of(
                 toMember("Person #1", "UTC", "00:00-09:00", toZone("Z"), 19),

@@ -2,17 +2,20 @@ package org.rothe.john.working_hours.ui.canvas.util;
 
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.TimePair;
+import org.rothe.john.working_hours.ui.canvas.Canvas;
 
 import java.awt.*;
 import java.util.List;
 
 public class CanvasCalculator {
+    private final Canvas canvas;
     private final RowList rows;
     private int headerWidth = 0;
     private int footerWidth = 0;
     private double hourColumnWidth = 0;
 
-    public CanvasCalculator(RowList rows) {
+    public CanvasCalculator(Canvas canvas, RowList rows) {
+        this.canvas = canvas;
         this.rows = rows;
     }
 
@@ -40,7 +43,7 @@ public class CanvasCalculator {
     }
 
     public int toColumnStart(int minutesUtc) {
-        return rowHeaderWidth() + round(minutesUtc / 60.0 * hourColumnWidth());
+        return rowHeaderWidth() + round(toMinuteLocation(minutesUtc) / 60.0 * hourColumnWidth());
     }
 
     private boolean isRightBoundary(Time time) {
@@ -55,7 +58,7 @@ public class CanvasCalculator {
     }
 
     int getRightColumnCenter() {
-        return toColumnCenter(24 * 60, rowHeaderWidth(), hourColumnWidth());
+        return toColumnCenter((getBorderHour() + 24) * 60, rowHeaderWidth(), hourColumnWidth());
     }
 
     public int toColumnCenter(Time time) {
@@ -66,8 +69,16 @@ public class CanvasCalculator {
         return toColumnCenter(minutesUtc, rowHeaderWidth(), hourColumnWidth());
     }
 
-    static int toColumnCenter(int minutesUtc, int headerWidth, double hourColumnWidth) {
-        return headerWidth + round((minutesUtc / 60.0 * hourColumnWidth) + (hourColumnWidth / 2.0));
+    int toColumnCenter(int minutesUtc, int headerWidth, double hourColumnWidth) {
+        return headerWidth + round((toMinuteLocation(minutesUtc) / 60.0 * hourColumnWidth) + (hourColumnWidth / 2.0));
+    }
+
+    private int toMinuteLocation(int minutesUtc) {
+        int minuteLocation = minutesUtc - getBorderHour() * 60;
+        if (minuteLocation < 0) {
+            return minuteLocation + Time.MINUTES_IN_A_DAY;
+        }
+        return minuteLocation;
     }
 
     private static int round(double value) {
@@ -87,11 +98,11 @@ public class CanvasCalculator {
     }
 
     public int getBorderHour() {
-        return 0;
+        return canvas.getBorderHour();
     }
 
     public int getCenterHour() {
-        return 12;
+        return Time.normalizeHour(getBorderHour() + 12);
     }
 
     private double calculateHourColumnWidth() {

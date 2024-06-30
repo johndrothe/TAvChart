@@ -27,14 +27,16 @@ public class GridPainter {
 
     private void paintMajorLines(Target target) {
         target.switchToMajorColor();
-        for (int hour = 0; hour < 25; ++hour) {
+        int borderHour = canvasCalculator.getBorderHour();
+        for (int hour = borderHour; hour < borderHour + 25; ++hour) {
             paintLine(target, hour * 60);
         }
     }
 
     private void paintMinorLines(Target target) {
         target.switchToMinorColor();
-        for (int hour = 0; hour < 24; ++hour) {
+        int borderHour = canvasCalculator.getBorderHour();
+        for (int hour = borderHour; hour < borderHour + 24; ++hour) {
             int minutesUtc = hour * 60;
             paintLine(target, minutesUtc + 15);
             paintLine(target, minutesUtc + 30);

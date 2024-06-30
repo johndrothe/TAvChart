@@ -20,4 +20,52 @@ class TimeTest {
         assertEquals(Time.at(LAX, 3), Time.fromHoursUtc(LAX, 10));
         assertEquals(Time.at(PL, 12), Time.fromHoursUtc(PL, 10));
     }
+
+    @Test
+    void normalizeHours() {
+        assertEquals(0, Time.normalizeHour(0));
+        assertEquals(1, Time.normalizeHour(1));
+        assertEquals(11, Time.normalizeHour(11));
+        assertEquals(23, Time.normalizeHour(23));
+    }
+
+    @Test
+    void normalizeHoursOver24() {
+        assertEquals(0, Time.normalizeHour(24));
+        assertEquals(1, Time.normalizeHour(24 + 1));
+        assertEquals(11, Time.normalizeHour(24 + 11));
+        assertEquals(23, Time.normalizeHour(24 + 23));
+    }
+
+    @Test
+    void normalizeHoursBelowZero() {
+        assertEquals(0, Time.normalizeHour(-24));
+        assertEquals(1, Time.normalizeHour(1 - 24));
+        assertEquals(11, Time.normalizeHour(11 - 24));
+        assertEquals(23, Time.normalizeHour(23 - 24));
+    }
+
+    @Test
+    void normalizeMinutes() {
+        assertEquals(0, Time.normalizeMinutes(0));
+        assertEquals(60, Time.normalizeMinutes(60));
+        assertEquals(11 * 60, Time.normalizeMinutes(11 * 60));
+        assertEquals(23 * 60, Time.normalizeMinutes(23 * 60));
+    }
+
+    @Test
+    void normalizeMinutesOver24Hours() {
+        assertEquals(0, Time.normalizeMinutes((24) * 60));
+        assertEquals(60, Time.normalizeMinutes((24 + 1) * 60));
+        assertEquals(11 * 60, Time.normalizeMinutes((24 + 11) * 60));
+        assertEquals(23 * 60, Time.normalizeMinutes((24 + 23) * 60));
+    }
+
+    @Test
+    void normalizeMinutesBelowZero() {
+        assertEquals(0, Time.normalizeMinutes((-24) * 60));
+        assertEquals(60, Time.normalizeMinutes((1 - 24) * 60));
+        assertEquals(11 * 60, Time.normalizeMinutes((11 - 24) * 60));
+        assertEquals(23 * 60, Time.normalizeMinutes((23 - 24) * 60));
+    }
 }

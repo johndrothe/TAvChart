@@ -1,5 +1,6 @@
 package org.rothe.john.working_hours.ui.canvas;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.event.TeamChangedEvent;
@@ -30,16 +31,24 @@ import static javax.swing.BorderFactory.*;
 public class Canvas extends JPanel implements TeamListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
-    private final CanvasCalculator calculator = new CanvasCalculator(rows);
-    private final GridPainter gridPainter = new GridPainter(this, calculator);
-    private final CollabZonePainter collabZonePainter = new CollabZonePainter(this, calculator);
+    private final CanvasCalculator calculator;
+    private final GridPainter gridPainter;
+    private final CollabZonePainter collabZonePainter;
     private Palette palette = null;
+
+    @Getter(AccessLevel.PUBLIC)
+    private int borderHour = 0;
 
     @Getter
     private Team team = null;
 
     public Canvas() {
         super();
+
+        this.calculator = new CanvasCalculator(this, rows);
+        this.gridPainter = new GridPainter(this, calculator);
+        this.collabZonePainter = new CollabZonePainter(this, calculator);
+
         setBackground(Color.WHITE);
         setOpaque(true);
         setBorder(border());

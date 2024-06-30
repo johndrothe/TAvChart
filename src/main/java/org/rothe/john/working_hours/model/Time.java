@@ -52,6 +52,14 @@ public class Time {
         return h;
     }
 
+    public static int normalizeMinutes(int minutes) {
+        int m = minutes % MINUTES_IN_A_DAY;
+        if (m < 0) {
+            return m + MINUTES_IN_A_DAY;
+        }
+        return m;
+    }
+
     public int hourLocal() {
         return local.getHour();
     }

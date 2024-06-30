@@ -1,29 +1,36 @@
 package org.rothe.john.working_hours.ui.canvas.util;
 
 import lombok.val;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.canvas.rows.CanvasRow;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CanvasCalculatorTest {
     private final Zone UTC = Zone.fromCsv("Z");
     private final Zone NYC = Zone.fromCsv("America/New_York");
 
+    private final Canvas canvas = mock(Canvas.class);
     private final RowList rowList = mock(RowList.class);
-    private final CanvasCalculator calculator = new CanvasCalculator(rowList);
+    private final CanvasCalculator calculator = new CanvasCalculator(canvas, rowList);
 
     CanvasCalculatorTest() {
         mockRowList();
         calculator.update(null);
+    }
+
+    @BeforeEach
+    void setUp() {
+        reset(canvas);
     }
 
     @Test
@@ -88,14 +95,62 @@ class CanvasCalculatorTest {
         assertEquals(200, calculator.toColumnStart(0));
         assertEquals(300, calculator.toColumnStart(60));
         assertEquals(400, calculator.toColumnStart(120));
+        assertEquals(2600, calculator.toColumnStart(Time.MINUTES_IN_A_DAY));
+    }
+
+
+    @Test
+    void testToColumnStart_Int_BorderHour_1() {
+        when(canvas.getBorderHour()).thenReturn(1);
+        assertEquals(200, calculator.toColumnStart(60));
+        assertEquals(300, calculator.toColumnStart(120));
+        assertEquals(400, calculator.toColumnStart(180));
+
+        assertEquals(2500, calculator.toColumnStart(0));
     }
 
     @Test
     void testToColumnCenter_Int() {
-        assertEquals(250, CanvasCalculator.toColumnCenter(0, 200, 100.0));
-        assertEquals(350, CanvasCalculator.toColumnCenter(60, 200, 100.0));
-        assertEquals(450, CanvasCalculator.toColumnCenter(120, 200, 100.0));
-        assertEquals(350, CanvasCalculator.toColumnCenter(120, 100, 100.0));
+        assertEquals(250, calculator.toColumnCenter(0, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(60, 200, 100.0));
+        assertEquals(450, calculator.toColumnCenter(120, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(120, 100, 100.0));
+        assertEquals(2550, calculator.toColumnCenter(24*60, 100, 100.0));
+    }
+
+    @Test
+    void testToColumnCenter_Int_BorderHour_1() {
+        when(canvas.getBorderHour()).thenReturn(1);
+
+        assertEquals(250, calculator.toColumnCenter(60, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(120, 200, 100.0));
+        assertEquals(250, calculator.toColumnCenter(120, 100, 100.0));
+
+        assertEquals(2550, calculator.toColumnCenter(0, 200, 100.0));
+    }
+
+    @Test
+    void testToColumnCenter_Int_BorderHour_4() {
+        when(canvas.getBorderHour()).thenReturn(4);
+        assertEquals(250, calculator.toColumnCenter(240, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(300, 200, 100.0));
+        assertEquals(250, calculator.toColumnCenter(300, 100, 100.0));
+    }
+
+    @Test
+    void testToColumnCenter_Int_BorderHour_10() {
+        when(canvas.getBorderHour()).thenReturn(10);
+        assertEquals(250, calculator.toColumnCenter(600, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(660, 200, 100.0));
+        assertEquals(250, calculator.toColumnCenter(660, 100, 100.0));
+    }
+
+    @Test
+    void testToColumnCenter_Int_BorderHour_20() {
+        when(canvas.getBorderHour()).thenReturn(20);
+        assertEquals(250, calculator.toColumnCenter(1200, 200, 100.0));
+        assertEquals(350, calculator.toColumnCenter(1260, 200, 100.0));
+        assertEquals(250, calculator.toColumnCenter(1260, 100, 100.0));
     }
 
     @Test
