@@ -64,7 +64,7 @@ public class ExportImageAction extends ToolbarAction {
 
     private File selectFile(String defaultFileName) {
         val chooser = newChooser(defaultFileName);
-        if (chooser.showOpenDialog(canvas.getParent()) == APPROVE_OPTION) {
+        if (chooser.showDialog(canvas.getRootPane(), "Export") == APPROVE_OPTION) {
             return chooser.getSelectedFile();
         }
         return null;
@@ -75,7 +75,6 @@ public class ExportImageAction extends ToolbarAction {
         chooser.setDialogType(JFileChooser.SAVE_DIALOG);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Export to PNG");
-        chooser.setApproveButtonText("Export");
         chooser.setDragEnabled(false);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -96,7 +95,7 @@ public class ExportImageAction extends ToolbarAction {
 
     private static String defaultFileName(Team team) {
         if(isNull(team) || team.getName().trim().isEmpty()) {
-            return "my_team.csv";
+            return "my_team.png";
         }
         return team.getName()
                 .toLowerCase()

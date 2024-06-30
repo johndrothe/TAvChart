@@ -48,7 +48,7 @@ public class ImportCsvAction extends ToolbarAction {
 
     private Path selectFile() {
         val chooser = newChooser();
-        if (chooser.showOpenDialog(table.getParent()) == APPROVE_OPTION) {
+        if (chooser.showDialog(table.getRootPane(), "Import") == APPROVE_OPTION) {
             return chooser.getSelectedFile().toPath();
         }
         return null;
@@ -59,7 +59,6 @@ public class ImportCsvAction extends ToolbarAction {
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Import from CSV");
-        chooser.setApproveButtonText("Import");
         chooser.setDragEnabled(false);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);

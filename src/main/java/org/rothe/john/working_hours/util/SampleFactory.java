@@ -17,15 +17,15 @@ public abstract class SampleFactory {
 
     public static List<Member> debugMembers() {
         return List.of(
-                toMember("Person #1", "UTC", "00:00-09:00", toZone("Z"), 0),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z")),
-                toMember("Person #3", "NYC", "08:00-17:00", toZone("America/New_York")),
-                toMember("Person #4", "NYC", "11:00-20:00", toZone("America/New_York"), 11),
-                toMember("Person #5", "CHI", "08:00-17:00", toZone("America/Chicago")),
-                toMember("Person #7", "PL", "08:00-17:00", toZone("Poland")),
-                toMember("Person #9", "LAX", "08:00-17:00", toZone("America/Los_Angeles")),
-                toMember("Person #10", "LAX", "10:00-19:00", toZone("America/Los_Angeles"), 10),
-                toMember("Person #11", "LAX", "12:00-21:00", toZone("America/Los_Angeles"), 12)
+                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("Z"), 0),
+                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("Z")),
+                toMember("CCCCCCC CCCCCCC", "NYC", "08:00-17:00", toZone("America/New_York")),
+                toMember("DDDDD DDDDDDDDD", "NYC", "11:00-20:00", toZone("America/New_York"), 11),
+                toMember("EEE EEEEEEEEEEE", "CHI", "08:00-17:00", toZone("America/Chicago")),
+                toMember("FF FFFFFFFFFFFF", "PL", "08:00-17:00", toZone("Poland")),
+                toMember("GG GGGGGGGGGGGG", "LAX", "08:00-17:00", toZone("America/Los_Angeles")),
+                toMember("HHHHH HHHHHHHHH", "LAX", "10:00-19:00", toZone("America/Los_Angeles"), 10),
+                toMember("JJJJ JJJJJJJJJJ", "LAX", "12:00-21:00", toZone("America/Los_Angeles"), 12)
         );
     }
 

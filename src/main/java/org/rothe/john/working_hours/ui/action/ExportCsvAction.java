@@ -53,7 +53,7 @@ public class ExportCsvAction extends ToolbarAction {
 
     private Path selectFile(String defaultFileName) {
         val chooser = newChooser(defaultFileName);
-        if (chooser.showOpenDialog(table.getParent()) == APPROVE_OPTION) {
+        if (chooser.showDialog(table.getRootPane(), "Export") == APPROVE_OPTION) {
             return chooser.getSelectedFile().toPath();
         }
         return null;
@@ -64,7 +64,6 @@ public class ExportCsvAction extends ToolbarAction {
         chooser.setDialogType(JFileChooser.SAVE_DIALOG);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Export to CSV");
-        chooser.setApproveButtonText("Export");
         chooser.setDragEnabled(false);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
