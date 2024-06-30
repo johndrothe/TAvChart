@@ -5,6 +5,7 @@ import lombok.val;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.ui.canvas.util.Boundaries;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
+import org.rothe.john.working_hours.ui.canvas.painters.CrossHatch;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 
 import java.awt.*;
@@ -63,24 +64,18 @@ public class MemberRow extends AbstractZoneRow {
         g.draw(s);
     }
 
-    private void drawLunch(Graphics2D g, Shape s) {
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(LUNCH_LINE);
-        g2.draw(s);
-        g2.setClip(s);
+    private void drawLunch(Graphics2D g, Shape shape) {
+        g.setColor(LUNCH_LINE);
 
-        drawDiagonals(g2, toDiagonals(s.getBounds(), true));
-        drawDiagonals(g2, toDiagonals(s.getBounds(), false));
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.draw(shape);
+        g2.setClip(shape);
+
+        CrossHatch.draw(g2, shape);
 
         g2.dispose();
     }
 
-    private void drawDiagonals(Graphics2D g2, Diagonals diagonals) {
-        final int DIAGONAL_SPACING = 5;
-        for (int x = diagonals.startX(); x < diagonals.endX(); x += DIAGONAL_SPACING) {
-            g2.drawLine(x, diagonals.startY(), x + diagonals.xOffset(), diagonals.endY());
-        }
-    }
 
     private List<Boundaries> normalBoundaries() {
         return getCalculator().toCenterBoundaries(member.normal());
@@ -115,23 +110,5 @@ public class MemberRow extends AbstractZoneRow {
 
     private String getDisplayString() {
         return String.format("%s (%s / %s)", member.name(), member.role(), member.location());
-    }
-
-    private static Diagonals toDiagonals(Rectangle shapeBounds, boolean drawDown) {
-        final Rectangle bounds = new Rectangle(shapeBounds);
-        bounds.grow(bounds.height, 0);
-
-        final int xOffset = (int) Math.round(bounds.height / Math.sin(Math.PI / 2));
-        final int topY = bounds.y;
-        final int bottomY = bounds.y + bounds.height;
-
-        if (drawDown) {
-            return new Diagonals(bounds.x, bounds.x + bounds.width, xOffset, topY, bottomY);
-        }
-        return new Diagonals(bounds.x, bounds.x + bounds.width, xOffset, bottomY, topY);
-    }
-
-    private record Diagonals(int startX, int endX, int xOffset, int startY, int endY) {
-
     }
 }
