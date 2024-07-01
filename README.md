@@ -43,6 +43,8 @@ This version has the following features implemented.
   * Collaboration Zones
     * Displays the largest zone (the most team members present for the longest duration).
     * Calculates all zones that start at one shift change and end at the next.
+  * Center the canvas on a user-selected time - IN PROGRESS
+    * Under the hood updates complete awaiting mouse handlers.
 * Icons for the toolbar / menu bar
   * The current set is from https://iconoir.com/
 
@@ -60,7 +62,7 @@ This version has the following features implemented.
     * Calculate zones for contiguous time periods that have the same team members.
       * These zones would overlap two or more of the zones that are currently being calculated. 
   * Center the canvas on a user-selected time
-    * now it's always 0->24->0 UTC
+    * now it's always 0->12->0 UTC
   * Mouse handlers for changing the center canvas time
     * For teams that aren't working (entirely) in north america
   * Mouse handlers for changing a member's working hours
