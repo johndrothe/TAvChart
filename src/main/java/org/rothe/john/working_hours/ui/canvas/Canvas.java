@@ -8,6 +8,7 @@ import org.rothe.john.working_hours.event.TeamListener;
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.canvas.painters.CollabZonePainter;
 import org.rothe.john.working_hours.ui.canvas.painters.GridPainter;
@@ -62,6 +63,12 @@ public class Canvas extends JPanel implements TeamListener {
 
     public void unregister() {
         Teams.removeTeamListener(this);
+    }
+
+    public void setBorderHour(int hour) {
+        this.borderHour = Time.normalizeHour(hour);
+        revalidate();
+        repaint();
     }
 
     public void teamChanged(TeamChangedEvent event) {

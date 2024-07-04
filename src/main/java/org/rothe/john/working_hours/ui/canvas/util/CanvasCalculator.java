@@ -101,6 +101,10 @@ public class CanvasCalculator {
         return canvas.getBorderHour();
     }
 
+    public void setBorderHour(int hour) {
+        canvas.setBorderHour(hour);
+    }
+
     public int getCenterHour() {
         return Time.normalizeHour(getBorderHour() + 12);
     }

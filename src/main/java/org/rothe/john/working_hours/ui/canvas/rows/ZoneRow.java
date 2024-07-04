@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.val;
 import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.Zone;
+import org.rothe.john.working_hours.ui.canvas.mouse.ZoneRowMouseListener;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.working_hours.ui.canvas.util.Palette;
 
@@ -15,6 +16,8 @@ public class ZoneRow extends AbstractZoneRow {
     public ZoneRow(CanvasCalculator calculator, Zone zone, Palette palette) {
         super(calculator, zone, palette);
         lineHintColor = getLineHintColor();
+
+        ZoneRowMouseListener.register(this, calculator);
     }
 
     @Override
