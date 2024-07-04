@@ -60,8 +60,6 @@ This version has the following features implemented.
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same team members.
       * These zones would overlap two or more of the zones that are currently being calculated.
-  * Mouse handlers for changing the center canvas time
-    * For teams that aren't working (entirely) in north america
   * Mouse handlers for changing a member's working hours
 * Table Editing
   * Improved zone selector with search/sort
