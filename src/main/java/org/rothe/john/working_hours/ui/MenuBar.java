@@ -46,10 +46,10 @@ public class MenuBar extends JMenuBar {
 
         menu.add(newItem(new NewTeamAction(getRootPane()), 'N'));
         menu.addSeparator();
-        menu.add(new ImportCsvAction(table));
-        menu.add(new ExportCsvAction(table));
+        menu.add(new OpenAction(table)).setEnabled(false);
+        menu.add(new SaveAction(table)).setEnabled(false);
         menu.addSeparator();
-        menu.add(new ExportImageAction(canvas));
+        menu.add(new SaveAsAction(table)).setEnabled(false);
         menu.addSeparator();
 
         menu.add(newItem(new ExitAction(getRootPane()), 'X'));
@@ -65,6 +65,27 @@ public class MenuBar extends JMenuBar {
 
         menu.add(newItem(new UndoAction(listener), 'U', VK_Z));
         menu.add(newItem(new RedoAction(listener), 'R', VK_Y));
+
+        menu.addSeparator();
+        menu.add(createImportMenu());
+        menu.add(createExportMenu());
+    }
+
+    private JMenu createImportMenu() {
+        var menu = new JMenu("Import");
+        menu.setMnemonic('I');
+
+        menu.add(new ImportCsvAction(table)).setMnemonic('C');
+        return menu;
+    }
+    private JMenu createExportMenu() {
+        var menu = new JMenu("Export");
+        menu.setMnemonic('X');
+
+        menu.add(new ExportCsvAction(table)).setMnemonic('C');
+        menu.addSeparator();
+        menu.add(new ExportImageAction(canvas)).setMnemonic('I');
+        return menu;
     }
 
     private JMenuItem newItem(Action a, char mnemonic) {
