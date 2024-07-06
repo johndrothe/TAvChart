@@ -5,11 +5,19 @@ import org.rothe.john.working_hours.event.undo.UndoListener;
 import org.rothe.john.working_hours.ui.action.*;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.util.SampleFactory;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
-import static java.awt.event.KeyEvent.*;
+import static java.awt.event.KeyEvent.VK_C;
+import static java.awt.event.KeyEvent.VK_V;
+import static java.awt.event.KeyEvent.VK_Y;
+import static java.awt.event.KeyEvent.VK_Z;
 
 public class MenuBar extends JMenuBar {
     private final Canvas canvas;
@@ -45,14 +53,30 @@ public class MenuBar extends JMenuBar {
         val menu = newMenu("File", 'F');
 
         menu.add(newItem(new NewTeamAction(getRootPane()), 'N'));
+
         menu.addSeparator();
         menu.add(new OpenAction(table)).setEnabled(false);
         menu.add(new SaveAction(table)).setEnabled(false);
+
         menu.addSeparator();
         menu.add(new SaveAsAction(table)).setEnabled(false);
-        menu.addSeparator();
 
+        menu.addSeparator();
+        menu.add(createSampleMenu());
+
+        menu.addSeparator();
         menu.add(newItem(new ExitAction(getRootPane()), 'X'));
+    }
+
+    private JMenuItem createSampleMenu() {
+        val menu = new JMenu("Sample Teams");
+
+        menu.add(new SampleTeamAction("Centering Debug Team", SampleFactory::centeringDebugMembers));
+        menu.add(new SampleTeamAction("Debug Team", SampleFactory::debugMembers));
+        menu.add(new SampleTeamAction("Debug Shift Team", SampleFactory::debugShiftMembers));
+        menu.add(new SampleTeamAction("Demo Team", SampleFactory::demoMembers));
+
+        return menu;
     }
 
     private void addEditMenu() {
@@ -72,15 +96,13 @@ public class MenuBar extends JMenuBar {
     }
 
     private JMenu createImportMenu() {
-        var menu = new JMenu("Import");
-        menu.setMnemonic('I');
+        var menu = newMenu("Import", 'I');
 
         menu.add(new ImportCsvAction(table)).setMnemonic('C');
         return menu;
     }
     private JMenu createExportMenu() {
-        var menu = new JMenu("Export");
-        menu.setMnemonic('X');
+        var menu = newMenu("Export", 'X');
 
         menu.add(new ExportCsvAction(table)).setMnemonic('C');
         menu.addSeparator();

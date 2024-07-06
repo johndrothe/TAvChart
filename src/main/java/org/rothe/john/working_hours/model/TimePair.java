@@ -21,11 +21,13 @@ public record TimePair(Time left, Time right) {
         return new TimePair(Time.at(zone, 12), Time.at(zone, 13));
     }
 
-    public List<TimePair> splitAround(int hourUtc) {
-        if (isSplitBetween(hourUtc)) {
+    public List<TimePair> splitAround(int splitHourUtc) {
+        // the split is typically the border hour which appears once on the left at
+        // below 24 hours and once on the right at above 24 hours.
+        if (isSplitBetween(splitHourUtc) || isSplitBetween(splitHourUtc + 24)) {
             return List.of(
-                    new TimePair(left, fromHoursUtc(left.zone(), hourUtc)),
-                    new TimePair(fromHoursUtc(left.zone(), hourUtc), right)
+                    new TimePair(left, fromHoursUtc(left.zone(), splitHourUtc)),
+                    new TimePair(fromHoursUtc(left.zone(), splitHourUtc), right)
             );
         }
 
@@ -37,12 +39,9 @@ public record TimePair(Time left, Time right) {
         return Duration.ofMinutes(adjustedRightMinutesUtc() - left.totalMinutesInUtc());
     }
 
-    boolean isSplitBetween(int hourUtc) {
-        val splitUtc = toSplitMinutes(hourUtc);
-        val leftUtc = left.totalMinutesInUtc();
-        val rightUtc = adjustedRightMinutesUtc();
-
-        return splitUtc < rightUtc && splitUtc > leftUtc;
+    boolean isSplitBetween(int splitHourUtc) {
+        val split = toSplitMinutes(splitHourUtc);
+        return left.totalMinutesInUtc() < split && split < adjustedRightMinutesUtc();
     }
 
     private int toSplitMinutes(int hourUtc) {

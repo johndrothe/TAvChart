@@ -4,7 +4,7 @@ import org.rothe.john.working_hours.model.Time;
 import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.util.List;
 
 public class CanvasCalculator {
@@ -34,8 +34,17 @@ public class CanvasCalculator {
     }
 
     Boundaries toBoundaries(TimePair pair) {
-        return new Boundaries(toColumnCenter(pair.left()),
-                toRightColumnCenter(pair.right()));
+        try {
+            return new Boundaries(toColumnCenter(pair.left()), toRightColumnCenter(pair.right()));
+        } catch (java.lang.IllegalArgumentException e) {
+            System.err.printf("Failed to generate boundaries for [%s, %s] (UTC) at [%d, %d] (pixels) with border hour %d.%n",
+                    pair.left().toUtcString(),
+                    pair.right().toUtcString(),
+                    toColumnCenter(pair.left()),
+                    toRightColumnCenter(pair.right()),
+                    getBorderHour());
+            throw e;
+        }
     }
 
     public int toColumnStart(Time time) {
@@ -103,10 +112,6 @@ public class CanvasCalculator {
 
     public void setBorderHour(int hour) {
         canvas.setBorderHour(hour);
-    }
-
-    public int getCenterHour() {
-        return Time.normalizeHour(getBorderHour() + 12);
     }
 
     private double calculateHourColumnWidth() {

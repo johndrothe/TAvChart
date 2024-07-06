@@ -46,6 +46,12 @@ class TimePairTest {
     }
 
     @Test
+    void splitAround_UTC_21to06() {
+        val expected = List.of(pair(UTC, 21, 1), pair(UTC, 1, 6));
+        assertEquals(expected, pair(UTC, 21, 6).splitAround(1));
+    }
+
+    @Test
     void splitAround_EDT_At_0() {
         val expected = List.of(pair(EDT, 18, 20), pair(EDT, 20, 4));
         assertEquals(expected, pair(EDT, 18, 4).splitAround(0));

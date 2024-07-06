@@ -2,17 +2,22 @@ package org.rothe.john.working_hours.ui;
 
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.event.undo.UndoListener;
+import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.ui.action.DisplayChangeEvent;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
-import org.rothe.john.working_hours.ui.action.DisplayChangeEvent;
 import org.rothe.john.working_hours.util.GBCBuilder;
-import org.rothe.john.working_hours.util.SampleFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import static java.awt.BorderLayout.CENTER;
 
@@ -45,7 +50,7 @@ public class ApplicationFrame extends JFrame {
 
         tabChanged(null);
 
-        Teams.fireTeamChanged(this, "New", SampleFactory.newTeam());
+        Teams.fireTeamChanged(this, "New", new Team("Winners", List.of()));
     }
 
     private void initNorth() {
