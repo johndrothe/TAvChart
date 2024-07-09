@@ -23,14 +23,14 @@ public class Time {
     }
 
     public static Time at(Zone zone, int hour, int minute) {
-        return of(zone, LocalTime.of(hour, minute));
+        return of(zone, LocalTime.of(hour + minute / 60, minute % 60));
     }
 
     public static Time of(Zone zone, LocalTime time) {
         return new Time(zone, time);
     }
 
-    public static Time fromHoursUtc(Zone zone, int hoursUtc){
+    public static Time fromHoursUtc(Zone zone, int hoursUtc) {
         return of(zone, fromUtc(zone, hoursUtc));
     }
 
@@ -125,7 +125,7 @@ public class Time {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Time t){
+        if (obj instanceof Time t) {
             return Objects.equals(local, t.local) && Objects.equals(zone, t.zone);
         }
         return false;
