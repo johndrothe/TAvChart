@@ -25,4 +25,16 @@ class PairTest {
         assertEquals(Set.of("b", "c", "d", "e"), Pair.stream(list).map(Pair::right).collect(Collectors.toSet()));
     }
 
+    @Test
+    void testPairStreamToList() {
+        val expected = List.of(
+                new Pair<>("a", "b"),
+                new Pair<>("b", "c"),
+                new Pair<>("c", "d"),
+                new Pair<>("d", "e")
+        );
+        val result = Pair.stream(List.of("a", "b", "c", "d", "e")).toList();
+        assertEquals(expected, result);
+    }
+
 }

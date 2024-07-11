@@ -1,5 +1,6 @@
 package org.rothe.john.working_hours.util;
 
+import lombok.EqualsAndHashCode;
 import lombok.val;
 
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import java.util.stream.StreamSupport;
 
 import static java.util.Spliterator.*;
 
+@EqualsAndHashCode
 public class Pair<T> {
     private final T left;
     private final T right;
@@ -34,7 +36,7 @@ public class Pair<T> {
 
     private static <T> Spliterator<Pair<T>> spliterator(List<T> list) {
         return Spliterators.spliterator(new PairingIterator<>(list),
-                list.size(), SIZED | IMMUTABLE | NONNULL | ORDERED);
+                list.size() - 1, SIZED | IMMUTABLE | NONNULL | ORDERED);
     }
 
     private static class PairingIterator<T> implements Iterator<Pair<T>> {
