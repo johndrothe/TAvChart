@@ -36,7 +36,7 @@ public class Pair<T> {
 
     private static <T> Spliterator<Pair<T>> spliterator(List<T> list) {
         return Spliterators.spliterator(new PairingIterator<>(list),
-                list.size() - 1, SIZED | IMMUTABLE | NONNULL | ORDERED);
+                Math.max(0, list.size() - 1), SIZED | IMMUTABLE | NONNULL | ORDERED);
     }
 
     private static class PairingIterator<T> implements Iterator<Pair<T>> {

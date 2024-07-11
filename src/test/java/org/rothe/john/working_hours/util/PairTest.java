@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PairTest {
 
@@ -36,5 +37,8 @@ class PairTest {
         val result = Pair.stream(List.of("a", "b", "c", "d", "e")).toList();
         assertEquals(expected, result);
     }
-
+    @Test
+    void testEmptyPairStream() {
+        assertTrue(Pair.stream(List.of()).toList().isEmpty());
+    }
 }
