@@ -3,9 +3,7 @@ package org.rothe.john.working_hours.model;
 import lombok.With;
 
 import java.util.Collection;
-import java.util.Comparator;
 
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
 @With
@@ -44,11 +42,5 @@ public record Member(String name, String role, String location, Zone zone, TimeP
                 .map(Member::name)
                 .sorted()
                 .collect(joining(", "));
-    }
-
-    public static Comparator<Member> offsetNameCompartor() {
-        final Comparator<Member> z = comparing(m -> m.zone().getOffsetHours());
-        final Comparator<Member> n = comparing(Member::name);
-        return z.thenComparing(n);
     }
 }
