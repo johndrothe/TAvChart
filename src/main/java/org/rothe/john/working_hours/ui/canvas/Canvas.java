@@ -122,7 +122,7 @@ public class Canvas extends JPanel implements TeamListener {
         this.palette = new Palette(zones);
         removeAll();
         addZones(zones);
-        addMembers(team.getMembers());
+        addMembers(team);
         addTransitionsRow(zones);
         addSpacerGlue();
     }
@@ -136,10 +136,10 @@ public class Canvas extends JPanel implements TeamListener {
                 .forEach(this::addRow);
     }
 
-    private void addMembers(List<Member> members) {
-        final Function<Member, MemberRow> toRow = member -> new MemberRow(calculator, member, palette);
+    private void addMembers(Team team) {
+        final Function<Member, MemberRow> toRow = member -> new MemberRow(team, member, calculator, palette);
 
-        members.stream()
+        team.getMembers().stream()
                 .map(toRow)
                 // optional zone sorting
                 // .sorted(zoneRowComparator())

@@ -44,6 +44,7 @@ This version has the following features implemented.
     * Displays the largest zone (the most team members present for the longest duration).
     * Calculates all zones that start at one shift change and end at the next.
   * Center the canvas on a user-selected time by dragging the Zone rows.
+  * Adjust a team member's normal hours and lunch by dragging their member row. 
 * Icons for the toolbar / menu bar
   * The current set is from https://iconoir.com/
 
@@ -60,7 +61,6 @@ This version has the following features implemented.
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same team members.
       * These zones would overlap two or more of the zones that are currently being calculated.
-  * Mouse handlers for changing a member's working hours
 * Table Editing
   * Improved zone selector with search/sort
   * Proper spreadsheet-esque copy/paste

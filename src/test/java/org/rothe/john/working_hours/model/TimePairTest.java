@@ -22,6 +22,12 @@ class TimePairTest {
     }
 
     @Test
+    void testAddHours() {
+        assertEquals(pair(EDT, 18, 6), pair(EDT, 16, 4).addHours(2));
+        assertEquals(pair(EDT, 2, 7), pair(EDT, 23, 4).addHours(3));
+    }
+
+    @Test
     void testAdjustedRightMinutesUtc_NoAdjustment_UTC() {
         val pair = pair(UTC, 8, 17);
         assertEquals(pair.right().totalMinutesInUtc(), pair.adjustedRightMinutesUtc());

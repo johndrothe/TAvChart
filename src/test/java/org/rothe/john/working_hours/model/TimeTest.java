@@ -25,6 +25,8 @@ class TimeTest {
     void testParseTime() {
         assertEquals(Time.at(UTC, 11, 22), Time.parse(UTC, "11:22:00"));
         assertEquals(Time.at(NYC, 11, 22), Time.parse(NYC, "11:22:00"));
+        assertEquals(Time.at(UTC, 21, 22), Time.parse(UTC, "21:22:00"));
+        assertEquals(Time.at(NYC, 21, 22), Time.parse(NYC, "21:22:00"));
     }
 
     @Test
@@ -43,6 +45,12 @@ class TimeTest {
         assertEquals(Time.at(CHI, 5), Time.fromHoursUtc(CHI, 10));
         assertEquals(Time.at(LAX, 3), Time.fromHoursUtc(LAX, 10));
         assertEquals(Time.at(PL, 12), Time.fromHoursUtc(PL, 10));
+    }
+
+    @Test
+    void testAddHours() {
+        assertEquals(Time.at(NYC, 18, 6), Time.at(NYC, 16, 6).addHours(2));
+        assertEquals(Time.at(NYC, 2, 7), Time.at(NYC, 23, 7).addHours(3));
     }
 
     @Test

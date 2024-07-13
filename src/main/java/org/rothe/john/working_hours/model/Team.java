@@ -70,6 +70,20 @@ public class Team {
                 .collect(joining("\n", csvHeader(), "\n"));
     }
 
+    public Team withUpdatedMember(Member oldMember, Member newMember) {
+        return withMembers(replaceMember(new ArrayList<>(members), oldMember, newMember));
+    }
+
+    private static List<Member> replaceMember(List<Member> list, Member oldMember, Member newMember) {
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i) == oldMember) {
+                list.set(i, newMember);
+                return List.copyOf(list);
+            }
+        }
+        throw new IllegalArgumentException("No such member found in member list.");
+    }
+
     private String csvHeader() {
         return "Name, Role, Location, Zone ID, Normal Start, Normal End, Lunch Start, Lunch End\n";
     }

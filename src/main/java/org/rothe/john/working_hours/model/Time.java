@@ -135,4 +135,8 @@ public class Time {
     public int hashCode() {
         return Objects.hash(local, zone);
     }
+
+    public Time addHours(int hours) {
+        return Time.at(zone, normalizeHour(hourLocal() + hours), minuteLocal());
+    }
 }

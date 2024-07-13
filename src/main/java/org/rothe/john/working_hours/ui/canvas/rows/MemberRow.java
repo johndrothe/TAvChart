@@ -3,6 +3,8 @@ package org.rothe.john.working_hours.ui.canvas.rows;
 import lombok.Getter;
 import lombok.val;
 import org.rothe.john.working_hours.model.Member;
+import org.rothe.john.working_hours.model.Team;
+import org.rothe.john.working_hours.ui.canvas.mouse.MemberRowMouseListener;
 import org.rothe.john.working_hours.ui.canvas.util.Boundaries;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.working_hours.ui.canvas.painters.CrossHatch;
@@ -16,12 +18,22 @@ import java.util.List;
 @Getter
 public class MemberRow extends AbstractZoneRow {
     private static final Color LUNCH_LINE = new Color(255, 0, 255, 25);
+    private final Team team;
     private final Member member;
+    private int dragOffsetHours;
 
-    public MemberRow(CanvasCalculator calculator, Member member, Palette palette) {
+    public MemberRow(Team team, Member member, CanvasCalculator calculator, Palette palette) {
         super(calculator, member.zone(), palette);
         setOpaque(false);
+        this.team = team;
         this.member = member;
+
+        MemberRowMouseListener.register(team, this, calculator);
+    }
+
+    public void setDragOffsetHours(int hours) {
+        this.dragOffsetHours = hours;
+        repaint();
     }
 
     @Override
@@ -76,13 +88,12 @@ public class MemberRow extends AbstractZoneRow {
         g2.dispose();
     }
 
-
     private List<Boundaries> normalBoundaries() {
-        return getCalculator().toCenterBoundaries(member.normal());
+        return getCalculator().toCenterBoundaries(member.normal().addHours(dragOffsetHours));
     }
 
     private List<Boundaries> lunchBoundaries() {
-        return getCalculator().toCenterBoundaries(member.lunch());
+        return getCalculator().toCenterBoundaries(member.lunch().addHours(dragOffsetHours));
     }
 
     private List<Shape> toShapes(List<Boundaries> boundaries) {
