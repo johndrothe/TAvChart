@@ -54,6 +54,11 @@ public class Teams {
         fireTeamChanged(new TeamChangedEvent(source, change, oldTeam, newTeam));
     }
 
+    public static void fireNewTeam(Object source, String change, Team newTeam) {
+        currentTeam.set(newTeam);
+        fireTeamChanged(new NewTeamEvent(source, change, newTeam));
+    }
+
     /**
      * Forwards the given notification event to all <code>TeamListeners</code>
      * that registered themselves as listeners.

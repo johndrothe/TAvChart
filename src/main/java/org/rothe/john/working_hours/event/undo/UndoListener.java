@@ -1,5 +1,6 @@
 package org.rothe.john.working_hours.event.undo;
 
+import org.rothe.john.working_hours.event.NewTeamEvent;
 import org.rothe.john.working_hours.event.TeamChangedEvent;
 import org.rothe.john.working_hours.event.TeamListener;
 
@@ -18,11 +19,15 @@ public class UndoListener extends UndoManager implements TeamListener {
             return;
         }
 
-        if (isNull(e.oldTeam()) || isNull(e.team())) {
+        if (shouldDiscardEdits(e)) {
             discardAllEdits();
             return;
         }
 
         addEdit(new TeamEdit(this, e.event(), e.oldTeam(), e.team()));
+    }
+
+    private static boolean shouldDiscardEdits(TeamChangedEvent e) {
+        return e instanceof NewTeamEvent || isNull(e.oldTeam()) || isNull(e.team());
     }
 }

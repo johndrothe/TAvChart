@@ -4,11 +4,13 @@ import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.util.Images;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import static javax.swing.JOptionPane.*;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
 
 public class NewTeamAction extends ToolbarAction {
     private final JComponent parent;
@@ -21,7 +23,7 @@ public class NewTeamAction extends ToolbarAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (confirm()) {
-            Teams.fireTeamChanged(this, "New Team", new Team("New Team", List.of()));
+            Teams.fireNewTeam(this, "New Team", new Team("New Team", List.of()));
         }
     }
 

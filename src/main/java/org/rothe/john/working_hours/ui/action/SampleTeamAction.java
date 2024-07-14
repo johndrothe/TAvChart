@@ -21,6 +21,6 @@ public class SampleTeamAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Teams.fireTeamChanged(this, name, new Team(name, memberSupplier.get()));
+        Teams.fireNewTeam(this, name, new Team(name, memberSupplier.get()));
     }
 }
