@@ -36,6 +36,7 @@ public class MenuBar extends JMenuBar {
         addFileMenu();
         addEditMenu();
         addMembersMenu();
+        add(createSampleMenu());
     }
 
     private void addMembersMenu() {
@@ -62,14 +63,17 @@ public class MenuBar extends JMenuBar {
         menu.add(new SaveAsAction(table)).setEnabled(false);
 
         menu.addSeparator();
-        menu.add(createSampleMenu());
+        menu.add(new ImportCsvAction(table)).setMnemonic('I');
+        menu.add(new ExportCsvAction(table)).setMnemonic('E');
+        menu.addSeparator();
+        menu.add(new ExportImageAction(canvas)).setMnemonic('m');
 
         menu.addSeparator();
         menu.add(newItem(new ExitAction(getRootPane()), 'X'));
     }
 
-    private JMenuItem createSampleMenu() {
-        val menu = new JMenu("Sample Teams");
+    private JMenu createSampleMenu() {
+        val menu = newMenu("Sample Teams", 'T');
 
         menu.add(new SampleTeamAction("Centering Debug Team", SampleFactory::centeringDebugMembers));
         menu.add(new SampleTeamAction("Debug Team", SampleFactory::debugMembers));
@@ -89,25 +93,6 @@ public class MenuBar extends JMenuBar {
 
         menu.add(newItem(new UndoAction(listener), 'U', VK_Z));
         menu.add(newItem(new RedoAction(listener), 'R', VK_Y));
-
-        menu.addSeparator();
-        menu.add(createImportMenu());
-        menu.add(createExportMenu());
-    }
-
-    private JMenu createImportMenu() {
-        var menu = newMenu("Import", 'I');
-
-        menu.add(new ImportCsvAction(table)).setMnemonic('C');
-        return menu;
-    }
-    private JMenu createExportMenu() {
-        var menu = newMenu("Export", 'X');
-
-        menu.add(new ExportCsvAction(table)).setMnemonic('C');
-        menu.addSeparator();
-        menu.add(new ExportImageAction(canvas)).setMnemonic('I');
-        return menu;
     }
 
     private JMenuItem newItem(Action a, char mnemonic) {

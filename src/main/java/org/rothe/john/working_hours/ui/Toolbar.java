@@ -28,7 +28,7 @@ public class Toolbar extends JToolBar {
         val table = event.table().orElse(null);
         val canvas = event.canvas().orElse(null);
 
-        addStandardActions(table);
+        addStandardActions(event, table);
         addSeparator();
 
         if (event.isTableDisplayed()) {
@@ -53,7 +53,7 @@ public class Toolbar extends JToolBar {
         add(new MoveDownAction(table));
     }
 
-    private void addStandardActions(MembersTable table) {
+    private void addStandardActions(DisplayChangeEvent event, MembersTable table) {
         add(new NewTeamAction(getRootPane()));
 
         addSeparator();
@@ -61,8 +61,8 @@ public class Toolbar extends JToolBar {
         add(new ExportCsvAction(table));
 
         addSeparator();
-        add(new CopyAction(table));
-        add(new PasteAction(table));
+        add(new CopyAction(table)).setEnabled(event.isTableDisplayed());
+        add(new PasteAction(table)).setEnabled(event.isTableDisplayed());
 
         addSeparator();
         initializeUndoRedo();
