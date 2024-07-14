@@ -3,6 +3,7 @@ package org.rothe.john.working_hours.ui.canvas;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
+import org.rothe.john.working_hours.event.NewTeamEvent;
 import org.rothe.john.working_hours.event.TeamChangedEvent;
 import org.rothe.john.working_hours.event.TeamListener;
 import org.rothe.john.working_hours.event.Teams;
@@ -72,6 +73,9 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     public void teamChanged(TeamChangedEvent event) {
+        if(event instanceof NewTeamEvent) {
+            borderHour = 0;
+        }
         this.team = event.team();
         initialize();
         revalidate();
