@@ -2,14 +2,16 @@ package org.rothe.john.working_hours.ui.canvas.painters;
 
 import lombok.val;
 import org.rothe.john.working_hours.model.Time;
+import org.rothe.john.working_hours.model.TimePair;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
-import org.rothe.john.working_hours.ui.collaboration.CollabCalculator;
 import org.rothe.john.working_hours.ui.canvas.util.Boundaries;
 import org.rothe.john.working_hours.ui.canvas.util.CanvasCalculator;
-import org.rothe.john.working_hours.model.TimePair;
+import org.rothe.john.working_hours.ui.collaboration.CollabCalculator;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -34,21 +36,24 @@ public class CollabZonePainter {
     }
 
     public void paintUnder(Graphics2D g2d, JPanel exampleRow) {
-        val target = new PaintTarget(canvasCalculator, g2d, toRowStartX(exampleRow));
-        val canvasHeight = canvas.getHeight();
+        val target = newTarget(g2d, toRowStartX(exampleRow));
 
-        collabCalculator.largest().forEach(shift -> target.fill(shift.time(), canvasHeight));
-        collabCalculator.shiftChanges().forEach(change -> target.draw(change.time(), canvasHeight));
+        collabCalculator.largest().forEach(shift -> target.fill(shift.time(), canvas.getHeight()));
+        collabCalculator.shiftChanges().forEach(change -> target.draw(change.time(), canvas.getHeight()));
     }
 
     public void paintOver(Graphics2D g2d, JPanel exampleRow) {
-        val target = new PaintTarget(canvasCalculator, g2d, toRowStartX(exampleRow));
+        val target = newTarget(g2d, toRowStartX(exampleRow));
 
         collabCalculator.largest().forEach(shift -> target.draw(shift.time(), canvas.getHeight()));
     }
 
     private int toRowStartX(JPanel exampleRow) {
         return SwingUtilities.convertPoint(exampleRow, 0, 0, canvas).x;
+    }
+
+    private PaintTarget newTarget(Graphics2D g2d, int startX) {
+        return new PaintTarget(canvasCalculator, g2d, startX);
     }
 
     private record PaintTarget(CanvasCalculator calculator, Graphics2D g2d, int startX) {
