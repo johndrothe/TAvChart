@@ -31,7 +31,7 @@ public class ApplicationFrame extends JFrame {
     private final MenuBar menuBar = new MenuBar(canvas, tablePanel.getTable(), listener);
 
     public ApplicationFrame() {
-        super("Team Scheduler - 0.1.2");
+        super("Team Scheduler - 1.0.0");
         addWindowListener(new ExitOnCloseListener());
         initialize();
         setSize(1024, 768);
