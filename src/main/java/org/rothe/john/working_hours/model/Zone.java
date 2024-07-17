@@ -24,6 +24,10 @@ public class Zone {
         this.zoneId = zoneId;
     }
 
+    public static Zone here() {
+        return new Zone(ZoneId.systemDefault());
+    }
+
     public static Zone utc() {
         return new Zone(ZoneOffset.UTC);
     }

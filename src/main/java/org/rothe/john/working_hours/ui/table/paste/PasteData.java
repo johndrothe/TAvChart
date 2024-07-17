@@ -1,18 +1,18 @@
 package org.rothe.john.working_hours.ui.table.paste;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.util.function.Predicate.not;
 
 public class PasteData {
     private static final String LF = "\n";
     private static final String TAB = "\t";
 
-    private final String data;
     private final List<Row> rows;
     private final int columnCount;
 
     private PasteData(String data) {
-        this.data = data;
         this.rows = toRows(data);
         this.columnCount = countColumns(rows);
     }
@@ -29,12 +29,12 @@ public class PasteData {
         return columnCount;
     }
 
-    private static int countColumns(List<Row> rows) {
-        return rows.stream().mapToInt(Row::size).min().orElse(0);
-    }
-
     public int getRowCount() {
         return rows.size();
+    }
+
+    public boolean isEmpty() {
+        return getRowCount() == 0;
     }
 
     public String getValueAt(int row, int column) {
@@ -47,41 +47,17 @@ public class PasteData {
         return rows.get(row).get(column);
     }
 
-    public DataShape shape(int tableColumnCount) {
-        if (data.trim().isEmpty()) {
-            return DataShape.NONE;
-        }
-
-        if (rows.size() == 1) {
-            return shapeOf(rows.getFirst(), tableColumnCount);
-        }
-
-        //TODO
-        return null;
-    }
-
-    private DataShape shapeOf(Row row, int tableColumnCount) {
-        if (row.isEmpty()) {
-            return DataShape.NONE;
-        }
-
-        if (row.size() == tableColumnCount) {
-            return DataShape.COMPLETE_ROW;
-        }
-
-        if (row.size() == 1) {
-            return DataShape.SINGLE_VALUE;
-        }
-
-        return DataShape.PARTIAL_ROW;
+    private static int countColumns(List<Row> rows) {
+        return rows.stream().mapToInt(Row::size).min().orElse(0);
     }
 
     private static List<Row> toRows(String data) {
-        List<Row> rows = new ArrayList<>();
-        for (String row : data.split(LF + "+")) {
-            rows.add(new Row(row.split(TAB)));
-        }
-        return rows;
+        return Arrays.stream(data.split(LF + "+"))
+                .filter(not(String::isEmpty))
+                .map(line -> line.split(TAB))
+                .map(Row::new)
+                .filter(not(Row::isEmpty))
+                .toList();
     }
 
     private record Row(String[] columns) {
@@ -90,12 +66,11 @@ public class PasteData {
         }
 
         public boolean isEmpty() {
-            return columns.length == 0;
+            return columns.length == 0 || (columns.length == 1 && columns[0].isEmpty());
         }
 
         public String get(int index) {
             return columns[index];
         }
     }
-
 }

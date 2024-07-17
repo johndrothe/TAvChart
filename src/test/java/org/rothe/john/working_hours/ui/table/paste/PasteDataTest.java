@@ -5,11 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.COMPLETE_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.PARTIAL_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.SINGLE_VALUE;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PasteDataTest {
+
+    @Test
+    void testEmpty() {
+        assertTrue(PasteData.of("").isEmpty());
+        assertTrue(PasteData.of("\n").isEmpty());
+    }
 
     @Test
     void testOneRow() {
@@ -60,25 +64,4 @@ class PasteDataTest {
         assertThrows(IndexOutOfBoundsException.class, () -> PasteData.of("A\tB").getValueAt(3, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> PasteData.of("A\tB").getValueAt(0, 3));
     }
-
-    @Test
-    void testShapeSingle() {
-        assertEquals(SINGLE_VALUE, PasteData.of("A").shape(2));
-    }
-
-    @Test
-    void testShapeSingleCompleteRow() {
-        assertEquals(COMPLETE_ROW, PasteData.of("A").shape(1));
-    }
-
-    @Test
-    void testShapeDoubleCompleteRow() {
-        assertEquals(COMPLETE_ROW, PasteData.of("A\tB").shape(2));
-    }
-
-    @Test
-    void testShapePartialRow() {
-        assertEquals(PARTIAL_ROW, PasteData.of("A\tB").shape(3));
-    }
-
 }

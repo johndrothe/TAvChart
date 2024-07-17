@@ -122,14 +122,17 @@ public class MembersTableModel extends AbstractTableModel {
         }
 
         try {
-            val newTeam = team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
-            fireTeamChanged(columnIndex, newTeam);
+            fireTeamChanged(columnIndex, setValue(aValue, rowIndex, columnIndex));
         } catch (DateTimeParseException e) {
             System.err.printf("Ignoring invalid value '%s' entered as the '%s' for team member '%s'.%n",
                     aValue,
                     Columns.getColumn(columnIndex).getDescription(),
                     members.get(rowIndex).name());
         }
+    }
+
+    protected Team setValue(Object aValue, int rowIndex, int columnIndex) {
+        return team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
     }
 
     private List<Member> updatedMembers(Object aValue, int rowIndex, int columnIndex) {
@@ -163,10 +166,17 @@ public class MembersTableModel extends AbstractTableModel {
                 return member.withLunch(member.lunch().withRight(toTime(member.zone(), aValue)));
             }
             case ZONE -> {
-                return member.withZone((Zone) aValue);
+                return member.withZone(toZone(aValue));
             }
         }
         return member;
+    }
+
+    private static Zone toZone(Object aValue) {
+        if(aValue instanceof Zone zone) {
+            return zone;
+        }
+        return Zone.fromCsv(aValue.toString());
     }
 
     private static Time toTime(Zone zone, Object aValue) {
