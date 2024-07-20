@@ -3,14 +3,14 @@ package org.rothe.john.working_hours.ui.table.paste;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.COMPLETE_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.FRAGMENT;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.MULTIPLE_ROWS;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.NONE;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.PARTIAL_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.DataShape.SINGLE_VALUE;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.COMPLETE_ROW;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.FRAGMENT;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.MULTIPLE_ROWS;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.NONE;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.PARTIAL_ROW;
+import static org.rothe.john.working_hours.ui.table.paste.ContentShape.SINGLE_VALUE;
 
-class DataShapeTest {
+class ContentShapeTest {
 
     @Test
     void testShapeNone() {
@@ -46,7 +46,7 @@ class DataShapeTest {
         assertEquals(FRAGMENT, shape("A\tB\nC\tD", 3));
     }
 
-    private static DataShape shape(String data, int tableColumnCount) {
-        return DataShape.of(PasteData.of(data), tableColumnCount);
+    private static ContentShape shape(String data, int tableColumnCount) {
+        return CopiedContent.of(data, tableColumnCount).shape();
     }
 }

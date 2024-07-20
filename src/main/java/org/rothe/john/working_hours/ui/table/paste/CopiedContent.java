@@ -5,28 +5,34 @@ import java.util.List;
 
 import static java.util.function.Predicate.not;
 
-public class PasteData {
+public class CopiedContent {
     private static final String LF = "\n";
     private static final String TAB = "\t";
 
     private final List<Row> rows;
-    private final int columnCount;
+    private final int dataColumnCount;
+    private final ContentShape shape;
 
-    private PasteData(String data) {
-        this.rows = toRows(data);
-        this.columnCount = countColumns(rows);
+    private CopiedContent(String content, int tableColumnCount) {
+        this.rows = toRows(content);
+        this.dataColumnCount = countColumns(rows);
+        this.shape = ContentShape.of(this, tableColumnCount);
     }
 
-    public static PasteData of(Object data) {
-        return new PasteData((String) data);
+    public static CopiedContent of(Object content, int tableColumnCount) {
+        return new CopiedContent((String) content, tableColumnCount);
     }
 
-    public static PasteData of(String data) {
-        return new PasteData(data);
+    public static CopiedContent of(String content, int tableColumnCount) {
+        return new CopiedContent(content, tableColumnCount);
+    }
+
+    public ContentShape shape() {
+        return shape;
     }
 
     public int getColumnCount() {
-        return columnCount;
+        return dataColumnCount;
     }
 
     public int getRowCount() {
