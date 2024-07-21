@@ -2,7 +2,7 @@ package org.rothe.john.working_hours.ui.table.paste;
 
 import javax.swing.JTable;
 
-public enum SelectionShape {
+enum SelectionShape {
     NONE,
     SINGLE_CELL,
     PARTIAL_ROW,

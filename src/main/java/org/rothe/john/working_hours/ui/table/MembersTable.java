@@ -9,7 +9,9 @@ import org.rothe.john.working_hours.ui.table.editors.ZoneEditor;
 
 import javax.swing.*;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static java.util.Objects.nonNull;
 
@@ -40,6 +42,18 @@ public class MembersTable extends JTable {
     @Override
     public MembersTableModel getModel() {
         return (MembersTableModel) super.getModel();
+    }
+
+    public int getLastSelectedRow() {
+        if(getSelectedRowCount() == 0) {
+            return -1;
+        }
+        int[] selected = getSelectedRows();
+        return selected[selected.length - 1];
+    }
+
+    public List<Integer> getSelectedRowList() {
+        return IntStream.of(getSelectedRows()).boxed().toList();
     }
 
     public Optional<Member> getSelectedMember() {

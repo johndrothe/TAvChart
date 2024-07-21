@@ -5,7 +5,7 @@ import java.util.List;
 
 import static java.util.function.Predicate.not;
 
-public class CopiedContent {
+class CopiedContent {
     private static final String LF = "\n";
     private static final String TAB = "\t";
 

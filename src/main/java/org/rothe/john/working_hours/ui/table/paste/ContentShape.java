@@ -1,6 +1,6 @@
 package org.rothe.john.working_hours.ui.table.paste;
 
-public enum ContentShape {
+enum ContentShape {
     NONE,
     SINGLE_VALUE,
     PARTIAL_ROW,
