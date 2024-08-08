@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.operations;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,12 +7,13 @@ import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.model.Zone;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.CopiedContent;
 
 import static org.rothe.john.working_hours.model.TimePair.businessLunch;
 import static org.rothe.john.working_hours.model.TimePair.businessNormal;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-class AbstractPaster {
+class AbstractPasteOperation {
     protected final CopiedContent content;
     protected final MembersTable table;
 
@@ -24,7 +25,7 @@ class AbstractPaster {
                                CopiedContent content,
                                int startRow,
                                int startColumn) {
-        PasteCursor cursor = new PasteCursor(team, startRow, startColumn);
+        TableValueWriter cursor = new TableValueWriter(team, startRow, startColumn);
 
         for (int row = 0; row < content.getRowCount(); ++row) {
             for (int column = 0; column < content.getColumnCount(); ++column) {

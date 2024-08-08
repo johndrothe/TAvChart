@@ -1,19 +1,20 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.operations;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.CopiedContent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class EntireTablePaster extends AbstractPaster {
-    EntireTablePaster(CopiedContent content, MembersTable table) {
+public class EntireTableOperation extends AbstractPasteOperation {
+    EntireTableOperation(CopiedContent content, MembersTable table) {
         super(content, table);
     }
 
     public static void paste(CopiedContent content, MembersTable table) {
-        new EntireTablePaster(content, table).paste();
+        new EntireTableOperation(content, table).paste();
     }
 
     private void paste() {

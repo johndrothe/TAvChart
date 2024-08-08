@@ -3,7 +3,7 @@ package org.rothe.john.working_hours.ui.action;
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.table.MembersTable;
-import org.rothe.john.working_hours.ui.table.util.MemberRemover;
+import org.rothe.john.working_hours.util.MemberRemover;
 import org.rothe.john.working_hours.util.Images;
 
 import java.awt.event.ActionEvent;

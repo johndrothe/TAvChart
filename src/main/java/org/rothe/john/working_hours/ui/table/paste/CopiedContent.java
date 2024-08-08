@@ -1,11 +1,13 @@
 package org.rothe.john.working_hours.ui.table.paste;
 
+import org.rothe.john.working_hours.ui.table.paste.enums.ContentShape;
+
 import java.util.Arrays;
 import java.util.List;
 
 import static java.util.function.Predicate.not;
 
-class CopiedContent {
+public class CopiedContent {
     private static final String LF = "\n";
     private static final String TAB = "\t";
 

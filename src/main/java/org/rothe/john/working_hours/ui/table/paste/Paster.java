@@ -2,6 +2,11 @@ package org.rothe.john.working_hours.ui.table.paste;
 
 import lombok.val;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.enums.ReplaceBehavior;
+import org.rothe.john.working_hours.ui.table.paste.enums.SelectionShape;
+import org.rothe.john.working_hours.ui.table.paste.operations.EntireTableOperation;
+import org.rothe.john.working_hours.ui.table.paste.operations.RowOperation;
+import org.rothe.john.working_hours.ui.table.paste.operations.ValueOperation;
 import org.rothe.john.working_hours.util.Pair;
 
 import java.awt.Toolkit;
@@ -47,9 +52,9 @@ public class Paster {
         }
 
         switch (ReplaceBehavior.of(selection(), content.shape())) {
-            case ENTIRE_TABLE -> EntireTablePaster.paste(content, table);
-            case ROWS -> RowPaster.paste(content, table);
-            case VALUES -> ValuePaster.paste(content, table);
+            case ENTIRE_TABLE -> EntireTableOperation.paste(content, table);
+            case ROWS -> RowOperation.paste(content, table);
+            case VALUES -> ValueOperation.paste(content, table);
         }
     }
 

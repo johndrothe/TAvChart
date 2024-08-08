@@ -1,6 +1,8 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.enums;
 
-enum ContentShape {
+import org.rothe.john.working_hours.ui.table.paste.CopiedContent;
+
+public enum ContentShape {
     NONE,
     SINGLE_VALUE,
     PARTIAL_ROW,

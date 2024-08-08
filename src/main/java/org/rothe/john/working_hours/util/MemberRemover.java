@@ -1,4 +1,4 @@
-package org.rothe.john.working_hours.ui.table.util;
+package org.rothe.john.working_hours.util;
 
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;

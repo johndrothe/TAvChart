@@ -15,6 +15,7 @@ public class CopyAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        ActionEvent event = new ActionEvent(table, ActionEvent.ACTION_PERFORMED, "copy");
+        table.getActionMap().get(event.getActionCommand()).actionPerformed(event);
     }
 }

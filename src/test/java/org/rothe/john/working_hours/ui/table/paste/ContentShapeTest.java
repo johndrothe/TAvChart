@@ -1,14 +1,15 @@
 package org.rothe.john.working_hours.ui.table.paste;
 
 import org.junit.jupiter.api.Test;
+import org.rothe.john.working_hours.ui.table.paste.enums.ContentShape;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.COMPLETE_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.FRAGMENT;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.MULTIPLE_ROWS;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.NONE;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.PARTIAL_ROW;
-import static org.rothe.john.working_hours.ui.table.paste.ContentShape.SINGLE_VALUE;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.COMPLETE_ROW;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.FRAGMENT;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.MULTIPLE_ROWS;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.NONE;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.PARTIAL_ROW;
+import static org.rothe.john.working_hours.ui.table.paste.enums.ContentShape.SINGLE_VALUE;
 
 class ContentShapeTest {
 

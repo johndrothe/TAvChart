@@ -1,6 +1,6 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.enums;
 
-enum ReplaceBehavior {
+public enum ReplaceBehavior {
     /**
      * Replace the entire table.
      */

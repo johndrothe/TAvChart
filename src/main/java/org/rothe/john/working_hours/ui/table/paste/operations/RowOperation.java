@@ -1,22 +1,23 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.operations;
 
 import org.rothe.john.working_hours.event.Teams;
 import org.rothe.john.working_hours.model.Member;
 import org.rothe.john.working_hours.model.Team;
 import org.rothe.john.working_hours.ui.table.MembersTable;
-import org.rothe.john.working_hours.ui.table.util.MemberRemover;
+import org.rothe.john.working_hours.ui.table.paste.CopiedContent;
+import org.rothe.john.working_hours.util.MemberRemover;
 
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-class RowPaster extends AbstractPaster {
-    private RowPaster(CopiedContent content, MembersTable table) {
+public class RowOperation extends AbstractPasteOperation {
+    private RowOperation(CopiedContent content, MembersTable table) {
         super(content, table);
     }
 
     public static void paste(CopiedContent content, MembersTable table) {
-        new RowPaster(content, table).paste();
+        new RowOperation(content, table).paste();
     }
 
     private void paste() {
@@ -45,7 +46,7 @@ class RowPaster extends AbstractPaster {
 
     private Stream<Member> newMembers(CopiedContent content) {
         return IntStream.range(0, (content.getRowCount() - table.getSelectedRowCount()))
-                .mapToObj(i -> newMember());
+                .mapToObj(unused -> newMember());
     }
 
     private Team removeExcessRows(Team team, CopiedContent data) {

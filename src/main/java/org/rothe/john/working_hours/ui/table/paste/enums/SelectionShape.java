@@ -1,8 +1,8 @@
-package org.rothe.john.working_hours.ui.table.paste;
+package org.rothe.john.working_hours.ui.table.paste.enums;
 
 import javax.swing.JTable;
 
-enum SelectionShape {
+public enum SelectionShape {
     NONE,
     SINGLE_CELL,
     PARTIAL_ROW,
