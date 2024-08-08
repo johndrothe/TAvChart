@@ -5,6 +5,7 @@ import org.rothe.john.working_hours.event.undo.UndoListener;
 import org.rothe.john.working_hours.ui.action.*;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.Paster;
 import org.rothe.john.working_hours.util.SampleFactory;
 
 import javax.swing.Action;
@@ -12,6 +13,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.KeyEvent.VK_C;
@@ -23,13 +28,19 @@ public class MenuBar extends JMenuBar {
     private final Canvas canvas;
     private final MembersTable table;
     private final UndoListener listener;
+    private final JMenuItem copy;
+    private final JMenuItem paste;
 
     public MenuBar(Canvas canvas, MembersTable table, UndoListener listener) {
         this.canvas = canvas;
         this.table = table;
         this.listener = listener;
+        this.copy = newItem(new CopyAction(table), 'C', VK_C);
+        this.paste = newItem(new PasteAction(table), 'P', VK_V);
 
         addMenus();
+
+        table.getSelectionModel().addListSelectionListener(new TableSelectionListener(this::updateCopyPaste));
     }
 
     private void addMenus() {
@@ -86,8 +97,9 @@ public class MenuBar extends JMenuBar {
     private void addEditMenu() {
         val menu = newMenu("Edit", 'E');
 
-        menu.add(newItem(new CopyAction(table), 'C', VK_C));
-        menu.add(newItem(new PasteAction(table), 'P', VK_V));
+        menu.add(copy);
+        menu.add(paste);
+        menu.addMenuListener(new RunnableMenuListener(this::updateCopyPaste));
 
         menu.addSeparator();
 
@@ -111,5 +123,32 @@ public class MenuBar extends JMenuBar {
         val menu = new JMenu(title);
         menu.setMnemonic(mnemonic);
         return add(menu);
+    }
+
+    private void updateCopyPaste() {
+        copy.setEnabled(table.isShowing() && table.getSelectedRowCount() > 0);
+        paste.setEnabled(table.isShowing() && Paster.canPaste(table));
+    }
+
+    private record RunnableMenuListener(Runnable runnable) implements MenuListener {
+        @Override
+        public void menuSelected(MenuEvent e) {
+            runnable.run();
+        }
+
+        @Override
+        public void menuDeselected(MenuEvent e) {
+        }
+
+        @Override
+        public void menuCanceled(MenuEvent e) {
+        }
+    }
+
+    private record TableSelectionListener(Runnable runnable) implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            runnable.run();
+        }
     }
 }

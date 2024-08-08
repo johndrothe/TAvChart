@@ -5,6 +5,7 @@ import org.rothe.john.working_hours.event.undo.UndoListener;
 import org.rothe.john.working_hours.ui.action.*;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.Paster;
 
 import javax.swing.*;
 
@@ -61,8 +62,8 @@ public class Toolbar extends JToolBar {
         add(new ExportCsvAction(table));
 
         addSeparator();
-        add(new CopyAction(table)).setEnabled(event.isTableDisplayed());
-        add(new PasteAction(table)).setEnabled(event.isTableDisplayed());
+        add(new CopyAction(table)).setEnabled(event.isTableDisplayed() && table.getSelectedRowCount() > 0);
+        add(new PasteAction(table)).setEnabled(event.isTableDisplayed() && Paster.canPaste(table));
 
         addSeparator();
         initializeUndoRedo();

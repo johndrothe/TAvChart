@@ -1,6 +1,7 @@
 package org.rothe.john.working_hours.ui.action;
 
 import org.rothe.john.working_hours.ui.table.MembersTable;
+import org.rothe.john.working_hours.ui.table.paste.Paster;
 import org.rothe.john.working_hours.util.Images;
 
 import java.awt.event.ActionEvent;
@@ -15,6 +16,6 @@ public class PasteAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        Paster.paste(table);
     }
 }

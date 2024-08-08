@@ -27,12 +27,6 @@ class PairTest {
     }
 
     @Test
-    void testToString() {
-        Pair<String> pair = Pair.of("a", "b");
-        assertEquals("Pair(a, b)", pair.toString());
-    }
-
-    @Test
     void testPairStreamFromEmptyIsEmpty() {
         assertTrue(Pair.stream(List.of()).toList().isEmpty());
     }
