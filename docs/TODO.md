@@ -12,7 +12,6 @@
       * These zones would overlap two or more of the zones that are currently being calculated.
 * Table Editing
   * Improved zone selector with search/sort
-  * Proper spreadsheet-esque copy/paste
 * Data Entry
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
