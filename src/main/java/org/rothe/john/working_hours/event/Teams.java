@@ -1,9 +1,8 @@
 package org.rothe.john.working_hours.event;
 
-import lombok.val;
 import org.rothe.john.working_hours.model.Team;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -50,12 +49,10 @@ public class Teams {
     }
 
     public static void fireTeamChanged(Object source, String change, Team newTeam) {
-        val oldTeam = currentTeam.getAndSet(newTeam);
-        fireTeamChanged(new TeamChangedEvent(source, change, oldTeam, newTeam));
+        fireTeamChanged(new TeamChangedEvent(source, change, currentTeam.get(), newTeam));
     }
 
     public static void fireNewTeam(Object source, String change, Team newTeam) {
-        currentTeam.set(newTeam);
         fireTeamChanged(new NewTeamEvent(source, change, newTeam));
     }
 
@@ -69,6 +66,7 @@ public class Teams {
      * @see EventListenerList
      */
     public static void fireTeamChanged(TeamChangedEvent event) {
+        currentTeam.set(event.team());
         if(SwingUtilities.isEventDispatchThread()) {
             fireTeamChangedImpl(event);
         } else {
