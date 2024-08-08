@@ -5,7 +5,6 @@ import lombok.val;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Objects;
 
 import static org.rothe.john.working_hours.model.Time.MINUTES_IN_A_DAY;
 import static org.rothe.john.working_hours.model.Time.fromHoursUtc;
@@ -64,14 +63,6 @@ public record TimePair(Time left, Time right) {
             return rightMinutesUtc + MINUTES_IN_A_DAY;
         }
         return rightMinutesUtc;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof TimePair p) {
-            return Objects.equals(left, p.left) && Objects.equals(right, p.right);
-        }
-        return false;
     }
 
     public boolean contains(Time time) {
