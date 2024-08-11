@@ -1,5 +1,6 @@
 # Features Wishlist
 
+* Coherent logging and error reporting
 * Move border and center hour to Team
 * User-specified canvas size
   * Specified as
@@ -10,7 +11,7 @@
   * Canvas Zoom
   * Export at full canvas size
 * Refactor "Team" into "Document"
-  * Name, Members, Canvas Size, etc.
+  * Name, Border/Center Hour, Members, Canvas Size, etc.
 * Save/load Team (Document) in JSON 
 * Color icons for the toolbar / menu bar 
 * Context locations for Undo / Redo
