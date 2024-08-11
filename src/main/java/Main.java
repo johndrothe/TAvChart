@@ -1,5 +1,5 @@
-import org.rothe.john.working_hours.ui.ApplicationFrame;
-import org.rothe.john.working_hours.util.Settings;
+import org.rothe.john.swc.ui.ApplicationFrame;
+import org.rothe.john.swc.util.Settings;
 
 import javax.swing.SwingUtilities;
 
