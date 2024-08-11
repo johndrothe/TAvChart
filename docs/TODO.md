@@ -1,5 +1,17 @@
 # Features Wishlist
 
+* Move border and center hour to Team
+* User-specified canvas size
+  * Specified as
+    * pixel
+    * inch & DPI
+    * cm & "DPI"
+  * Canvas scrolling
+  * Canvas Zoom
+  * Export at full canvas size
+* Refactor "Team" into "Document"
+  * Name, Members, Canvas Size, etc.
+* Save/load Team (Document) in JSON 
 * Color icons for the toolbar / menu bar 
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"

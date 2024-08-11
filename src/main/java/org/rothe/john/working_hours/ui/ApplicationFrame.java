@@ -7,6 +7,7 @@ import org.rothe.john.working_hours.ui.action.DisplayChangeEvent;
 import org.rothe.john.working_hours.ui.canvas.Canvas;
 import org.rothe.john.working_hours.ui.table.MembersTablePanel;
 import org.rothe.john.working_hours.util.GBCBuilder;
+import org.rothe.john.working_hours.util.Settings;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,6 +24,8 @@ import java.util.List;
 import static java.awt.BorderLayout.CENTER;
 
 public class ApplicationFrame extends JFrame {
+    public static final String VERSION = "1.1.0";
+
     private final UndoListener listener = new UndoListener();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
@@ -29,12 +33,14 @@ public class ApplicationFrame extends JFrame {
     private final Canvas canvas = new Canvas();
     private final Toolbar toolBar = new Toolbar(listener);
     private final MenuBar menuBar = new MenuBar(canvas, tablePanel.getTable(), listener);
+    private final Settings settings;
 
-    public ApplicationFrame() {
-        super("Team Scheduler - 1.0.0");
+    public ApplicationFrame(Settings settings) {
+        super("Team Scheduler - " + VERSION);
+        this.settings = settings;
         addWindowListener(new ExitOnCloseListener());
         initialize();
-        setSize(1024, 768);
+        setSize(settings.getMainWindowSize());
     }
 
     private void initialize() {
@@ -81,11 +87,18 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void exitApplication() {
+        saveSettings();
         setVisible(false);
 
         canvas.unregister();
         tablePanel.unregister();
         System.exit(0);
+    }
+
+    private void saveSettings() {
+        settings.setMainWindowSize(new Dimension(getWidth(), getHeight()));
+
+        settings.save();
     }
 
     private class ExitOnCloseListener extends WindowAdapter {
