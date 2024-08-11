@@ -67,11 +67,11 @@ public class MenuBar extends JMenuBar {
         menu.add(newItem(new NewTeamAction(getRootPane()), 'N'));
 
         menu.addSeparator();
-        menu.add(new OpenAction(table)).setEnabled(false);
-        menu.add(new SaveAction(table)).setEnabled(false);
+        menu.add(new OpenAction(table));
+        menu.add(new SaveAction(table));
 
         menu.addSeparator();
-        menu.add(new SaveAsAction(table)).setEnabled(false);
+        menu.add(new SaveAsAction(table));
 
         menu.addSeparator();
         menu.add(new ImportCsvAction(table)).setMnemonic('I');

@@ -1,5 +1,8 @@
 package org.rothe.john.swc.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.val;
 
 import java.time.LocalDate;
@@ -90,6 +93,17 @@ public class Time {
 
     public Zone zone() {
         return zone;
+    }
+
+    @JsonCreator // constructor can be public, private, whatever
+    private Time(@JsonProperty("zone") Zone zone, @JsonProperty("local") String local) {
+        this(zone, LocalTime.parse(local));
+    }
+
+    @JsonProperty("local")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss.SSS")
+    private LocalTime local() {
+        return local;
     }
 
     public Time inUtc() {

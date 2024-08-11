@@ -1,5 +1,8 @@
 package org.rothe.john.swc.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.val;
 
 import java.time.DateTimeException;
@@ -24,6 +27,12 @@ public class Zone {
         this.zoneId = zoneId;
     }
 
+    @JsonCreator
+    private Zone(@JsonProperty("id") String id)
+    {
+        this(ZoneId.of(id));
+    }
+
     public static Zone here() {
         return new Zone(ZoneId.systemDefault());
     }
@@ -40,14 +49,17 @@ public class Zone {
                 .toArray(Zone[]::new);
     }
 
+    @JsonIgnore
     public ZoneRules getRules() {
         return zoneId.getRules();
     }
 
+    @JsonIgnore
     public String getAbbrevAndOffset() {
         return String.format("%s (%s)", getAbbreviation(), getOffsetHours());
     }
 
+    @JsonIgnore
     public String getAbbreviation() {
         val zone = TimeZone.getTimeZone(zoneId);
         return zone.getDisplayName(zone.inDaylightTime(new Date()), TimeZone.SHORT);
@@ -74,14 +86,17 @@ public class Zone {
         return zoneId.getId();
     }
 
+    @JsonIgnore
     public ZoneId getRawZoneId() {
         return zoneId;
     }
 
+    @JsonIgnore
     public int getOffsetHours() {
         return Time.toHours(getOffsetSeconds());
     }
 
+    @JsonIgnore
     public int getOffsetSeconds() {
         return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
     }
