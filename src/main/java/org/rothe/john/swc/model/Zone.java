@@ -30,7 +30,14 @@ public class Zone {
     @JsonCreator
     private Zone(@JsonProperty("id") String id)
     {
-        this(ZoneId.of(id));
+        this(toZoneId(id));
+    }
+
+    private static ZoneId toZoneId(String id) {
+        if (id.equals("UTC")) {
+            return ZoneOffset.UTC;
+        }
+        return ZoneId.of(id);
     }
 
     public static Zone here() {
@@ -123,7 +130,7 @@ public class Zone {
 
     public static Zone fromCsv(String id) {
         try {
-            return new Zone(ZoneId.of(id));
+            return new Zone(toZoneId(id));
         } catch (DateTimeException dte) {
             System.err.println("Warning: Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
             dte.printStackTrace();
