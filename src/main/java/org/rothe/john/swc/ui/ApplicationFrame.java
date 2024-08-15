@@ -24,7 +24,7 @@ import java.util.List;
 import static java.awt.BorderLayout.CENTER;
 
 public class ApplicationFrame extends JFrame {
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.1.1";
 
     private final UndoListener listener = new UndoListener();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
