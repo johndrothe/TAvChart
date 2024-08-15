@@ -122,7 +122,7 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     private void initTeamCanvas() {
-        val zones = team.getZones();
+        val zones = team.zones();
         this.palette = new Palette(zones);
         removeAll();
         addZones(zones);
@@ -143,7 +143,7 @@ public class Canvas extends JPanel implements TeamListener {
     private void addMembers(Team team) {
         final Function<Member, MemberRow> toRow = member -> new MemberRow(team, member, calculator, palette);
 
-        team.getMembers().stream()
+        team.members().stream()
                 .map(toRow)
                 // optional zone sorting
                 // .sorted(zoneRowComparator())

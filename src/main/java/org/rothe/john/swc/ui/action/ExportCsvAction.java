@@ -75,10 +75,10 @@ public class ExportCsvAction extends ToolbarAction {
     }
 
     private static String defaultFileName(Team team) {
-        if(isNull(team) || team.getName().trim().isEmpty()) {
+        if(isNull(team) || team.name().trim().isEmpty()) {
             return "my_team.csv";
         }
-        return team.getName()
+        return team.name()
                 .toLowerCase()
                 .replace(" ", "_").trim()
                 .replaceAll("[^a-z0-9_-]","@@@@@")

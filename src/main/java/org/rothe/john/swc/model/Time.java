@@ -91,6 +91,7 @@ public class Time {
         return String.format("%02d:%02d", utc.getHour(), utc.getMinute());
     }
 
+    @JsonProperty("zone")
     public Zone zone() {
         return zone;
     }

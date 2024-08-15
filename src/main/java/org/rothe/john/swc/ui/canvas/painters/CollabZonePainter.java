@@ -31,7 +31,7 @@ public class CollabZonePainter {
         if (isNull(canvas.getTeam())) {
             this.collabCalculator = null;
         } else {
-            this.collabCalculator = CollabCalculator.of(canvas.getTeam().getMembers());
+            this.collabCalculator = CollabCalculator.of(canvas.getTeam().members());
         }
     }
 

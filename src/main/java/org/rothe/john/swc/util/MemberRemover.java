@@ -12,7 +12,7 @@ import static java.util.function.Predicate.not;
 
 public class MemberRemover {
     public static Team remove(Team team, int[] indexes) {
-        return team.withMembers(removeMembers(team.getMembers(), indexes));
+        return team.withMembers(removeMembers(team.members(), indexes));
     }
 
     private static List<Member> removeMembers(List<Member> members, int[] indexes) {

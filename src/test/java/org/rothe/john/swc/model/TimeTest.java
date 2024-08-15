@@ -1,6 +1,7 @@
 package org.rothe.john.swc.model;
 
 import org.junit.jupiter.api.Test;
+import org.rothe.john.swc.io.json.Json;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -115,12 +116,12 @@ class TimeTest {
     }
 
     @Test
-    void testToHours(){
+    void testToHours() {
         assertEquals(0, Time.toHours(0));
         assertEquals(0, Time.toHours(1));
         assertEquals(0, Time.toHours(60));
-        assertEquals(1, Time.toHours(60*60));
-        assertEquals(10, Time.toHours(60*60*10));
+        assertEquals(1, Time.toHours(60 * 60));
+        assertEquals(10, Time.toHours(60 * 60 * 10));
     }
 
     @Test
@@ -142,5 +143,32 @@ class TimeTest {
         assertEquals(Time.at(UTC, 1, 15), Time.at(UTC, 1, 15).roundToQuarterHour());
         assertEquals(Time.at(UTC, 1, 15), Time.at(UTC, 1, 16).roundToQuarterHour());
         assertEquals(Time.at(UTC, 1, 15), Time.at(UTC, 1, 17).roundToQuarterHour());
+    }
+
+    @Test
+    void testToJson() {
+        assertEquals(json1522(UTC), Json.toJson(Time.at(UTC, 15, 22)));
+        assertEquals(json1522(NYC), Json.toJson(Time.at(NYC, 15, 22)));
+        assertEquals(json1522(CHI), Json.toJson(Time.at(CHI, 15, 22)));
+        assertEquals(json1522(LAX), Json.toJson(Time.at(LAX, 15, 22)));
+        assertEquals(json1522(PL), Json.toJson(Time.at(PL, 15, 22)));
+    }
+
+    @Test
+    void testFromJson() {
+        assertEquals(Time.at(UTC, 15, 22), Json.fromJson(json1522(UTC), Time.class));
+        assertEquals(Time.at(NYC, 15, 22), Json.fromJson(json1522(NYC), Time.class));
+        assertEquals(Time.at(CHI, 15, 22), Json.fromJson(json1522(CHI), Time.class));
+        assertEquals(Time.at(LAX, 15, 22), Json.fromJson(json1522(LAX), Time.class));
+        assertEquals(Time.at(PL, 15, 22), Json.fromJson(json1522(PL), Time.class));
+    }
+
+    private static String json1522(Zone zone) {
+        return "{\n" +
+                "  \"zone\" : {\n" +
+                "    \"id\" : \"" + zone.getId() + "\"\n" +
+                "  },\n" +
+                "  \"local\" : \"15:22:00.000\"\n" +
+                "}";
     }
 }
