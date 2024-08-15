@@ -1,5 +1,8 @@
 package org.rothe.john.swc.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.val;
 
 import java.time.DateTimeException;
@@ -24,6 +27,19 @@ public class Zone {
         this.zoneId = zoneId;
     }
 
+    @JsonCreator
+    private Zone(@JsonProperty("id") String id)
+    {
+        this(toZoneId(id));
+    }
+
+    private static ZoneId toZoneId(String id) {
+        if (id.equals("UTC")) {
+            return ZoneOffset.UTC;
+        }
+        return ZoneId.of(id);
+    }
+
     public static Zone here() {
         return new Zone(ZoneId.systemDefault());
     }
@@ -40,14 +56,17 @@ public class Zone {
                 .toArray(Zone[]::new);
     }
 
+    @JsonIgnore
     public ZoneRules getRules() {
         return zoneId.getRules();
     }
 
+    @JsonIgnore
     public String getAbbrevAndOffset() {
         return String.format("%s (%s)", getAbbreviation(), getOffsetHours());
     }
 
+    @JsonIgnore
     public String getAbbreviation() {
         val zone = TimeZone.getTimeZone(zoneId);
         return zone.getDisplayName(zone.inDaylightTime(new Date()), TimeZone.SHORT);
@@ -74,14 +93,17 @@ public class Zone {
         return zoneId.getId();
     }
 
+    @JsonIgnore
     public ZoneId getRawZoneId() {
         return zoneId;
     }
 
+    @JsonIgnore
     public int getOffsetHours() {
         return Time.toHours(getOffsetSeconds());
     }
 
+    @JsonIgnore
     public int getOffsetSeconds() {
         return zoneId.getRules().getOffset(Instant.now()).get(OFFSET_SECONDS);
     }
@@ -108,7 +130,7 @@ public class Zone {
 
     public static Zone fromCsv(String id) {
         try {
-            return new Zone(ZoneId.of(id));
+            return new Zone(toZoneId(id));
         } catch (DateTimeException dte) {
             System.err.println("Warning: Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
             dte.printStackTrace();

@@ -1,9 +1,8 @@
 package org.rothe.john.swc.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Data;
 import lombok.Setter;
+import org.rothe.john.swc.io.json.Json;
 
 import java.awt.Dimension;
 import java.io.IOException;
@@ -31,7 +30,7 @@ public class Settings {
 
     public void save(Path target) {
         try {
-            Files.writeString(target, newGson().toJson(this), UTF_8, CREATE, TRUNCATE_EXISTING);
+            Files.writeString(target, Json.toJson(this), UTF_8, CREATE, TRUNCATE_EXISTING);
         } catch (IOException e) {
             System.err.println("Error: Failed to save user-preferences to " + target);
             e.printStackTrace();
@@ -45,16 +44,12 @@ public class Settings {
     public static Settings load(Path target) {
         try {
             if (Files.exists(target)) {
-                return newGson().fromJson(Files.readString(target, UTF_8), Settings.class);
+                return Json.fromJson(Files.readString(target, UTF_8), Settings.class);
             }
         } catch (IOException e) {
             System.err.println("Error: Failed to load user-preferences from " + target);
             e.printStackTrace();
         }
         return new Settings();
-    }
-
-    private static Gson newGson() {
-        return new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
     }
 }

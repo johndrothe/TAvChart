@@ -2,6 +2,7 @@ package org.rothe.john.swc.model;
 
 import lombok.val;
 import org.junit.jupiter.api.Test;
+import org.rothe.john.swc.io.json.Json;
 
 import java.time.Duration;
 import java.util.List;
@@ -147,7 +148,36 @@ class TimePairTest {
         assertEquals(Duration.ofHours(8), pair(EDT, 18, 2).duration());
     }
 
+    @Test
+    void testToJson() {
+        assertEquals(jsonPair1802(UTC), Json.toJson(pair(UTC, 18, 2)));
+        assertEquals(jsonPair1802(EDT), Json.toJson(pair(EDT, 18, 2)));
+    }
+
+    @Test
+    void testFromJson() {
+        assertEquals(pair(UTC, 18, 2), Json.fromJson(jsonPair1802(UTC), TimePair.class));
+        assertEquals(pair(EDT, 18, 2), Json.fromJson(jsonPair1802(EDT), TimePair.class));
+    }
+
     private static TimePair pair(Zone zone, int left, int right) {
         return new TimePair(Time.at(zone, left), Time.at(zone, right));
+    }
+
+    private static String jsonPair1802(Zone zone) {
+        return "{\n" +
+                "  \"left\" : {\n" +
+                "    \"zone\" : {\n" +
+                "      \"id\" : \"" + zone.getId() + "\"\n" +
+                "    },\n" +
+                "    \"local\" : \"18:00:00.000\"\n" +
+                "  },\n" +
+                "  \"right\" : {\n" +
+                "    \"zone\" : {\n" +
+                "      \"id\" : \"" + zone.getId() + "\"\n" +
+                "    },\n" +
+                "    \"local\" : \"02:00:00.000\"\n" +
+                "  }\n" +
+                "}";
     }
 }

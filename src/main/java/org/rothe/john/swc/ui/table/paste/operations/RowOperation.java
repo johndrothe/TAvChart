@@ -37,11 +37,11 @@ public class RowOperation extends AbstractPasteOperation {
     }
 
     private Stream<Member> membersBeforeNew(Team team) {
-        return team.getMembers().stream().limit(table.getLastSelectedRow());
+        return team.members().stream().limit(table.getLastSelectedRow());
     }
 
     private Stream<Member> membersAfterNew(Team team) {
-        return team.getMembers().stream().skip(table.getLastSelectedRow());
+        return team.members().stream().skip(table.getLastSelectedRow());
     }
 
     private Stream<Member> newMembers(CopiedContent content) {

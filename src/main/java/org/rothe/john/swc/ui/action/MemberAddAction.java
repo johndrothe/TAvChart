@@ -33,8 +33,8 @@ public class MemberAddAction extends ToolbarAction {
     }
 
     private void addMember(Team team) {
-        fireTeamChanged(team.withMembers(newMembers(team.getMembers())));
-        SwingUtilities.invokeLater(() -> editNewMember(team.getMembers().size()));
+        fireTeamChanged(team.withMembers(newMembers(team.members())));
+        SwingUtilities.invokeLater(() -> editNewMember(team.members().size()));
     }
 
     private List<Member> newMembers(List<Member> members) {

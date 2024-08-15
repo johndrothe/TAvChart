@@ -61,8 +61,8 @@ public class MembersTable extends JTable {
 
     public Optional<Member> getSelectedMember() {
         val index = getSelectedRow();
-        if (index >= 0 && index <= team.getMembers().size()) {
-            return Optional.of(team.getMembers().get(index));
+        if (index >= 0 && index <= team.members().size()) {
+            return Optional.of(team.members().get(index));
         }
         return Optional.empty();
     }

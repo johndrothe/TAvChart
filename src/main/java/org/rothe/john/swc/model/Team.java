@@ -1,28 +1,25 @@
 package org.rothe.john.swc.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.With;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 
 @With
-public class Team {
-    @Getter
-    @Setter
-    private String name;
-    private List<Member> members;
-
-    public Team(String name, List<Member> members) {
+public record Team(String name, List<Member> members) {
+    @JsonCreator
+    public Team(@JsonProperty("name") String name,
+                @JsonProperty("members") List<Member> members) {
         this.name = name;
-        this.members = new ArrayList<>(members);
+        this.members = List.copyOf(members);
     }
 
     public static Team fromCsv(String fileName, String csvContents) {
@@ -47,11 +44,8 @@ public class Team {
         return fileName;
     }
 
-    public List<Member> getMembers() {
-        return Collections.unmodifiableList(members);
-    }
-
-    public List<Zone> getZones() {
+    @JsonIgnore
+    public List<Zone> zones() {
         return Stream.concat(defaultZones(), getMemberZoneIds())
                 .distinct().toList();
     }
@@ -65,7 +59,7 @@ public class Team {
     }
 
     public String toCsv() {
-        return getMembers().stream()
+        return members().stream()
                 .map(Member::toCsv)
                 .collect(joining("\n", csvHeader(), "\n"));
     }
@@ -75,8 +69,8 @@ public class Team {
     }
 
     private static List<Member> replaceMember(List<Member> list, Member oldMember, Member newMember) {
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i) == oldMember) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == oldMember) {
                 list.set(i, newMember);
                 return List.copyOf(list);
             }

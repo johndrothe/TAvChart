@@ -24,7 +24,7 @@ public class MoveDownAction extends AbstractReorderAction {
         if (rows.length == 0 || rows[rows.length - 1] == table().getRowCount() - 1) {
             return;
         }
-        moveDown(rows, new ArrayList<>(team().getMembers()));
+        moveDown(rows, new ArrayList<>(team().members()));
     }
 
     private void moveDown(int[] rows, List<Member> members) {

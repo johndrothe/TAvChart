@@ -24,7 +24,7 @@ public class MembersTableModel extends AbstractTableModel {
         this.members.clear();
 
         if (nonNull(team)) {
-            this.members.addAll(team.getMembers());
+            this.members.addAll(team.members());
         }
         fireTableDataChanged();
     }

@@ -25,7 +25,7 @@ public class MoveUpAction extends AbstractReorderAction {
             return;
         }
 
-        moveUp(rows, new ArrayList<>(team().getMembers()));
+        moveUp(rows, new ArrayList<>(team().members()));
     }
 
     private void moveUp(int[] rows, List<Member> members) {
