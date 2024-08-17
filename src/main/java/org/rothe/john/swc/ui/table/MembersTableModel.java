@@ -1,9 +1,9 @@
 package org.rothe.john.swc.ui.table;
 
 import lombok.val;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 import org.rothe.john.swc.model.Time;
 import org.rothe.john.swc.model.Zone;
 
@@ -17,14 +17,14 @@ import static java.util.Objects.nonNull;
 
 public class MembersTableModel extends AbstractTableModel {
     private final List<Member> members = new ArrayList<>();
-    private Team team = null;
+    private Document document = null;
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setDocument(Document document) {
+        this.document = document;
         this.members.clear();
 
-        if (nonNull(team)) {
-            this.members.addAll(team.members());
+        if (nonNull(document)) {
+            this.members.addAll(document.members());
         }
         fireTableDataChanged();
     }
@@ -122,7 +122,7 @@ public class MembersTableModel extends AbstractTableModel {
         }
 
         try {
-            fireTeamChanged(columnIndex, setValue(aValue, rowIndex, columnIndex));
+            fireDocumentChanged(columnIndex, setValue(aValue, rowIndex, columnIndex));
         } catch (DateTimeParseException e) {
             System.err.printf("Ignoring invalid value '%s' entered as the '%s' for team member '%s'.%n",
                     aValue,
@@ -131,8 +131,8 @@ public class MembersTableModel extends AbstractTableModel {
         }
     }
 
-    protected Team setValue(Object aValue, int rowIndex, int columnIndex) {
-        return team.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
+    protected Document setValue(Object aValue, int rowIndex, int columnIndex) {
+        return document.withMembers(updatedMembers(aValue, rowIndex, columnIndex));
     }
 
     private List<Member> updatedMembers(Object aValue, int rowIndex, int columnIndex) {
@@ -183,9 +183,9 @@ public class MembersTableModel extends AbstractTableModel {
         return Time.parse(zone, aValue.toString()).roundToQuarterHour();
     }
 
-    private void fireTeamChanged(int columnIndex, Team newTeam) {
-        Teams.fireTeamChanged(this,
+    private void fireDocumentChanged(int columnIndex, Document newDocument) {
+        Documents.fireDocumentChanged(this,
                 "Edit " + Columns.getColumn(columnIndex).getDescription(),
-                newTeam);
+                newDocument);
     }
 }

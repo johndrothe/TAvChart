@@ -3,12 +3,12 @@ package org.rothe.john.swc.ui.canvas;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
-import org.rothe.john.swc.event.NewTeamEvent;
-import org.rothe.john.swc.event.TeamChangedEvent;
-import org.rothe.john.swc.event.TeamListener;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.NewDocumentEvent;
+import org.rothe.john.swc.event.DocumentChangedEvent;
+import org.rothe.john.swc.event.DocumentListener;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 import org.rothe.john.swc.model.Time;
 import org.rothe.john.swc.model.Zone;
 import org.rothe.john.swc.ui.canvas.painters.CollabZonePainter;
@@ -30,7 +30,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
 import static javax.swing.BorderFactory.*;
 
-public class Canvas extends JPanel implements TeamListener {
+public class Canvas extends JPanel implements DocumentListener {
     private static final int INSET = 5;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
@@ -42,7 +42,7 @@ public class Canvas extends JPanel implements TeamListener {
     private int borderHour = 0;
 
     @Getter
-    private Team team = null;
+    private Document document = null;
 
     public Canvas() {
         super();
@@ -59,11 +59,11 @@ public class Canvas extends JPanel implements TeamListener {
     }
 
     public void register() {
-        Teams.addTeamListener(this);
+        Documents.addDocumentListener(this);
     }
 
     public void unregister() {
-        Teams.removeTeamListener(this);
+        Documents.removeDocumentListener(this);
     }
 
     public void setBorderHour(int hour) {
@@ -72,11 +72,11 @@ public class Canvas extends JPanel implements TeamListener {
         repaint();
     }
 
-    public void teamChanged(TeamChangedEvent event) {
-        if(event instanceof NewTeamEvent) {
+    public void documentChanged(DocumentChangedEvent event) {
+        if(event instanceof NewDocumentEvent) {
             borderHour = 0;
         }
-        this.team = event.team();
+        this.document = event.document();
         initialize();
         revalidate();
         repaint();
@@ -108,10 +108,10 @@ public class Canvas extends JPanel implements TeamListener {
 
     private void initialize() {
         rows.clear();
-        if (isNull(team)) {
+        if (isNull(document)) {
             initBlankCanvas();
         } else {
-            initTeamCanvas();
+            initCanvas();
         }
         collabZonePainter.initialize();
     }
@@ -121,12 +121,12 @@ public class Canvas extends JPanel implements TeamListener {
         removeAll();
     }
 
-    private void initTeamCanvas() {
-        val zones = team.zones();
+    private void initCanvas() {
+        val zones = document.zones();
         this.palette = new Palette(zones);
         removeAll();
         addZones(zones);
-        addMembers(team);
+        addMembers(document);
         addTransitionsRow(zones);
         addSpacerGlue();
     }
@@ -140,10 +140,10 @@ public class Canvas extends JPanel implements TeamListener {
                 .forEach(this::addRow);
     }
 
-    private void addMembers(Team team) {
-        final Function<Member, MemberRow> toRow = member -> new MemberRow(team, member, calculator, palette);
+    private void addMembers(Document document) {
+        final Function<Member, MemberRow> toRow = member -> new MemberRow(document, member, calculator, palette);
 
-        team.members().stream()
+        document.members().stream()
                 .map(toRow)
                 // optional zone sorting
                 // .sorted(zoneRowComparator())

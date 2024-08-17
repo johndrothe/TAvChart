@@ -1,9 +1,9 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.io.CsvFileFilter;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.util.Images;
 
@@ -27,9 +27,9 @@ public class ImportCsvAction extends ToolbarAction {
         this.table = table;
     }
 
-    public static Team read(Path path) {
+    public static Document read(Path path) {
         try {
-            return Team.fromCsv(path.getFileName().toString(), Files.readString(path));
+            return Document.fromCsv(path.getFileName().toString(), Files.readString(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,8 +42,8 @@ public class ImportCsvAction extends ToolbarAction {
             return;
         }
 
-        Team team = read(path);
-        Teams.fireTeamChanged(this, "Import " + path.getFileName().toString(), team);
+        Document document = read(path);
+        Documents.fireDocumentChanged(this, "Import " + path.getFileName().toString(), document);
     }
 
     private Path selectFile() {
@@ -64,7 +64,7 @@ public class ImportCsvAction extends ToolbarAction {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(HOME);
-        chooser.setSelectedFile(new File(HOME, "my_team.csv"));
+        chooser.setSelectedFile(new File(HOME, "my_document.csv"));
         chooser.setFileFilter(new CsvFileFilter());
         return chooser;
     }

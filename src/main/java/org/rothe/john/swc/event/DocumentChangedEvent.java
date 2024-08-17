@@ -1,14 +1,14 @@
 package org.rothe.john.swc.event;
 
 import lombok.RequiredArgsConstructor;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 
 @RequiredArgsConstructor
-public class TeamChangedEvent {
+public class DocumentChangedEvent {
     private final Object source;
     private final String event;
-    private final Team oldTeam;
-    private final Team team;
+    private final Document oldDocument;
+    private final Document document;
 
     public Object source() {
         return source;
@@ -18,11 +18,11 @@ public class TeamChangedEvent {
         return event;
     }
 
-    public Team oldTeam() {
-        return oldTeam;
+    public Document oldDocument() {
+        return oldDocument;
     }
 
-    public Team team() {
-        return team;
+    public Document document() {
+        return document;
     }
 }

@@ -2,8 +2,8 @@ package org.rothe.john.swc.ui.canvas.rows;
 
 import lombok.Getter;
 import lombok.val;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 import org.rothe.john.swc.ui.canvas.mouse.MemberRowMouseListener;
 import org.rothe.john.swc.ui.canvas.util.Boundaries;
 import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
@@ -18,17 +18,17 @@ import java.util.List;
 @Getter
 public class MemberRow extends AbstractZoneRow {
     private static final Color LUNCH_LINE = new Color(255, 0, 255, 25);
-    private final Team team;
+    private final Document document;
     private final Member member;
     private int dragOffsetHours;
 
-    public MemberRow(Team team, Member member, CanvasCalculator calculator, Palette palette) {
+    public MemberRow(Document document, Member member, CanvasCalculator calculator, Palette palette) {
         super(calculator, member.zone(), palette);
         setOpaque(false);
-        this.team = team;
+        this.document = document;
         this.member = member;
 
-        MemberRowMouseListener.register(team, this, calculator);
+        MemberRowMouseListener.register(document, this, calculator);
     }
 
     public void setDragOffsetHours(int hours) {

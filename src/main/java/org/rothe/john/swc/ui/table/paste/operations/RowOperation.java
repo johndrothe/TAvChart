@@ -1,8 +1,8 @@
 package org.rothe.john.swc.ui.table.paste.operations;
 
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.ui.table.paste.CopiedContent;
 import org.rothe.john.swc.util.MemberRemover;
@@ -22,26 +22,26 @@ public class RowOperation extends AbstractPasteOperation {
 
     private void paste() {
         // Replace the selected rows with the rows in the data.
-        Team team = addOrRemoveRows(table.getTeam(), content);
+        Document document = addOrRemoveRows(table.getDocument(), content);
         // Paste in the values in the copied content.
-        team = applyValues(team, content, table.getSelectedRow(), 0);
-        Teams.fireTeamChanged(this, "Paste", team);
+        document = applyValues(document, content, table.getSelectedRow(), 0);
+        Documents.fireDocumentChanged(this, "Paste", document);
     }
 
-    private Team addOrRemoveRows(Team team, CopiedContent content) {
-        return addRequiredRows(removeExcessRows(team, content), content);
+    private Document addOrRemoveRows(Document document, CopiedContent content) {
+        return addRequiredRows(removeExcessRows(document, content), content);
     }
 
-    private Team addRequiredRows(Team team, CopiedContent content) {
-        return team.withMembers(toList(membersBeforeNew(team), newMembers(content), membersAfterNew(team)));
+    private Document addRequiredRows(Document document, CopiedContent content) {
+        return document.withMembers(toList(membersBeforeNew(document), newMembers(content), membersAfterNew(document)));
     }
 
-    private Stream<Member> membersBeforeNew(Team team) {
-        return team.members().stream().limit(table.getLastSelectedRow());
+    private Stream<Member> membersBeforeNew(Document document) {
+        return document.members().stream().limit(table.getLastSelectedRow());
     }
 
-    private Stream<Member> membersAfterNew(Team team) {
-        return team.members().stream().skip(table.getLastSelectedRow());
+    private Stream<Member> membersAfterNew(Document document) {
+        return document.members().stream().skip(table.getLastSelectedRow());
     }
 
     private Stream<Member> newMembers(CopiedContent content) {
@@ -49,8 +49,8 @@ public class RowOperation extends AbstractPasteOperation {
                 .mapToObj(unused -> newMember());
     }
 
-    private Team removeExcessRows(Team team, CopiedContent data) {
-        return MemberRemover.remove(team, getRowsToRemove(data));
+    private Document removeExcessRows(Document document, CopiedContent data) {
+        return MemberRemover.remove(document, getRowsToRemove(data));
     }
 
     private int[] getRowsToRemove(CopiedContent data) {

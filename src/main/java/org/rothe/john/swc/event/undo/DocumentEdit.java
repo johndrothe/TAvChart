@@ -1,19 +1,19 @@
 package org.rothe.john.swc.event.undo;
 
-import org.rothe.john.swc.event.TeamChangedEvent;
-import org.rothe.john.swc.event.Teams;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.event.DocumentChangedEvent;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
-record TeamEdit(UndoListener listener, String change, Team oldTeam, Team newTeam)
+record DocumentEdit(UndoListener listener, String change, Document oldDocument, Document newDocument)
         implements UndoableEdit {
 
     @Override
     public void undo() throws CannotUndoException {
-        Teams.fireTeamChanged(new TeamChangedEvent(listener, getUndoPresentationName(), newTeam, oldTeam));
+        Documents.fireDocumentChanged(new DocumentChangedEvent(listener, getUndoPresentationName(), newDocument, oldDocument));
     }
 
     @Override
@@ -23,7 +23,7 @@ record TeamEdit(UndoListener listener, String change, Team oldTeam, Team newTeam
 
     @Override
     public void redo() throws CannotRedoException {
-        Teams.fireTeamChanged(new TeamChangedEvent(listener, getRedoPresentationName(), oldTeam, newTeam));
+        Documents.fireDocumentChanged(new DocumentChangedEvent(listener, getRedoPresentationName(), oldDocument, newDocument));
     }
 
     @Override

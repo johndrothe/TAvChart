@@ -28,10 +28,10 @@ public class CollabZonePainter {
     }
 
     public void initialize() {
-        if (isNull(canvas.getTeam())) {
+        if (isNull(canvas.getDocument())) {
             this.collabCalculator = null;
         } else {
-            this.collabCalculator = CollabCalculator.of(canvas.getTeam().members());
+            this.collabCalculator = CollabCalculator.of(canvas.getDocument().members());
         }
     }
 

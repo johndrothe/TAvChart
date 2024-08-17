@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.table.paste.operations;
 
-import org.rothe.john.swc.event.Teams;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.ui.table.paste.CopiedContent;
 
@@ -17,29 +17,29 @@ public class ValueOperation extends AbstractPasteOperation {
     private void paste() {
         if(isSingleCellSelected() || isDataLargerThanSelection()) {
             // Data > Selection: Start pasting at the first selected cell.
-            Teams.fireTeamChanged(this, "Paste", pasteOneCopy());
+            Documents.fireDocumentChanged(this, "Paste", pasteOneCopy());
         } else {
             // Data <= Selection: Paste one or more complete copies of the data into the selected cells
-            Teams.fireTeamChanged(this, "Paste", pasteMultipleCopies());
+            Documents.fireDocumentChanged(this, "Paste", pasteMultipleCopies());
         }
     }
 
-    private Team pasteMultipleCopies() {
-        Team team = table.getTeam();
+    private Document pasteMultipleCopies() {
+        Document document = table.getDocument();
         for(int vertical = 0; vertical < getVerticalCopies(); ++vertical) {
             for(int horizontal = 0; horizontal < getHorizontalCopies(); ++horizontal) {
 
                 int targetRow = table.getSelectedRow() + (horizontal * content.getRowCount());
                 int targetColumn = table.getSelectedColumn() + (vertical * content.getColumnCount());
-                team = applyValues(team, content, targetRow, targetColumn);
+                document = applyValues(document, content, targetRow, targetColumn);
             }
         }
-        return team;
+        return document;
     }
 
-    private Team pasteOneCopy() {
+    private Document pasteOneCopy() {
         System.err.println("ValueOperation.pasteOneCopy");
-        return applyValues(table.getTeam(), content, table.getSelectedRow(), table.getSelectedColumn());
+        return applyValues(table.getDocument(), content, table.getSelectedRow(), table.getSelectedColumn());
     }
 
     private boolean isSingleCellSelected() {

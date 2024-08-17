@@ -25,7 +25,7 @@ public class MoveUpAction extends AbstractReorderAction {
             return;
         }
 
-        moveUp(rows, new ArrayList<>(team().members()));
+        moveUp(rows, new ArrayList<>(document().members()));
     }
 
     private void moveUp(int[] rows, List<Member> members) {
@@ -33,7 +33,7 @@ public class MoveUpAction extends AbstractReorderAction {
             Member m = members.remove(row);
             members.add(row - 1, m);
         }
-        fireTeamChanged("Move Up", team().withMembers(members));
+        fireDocumentChanged("Move Up", document().withMembers(members));
         selectRowsLater(adjust(rows, -1));
     }
 }

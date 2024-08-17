@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.canvas.Canvas;
 import org.rothe.john.swc.util.Images;
 
@@ -50,12 +50,12 @@ public class ExportImageAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        val team = canvas.getTeam();
-        if (isNull(team)) {
+        val document = canvas.getDocument();
+        if (isNull(document)) {
             return;
         }
 
-        val file = selectFile(defaultFileName(team));
+        val file = selectFile(defaultFileName(document));
         if (nonNull(file)) {
             write(file);
             lastSelected = file;
@@ -93,11 +93,11 @@ public class ExportImageAction extends ToolbarAction {
         }
     }
 
-    private static String defaultFileName(Team team) {
-        if(isNull(team) || team.name().trim().isEmpty()) {
-            return "my_team.png";
+    private static String defaultFileName(Document document) {
+        if(isNull(document) || document.name().trim().isEmpty()) {
+            return "my_document.png";
         }
-        return team.name()
+        return document.name()
                 .toLowerCase()
                 .replace(" ", "_").trim()
                 .replaceAll("[^a-z0-9_-]","@@@@@")

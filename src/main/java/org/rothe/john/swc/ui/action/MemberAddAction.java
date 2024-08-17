@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.model.*;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.util.Images;
@@ -29,12 +29,12 @@ public class MemberAddAction extends ToolbarAction {
         if(nonNull(table.getCellEditor())) {
             table.getCellEditor().cancelCellEditing();
         }
-        addMember(Teams.getTeam());
+        addMember(Documents.getCurrent());
     }
 
-    private void addMember(Team team) {
-        fireTeamChanged(team.withMembers(newMembers(team.members())));
-        SwingUtilities.invokeLater(() -> editNewMember(team.members().size()));
+    private void addMember(Document document) {
+        fireDocumentChanged(document.withMembers(newMembers(document.members())));
+        SwingUtilities.invokeLater(() -> editNewMember(document.members().size()));
     }
 
     private List<Member> newMembers(List<Member> members) {
@@ -74,7 +74,7 @@ public class MemberAddAction extends ToolbarAction {
         }
     }
 
-    private void fireTeamChanged(Team newTeam) {
-        Teams.fireTeamChanged(this, String.valueOf(getValue(NAME)), newTeam);
+    private void fireDocumentChanged(Document newDocument) {
+        Documents.fireDocumentChanged(this, String.valueOf(getValue(NAME)), newDocument);
     }
 }

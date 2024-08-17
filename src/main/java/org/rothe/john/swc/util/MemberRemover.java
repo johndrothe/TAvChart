@@ -1,7 +1,7 @@
 package org.rothe.john.swc.util;
 
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 
 import java.util.List;
 import java.util.Set;
@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 import static java.util.function.Predicate.not;
 
 public class MemberRemover {
-    public static Team remove(Team team, int[] indexes) {
-        return team.withMembers(removeMembers(team.members(), indexes));
+    public static Document remove(Document document, int[] indexes) {
+        return document.withMembers(removeMembers(document.members(), indexes));
     }
 
     private static List<Member> removeMembers(List<Member> members, int[] indexes) {

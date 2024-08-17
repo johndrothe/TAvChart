@@ -1,22 +1,22 @@
 package org.rothe.john.swc.ui.action;
 
-import org.rothe.john.swc.event.TeamChangedEvent;
-import org.rothe.john.swc.event.TeamListener;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.DocumentChangedEvent;
+import org.rothe.john.swc.event.DocumentListener;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.event.undo.UndoListener;
 import org.rothe.john.swc.util.Images;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class UndoAction extends ToolbarAction implements TeamListener {
+public class UndoAction extends ToolbarAction implements DocumentListener {
     private final UndoListener listener;
 
     public UndoAction(UndoListener listener) {
         super("Undo", Images.load("undo.png"));
         this.listener = listener;
 
-        Teams.addTeamListener(this);
+        Documents.addDocumentListener(this);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class UndoAction extends ToolbarAction implements TeamListener {
     }
 
     @Override
-    public void teamChanged(TeamChangedEvent event) {
+    public void documentChanged(DocumentChangedEvent event) {
         SwingUtilities.invokeLater(this::updateDisplay);
     }
 

@@ -3,7 +3,7 @@ package org.rothe.john.swc.ui.table;
 import lombok.Getter;
 import lombok.val;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Zone;
 import org.rothe.john.swc.ui.action.PasteAction;
 import org.rothe.john.swc.ui.table.editors.LocalTimeEditor;
@@ -23,7 +23,7 @@ import static java.util.Objects.nonNull;
 
 @Getter
 public class MembersTable extends JTable {
-    private Team team;
+    private Document document;
 
     public MembersTable() {
         super(new MembersTableModel());
@@ -32,11 +32,11 @@ public class MembersTable extends JTable {
         initializeEditors();
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
-        getModel().setTeam(team);
+    public void setDocument(Document document) {
+        this.document = document;
+        getModel().setDocument(document);
 
-        if(nonNull(team)) {
+        if(nonNull(document)) {
             SwingUtilities.invokeLater(()-> ColumnSizing.adjust(MembersTable.this));
         }
         repaint();
@@ -61,8 +61,8 @@ public class MembersTable extends JTable {
 
     public Optional<Member> getSelectedMember() {
         val index = getSelectedRow();
-        if (index >= 0 && index <= team.members().size()) {
-            return Optional.of(team.members().get(index));
+        if (index >= 0 && index <= document.members().size()) {
+            return Optional.of(document.members().get(index));
         }
         return Optional.empty();
     }

@@ -55,7 +55,7 @@ public class Toolbar extends JToolBar {
     }
 
     private void addStandardActions(DisplayChangeEvent event, MembersTable table) {
-        add(new NewTeamAction(getRootPane()));
+        add(new NewDocumentAction(getRootPane()));
 
         addSeparator();
         add(new ImportCsvAction(table));

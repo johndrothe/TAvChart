@@ -1,8 +1,8 @@
 package org.rothe.john.swc.ui;
 
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.event.undo.UndoListener;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.action.DisplayChangeEvent;
 import org.rothe.john.swc.ui.canvas.Canvas;
 import org.rothe.john.swc.ui.table.MembersTablePanel;
@@ -36,7 +36,7 @@ public class ApplicationFrame extends JFrame {
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
-        super("Team Scheduler - " + VERSION);
+        super("Working Hours - " + VERSION);
         this.settings = settings;
         addWindowListener(new ExitOnCloseListener());
         initialize();
@@ -44,7 +44,7 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void initialize() {
-        Teams.addTeamListener(listener);
+        Documents.addDocumentListener(listener);
 
         initNorth();
 
@@ -56,7 +56,7 @@ public class ApplicationFrame extends JFrame {
 
         tabChanged(null);
 
-        Teams.fireTeamChanged(this, "New", new Team("Winners", List.of()));
+        Documents.fireDocumentChanged(this, "New", new Document("Winners", List.of()));
     }
 
     private void initNorth() {
@@ -72,7 +72,7 @@ public class ApplicationFrame extends JFrame {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         centerPanel.add(tabbedPane, CENTER);
 
-        tabbedPane.add("Team Members", tablePanel);
+        tabbedPane.add("Members", tablePanel);
         tabbedPane.add("Working Hours", newCanvasPanel());
         tabbedPane.addChangeListener(this::tabChanged);
         tabbedPane.setSelectedIndex(1);

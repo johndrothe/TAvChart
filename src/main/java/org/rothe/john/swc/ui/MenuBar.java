@@ -64,7 +64,7 @@ public class MenuBar extends JMenuBar {
     private void addFileMenu() {
         val menu = newMenu("File", 'F');
 
-        menu.add(newItem(new NewTeamAction(getRootPane()), 'N'));
+        menu.add(newItem(new NewDocumentAction(getRootPane()), 'N'));
 
         menu.addSeparator();
         menu.add(new OpenAction(table));
@@ -86,10 +86,10 @@ public class MenuBar extends JMenuBar {
     private JMenu createSampleMenu() {
         val menu = newMenu("Sample Teams", 'T');
 
-        menu.add(new SampleTeamAction("Centering Debug Team", SampleFactory::centeringDebugMembers));
-        menu.add(new SampleTeamAction("Debug Team", SampleFactory::debugMembers));
-        menu.add(new SampleTeamAction("Debug Shift Team", SampleFactory::debugShiftMembers));
-        menu.add(new SampleTeamAction("Demo Team", SampleFactory::demoMembers));
+        menu.add(new SampleDocumentAction("Centering Debug Team", SampleFactory::centeringDebugMembers));
+        menu.add(new SampleDocumentAction("Debug Team", SampleFactory::debugMembers));
+        menu.add(new SampleDocumentAction("Debug Shift Team", SampleFactory::debugShiftMembers));
+        menu.add(new SampleDocumentAction("Demo Team", SampleFactory::demoMembers));
 
         return menu;
     }

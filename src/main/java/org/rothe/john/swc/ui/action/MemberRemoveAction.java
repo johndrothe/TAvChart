@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.action;
 
-import org.rothe.john.swc.event.Teams;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.util.MemberRemover;
 import org.rothe.john.swc.util.Images;
@@ -24,18 +24,18 @@ public class MemberRemoveAction extends ToolbarAction {
         if(nonNull(table.getCellEditor())) {
             table.getCellEditor().cancelCellEditing();
         }
-        removeMembers(Teams.getTeam(), table.getSelectedRows());
+        removeMembers(Documents.getCurrent(), table.getSelectedRows());
     }
 
-    private void removeMembers(Team team, int[] indexes) {
+    private void removeMembers(Document document, int[] indexes) {
         if (isNull(indexes) || indexes.length == 0) {
             return;
         }
 
-        fireTeamChanged(MemberRemover.remove(team, indexes));
+        fireDocumentChanged(MemberRemover.remove(document, indexes));
     }
 
-    private void fireTeamChanged(Team newTeam) {
-        Teams.fireTeamChanged(this, String.valueOf(getValue(NAME)), newTeam);
+    private void fireDocumentChanged(Document newDocument) {
+        Documents.fireDocumentChanged(this, String.valueOf(getValue(NAME)), newDocument);
     }
 }

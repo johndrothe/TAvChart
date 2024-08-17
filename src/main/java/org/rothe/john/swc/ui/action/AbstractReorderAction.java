@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.action;
 
-import org.rothe.john.swc.event.Teams;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 
 import javax.swing.*;
@@ -15,16 +15,16 @@ abstract class AbstractReorderAction extends ToolbarAction {
         this.table = table;
     }
 
-    protected Team team() {
-        return table.getTeam();
+    protected Document document() {
+        return table.getDocument();
     }
 
     protected MembersTable table() {
         return table;
     }
 
-    protected void fireTeamChanged(String change, Team newTeam) {
-        Teams.fireTeamChanged(this, change, newTeam);
+    protected void fireDocumentChanged(String change, Document newDocument) {
+        Documents.fireDocumentChanged(this, change, newDocument);
     }
 
     protected void selectRowsLater(int[] rows) {

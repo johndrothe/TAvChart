@@ -24,7 +24,7 @@ public class MoveDownAction extends AbstractReorderAction {
         if (rows.length == 0 || rows[rows.length - 1] == table().getRowCount() - 1) {
             return;
         }
-        moveDown(rows, new ArrayList<>(team().members()));
+        moveDown(rows, new ArrayList<>(document().members()));
     }
 
     private void moveDown(int[] rows, List<Member> members) {
@@ -33,7 +33,7 @@ public class MoveDownAction extends AbstractReorderAction {
             Member m = members.remove(row);
             members.add(row + 1, m);
         }
-        fireTeamChanged("Move Down", team().withMembers(members));
+        fireDocumentChanged("Move Down", document().withMembers(members));
         selectRowsLater(adjust(rows, 1));
     }
 }

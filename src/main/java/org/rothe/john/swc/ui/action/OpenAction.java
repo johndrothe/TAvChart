@@ -1,9 +1,9 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.io.SwhFileFilter;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.util.Images;
 import org.rothe.john.swc.io.json.Json;
@@ -29,9 +29,9 @@ public class OpenAction extends ToolbarAction {
         this.table = table;
     }
 
-    public static Team read(Path path) {
+    public static Document read(Path path) {
         try {
-            return Json.fromJson(Files.readString(path, UTF_8), Team.class);
+            return Json.fromJson(Files.readString(path, UTF_8), Document.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,8 +44,8 @@ public class OpenAction extends ToolbarAction {
             return;
         }
 
-        Team team = read(path);
-        Teams.fireTeamChanged(this, "Open " + path.getFileName().toString(), team);
+        Document document = read(path);
+        Documents.fireDocumentChanged(this, "Open " + path.getFileName().toString(), document);
     }
 
     private Path selectFile() {

@@ -14,19 +14,21 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
 @With
-public record Team(String name, List<Member> members) {
+public record Document(String name,
+                       List<Member> members)
+{
     @JsonCreator
-    public Team(@JsonProperty("name") String name,
-                @JsonProperty("members") List<Member> members) {
+    public Document(@JsonProperty("name") String name,
+                    @JsonProperty("members") List<Member> members) {
         this.name = name;
         this.members = List.copyOf(members);
     }
 
-    public static Team fromCsv(String fileName, String csvContents) {
+    public static Document fromCsv(String fileName, String csvContents) {
         if (csvContents.isEmpty()) {
             return null;
         }
-        return new Team(toTeamName(fileName), membersFromCsv(csvContents));
+        return new Document(toDocumentName(fileName), membersFromCsv(csvContents));
     }
 
     private static List<Member> membersFromCsv(String csvContents) {
@@ -37,7 +39,7 @@ public record Team(String name, List<Member> members) {
                 .toList();
     }
 
-    private static String toTeamName(String fileName) {
+    private static String toDocumentName(String fileName) {
         if (fileName.toLowerCase().endsWith(".csv")) {
             return fileName.substring(0, fileName.length() - 4);
         }
@@ -64,7 +66,7 @@ public record Team(String name, List<Member> members) {
                 .collect(joining("\n", csvHeader(), "\n"));
     }
 
-    public Team withUpdatedMember(Member oldMember, Member newMember) {
+    public Document withUpdatedMember(Member oldMember, Member newMember) {
         return withMembers(replaceMember(new ArrayList<>(members), oldMember, newMember));
     }
 

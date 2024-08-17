@@ -2,10 +2,10 @@ package org.rothe.john.swc.ui.table;
 
 import lombok.Getter;
 import lombok.val;
-import org.rothe.john.swc.event.TeamChangedEvent;
-import org.rothe.john.swc.event.TeamListener;
-import org.rothe.john.swc.event.Teams;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.event.DocumentChangedEvent;
+import org.rothe.john.swc.event.DocumentListener;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,11 +13,11 @@ import java.awt.BorderLayout;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 
-public class MembersTablePanel extends JPanel implements TeamListener {
+public class MembersTablePanel extends JPanel implements DocumentListener {
     @Getter
     private final MembersTable table = new MembersTable();
 
-    private Team team;
+    private Document document;
 
     public MembersTablePanel() {
         super(new BorderLayout());
@@ -31,16 +31,16 @@ public class MembersTablePanel extends JPanel implements TeamListener {
     }
 
     public void register() {
-        Teams.addTeamListener(this);
+        Documents.addDocumentListener(this);
     }
 
     public void unregister() {
-        Teams.removeTeamListener(this);
+        Documents.removeDocumentListener(this);
     }
 
-    public void teamChanged(TeamChangedEvent event) {
-        this.team = event.team();
-        table.setTeam(team);
+    public void documentChanged(DocumentChangedEvent event) {
+        this.document = event.document();
+        table.setDocument(document);
     }
 
     private void resizeTable() {

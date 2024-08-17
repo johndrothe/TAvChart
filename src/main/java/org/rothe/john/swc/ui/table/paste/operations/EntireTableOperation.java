@@ -1,7 +1,7 @@
 package org.rothe.john.swc.ui.table.paste.operations;
 
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.ui.table.paste.CopiedContent;
 
@@ -18,9 +18,9 @@ public class EntireTableOperation extends AbstractPasteOperation {
     }
 
     private void paste() {
-        Team team = table.getTeam().withMembers(newMembers());
-        team = applyValues(team, content, 0, 0);
-        fireTeamChanged(team);
+        Document document = table.getDocument().withMembers(newMembers());
+        document = applyValues(document, content, 0, 0);
+        fireDocumentChanged(document);
     }
 
     private List<Member> newMembers() {

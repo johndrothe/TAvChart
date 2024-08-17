@@ -1,9 +1,9 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.io.CsvFileFilter;
-import org.rothe.john.swc.model.Team;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.util.Images;
 
@@ -30,9 +30,9 @@ public class ExportCsvAction extends ToolbarAction {
         this.table = table;
     }
 
-    public static void write(Path path, Team team) {
+    public static void write(Path path, Document document) {
         try {
-            Files.writeString(path, team.toCsv(), CREATE, TRUNCATE_EXISTING);
+            Files.writeString(path, document.toCsv(), CREATE, TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -40,14 +40,14 @@ public class ExportCsvAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        val team = Teams.getTeam();
-        if (isNull(team)) {
+        val document = Documents.getCurrent();
+        if (isNull(document)) {
             return;
         }
 
-        val path = selectFile(defaultFileName(team));
+        val path = selectFile(defaultFileName(document));
         if (nonNull(path)) {
-            write(path, team);
+            write(path, document);
         }
     }
 
@@ -74,11 +74,11 @@ public class ExportCsvAction extends ToolbarAction {
         return chooser;
     }
 
-    private static String defaultFileName(Team team) {
-        if(isNull(team) || team.name().trim().isEmpty()) {
-            return "my_team.csv";
+    private static String defaultFileName(Document document) {
+        if(isNull(document) || document.name().trim().isEmpty()) {
+            return "my_document.csv";
         }
-        return team.name()
+        return document.name()
                 .toLowerCase()
                 .replace(" ", "_").trim()
                 .replaceAll("[^a-z0-9_-]","@@@@@")

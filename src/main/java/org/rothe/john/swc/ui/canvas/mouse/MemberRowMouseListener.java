@@ -1,9 +1,9 @@
 package org.rothe.john.swc.ui.canvas.mouse;
 
 
-import org.rothe.john.swc.event.Teams;
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Member;
-import org.rothe.john.swc.model.Team;
 import org.rothe.john.swc.ui.canvas.rows.MemberRow;
 import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
 
@@ -14,19 +14,19 @@ import java.awt.event.MouseEvent;
 import static java.util.Objects.nonNull;
 
 public class MemberRowMouseListener extends CanvasMouseListener {
-    private final Team team;
+    private final Document document;
     private final MemberRow row;
     private Point dragStart = null;
 
-    private MemberRowMouseListener(Team team, MemberRow row, CanvasCalculator calculator) {
+    private MemberRowMouseListener(Document document, MemberRow row, CanvasCalculator calculator) {
         super(calculator);
         this.row = row;
-        this.team = team;
+        this.document = document;
     }
 
-    public static void register(Team team, MemberRow row, CanvasCalculator calculator) {
+    public static void register(Document document, MemberRow row, CanvasCalculator calculator) {
         row.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-        new MemberRowMouseListener(team, row, calculator).register(row);
+        new MemberRowMouseListener(document, row, calculator).register(row);
     }
 
     @Override
@@ -39,13 +39,13 @@ public class MemberRowMouseListener extends CanvasMouseListener {
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
 
-        fireTeamUpdate(getDraggedHours(e.getX()));
+        fireDocumentUpdate(getDraggedHours(e.getX()));
         clear();
     }
 
-    private void fireTeamUpdate(int draggedHours) {
+    private void fireDocumentUpdate(int draggedHours) {
         if (draggedHours != 0) {
-            fireTeamChanged(team.withUpdatedMember(row.getMember(), updatedMember(draggedHours)));
+            fireDocumentChanged(document.withUpdatedMember(row.getMember(), updatedMember(draggedHours)));
         }
     }
 
@@ -59,8 +59,8 @@ public class MemberRowMouseListener extends CanvasMouseListener {
         return (int) ((xLocation - dragStart.x) / calculator().hourColumnWidth());
     }
 
-    private void fireTeamChanged(Team newTeam) {
-        Teams.fireTeamChanged(this, "Edit Normal Hours", newTeam);
+    private void fireDocumentChanged(Document newDocument) {
+        Documents.fireDocumentChanged(this, "Edit Normal Hours", newDocument);
     }
 
     @Override
