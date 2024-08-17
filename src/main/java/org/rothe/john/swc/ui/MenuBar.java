@@ -77,7 +77,7 @@ public class MenuBar extends JMenuBar {
         menu.add(new ImportCsvAction(table)).setMnemonic('I');
         menu.add(new ExportCsvAction(table)).setMnemonic('E');
         menu.addSeparator();
-        menu.add(new ExportImageAction(canvas)).setMnemonic('m');
+        menu.add(new ExportPngAction(canvas)).setMnemonic('m');
 
         menu.addSeparator();
         menu.add(newItem(new ExitAction(getRootPane()), 'X'));

@@ -42,7 +42,7 @@ public class Toolbar extends JToolBar {
     }
 
     private void addCanvasActions(Canvas canvas) {
-        add(new ExportImageAction(canvas));
+        add(new ExportPngAction(canvas));
     }
 
     private void addTableActions(MembersTable table) {

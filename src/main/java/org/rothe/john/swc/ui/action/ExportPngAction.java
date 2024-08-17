@@ -1,16 +1,16 @@
 package org.rothe.john.swc.ui.action;
 
 import lombok.val;
+import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.canvas.Canvas;
+import org.rothe.john.swc.io.PNGWriter;
 import org.rothe.john.swc.util.Images;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,34 +18,23 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-public class ExportImageAction extends ToolbarAction {
+public class ExportPngAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
 
     private final Canvas canvas;
     private File lastSelected;
 
-    public ExportImageAction(Canvas canvas) {
+    public ExportPngAction(Canvas canvas) {
         super("Export PNG", Images.load("export_image.png"));
         this.canvas = canvas;
     }
 
     private void write(File file) {
         try {
-            ImageIO.write(createImage(), "png", file);
+            ImageIO.write(PNGWriter.export(Documents.getCurrent()), "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private BufferedImage createImage() {
-        BufferedImage image = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = image.createGraphics();
-        try {
-            canvas.print(g);
-        } finally {
-            g.dispose();
-        }
-        return image;
     }
 
     @Override

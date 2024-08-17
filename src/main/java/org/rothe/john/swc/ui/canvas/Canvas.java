@@ -1,9 +1,7 @@
 package org.rothe.john.swc.ui.canvas;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.val;
-import org.rothe.john.swc.event.NewDocumentEvent;
 import org.rothe.john.swc.event.DocumentChangedEvent;
 import org.rothe.john.swc.event.DocumentListener;
 import org.rothe.john.swc.event.Documents;
@@ -13,22 +11,33 @@ import org.rothe.john.swc.model.Time;
 import org.rothe.john.swc.model.Zone;
 import org.rothe.john.swc.ui.canvas.painters.CollabZonePainter;
 import org.rothe.john.swc.ui.canvas.painters.GridPainter;
-import org.rothe.john.swc.ui.canvas.rows.*;
+import org.rothe.john.swc.ui.canvas.rows.AbstractZoneRow;
+import org.rothe.john.swc.ui.canvas.rows.CanvasRow;
+import org.rothe.john.swc.ui.canvas.rows.MemberRow;
+import org.rothe.john.swc.ui.canvas.rows.ZoneRow;
+import org.rothe.john.swc.ui.canvas.rows.ZoneTransitionsRow;
 import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.swc.ui.canvas.util.Palette;
 import org.rothe.john.swc.ui.canvas.util.RowList;
 import org.rothe.john.swc.util.GBCBuilder;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Comparator.comparing;
 import static java.util.Objects.isNull;
-import static javax.swing.BorderFactory.*;
+import static javax.swing.BorderFactory.createCompoundBorder;
+import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class Canvas extends JPanel implements DocumentListener {
     private static final int INSET = 5;
@@ -146,8 +155,6 @@ public class Canvas extends JPanel implements DocumentListener {
 
         document.members().stream()
                 .map(toRow)
-                // optional zone sorting
-                // .sorted(zoneRowComparator())
                 .forEach(this::addRow);
     }
 
@@ -192,9 +199,7 @@ public class Canvas extends JPanel implements DocumentListener {
     }
 
     private Border outerBorder() {
-        return createCompoundBorder(
-                createLineBorder(Color.BLACK, 1),
-                createEmptyBorder(10, 10, 10, 10));
+        return createEmptyBorder(10, 10, 10, 10);
     }
 
     private static void applyRenderingHints(Graphics2D g2d) {

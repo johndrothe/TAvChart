@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.With;
 
+import java.awt.Dimension;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,15 +17,26 @@ import static java.util.stream.Collectors.joining;
 @With
 public record Document(String name,
                        int borderHour,
+                       Dimension canvasSize,
                        List<Member> members)
 {
     @JsonCreator
     public Document(@JsonProperty("name") String name,
                     @JsonProperty("borderHour") int borderHour,
+                    @JsonProperty("canvasSize") Dimension canvasSize,
                     @JsonProperty("members") List<Member> members) {
         this.name = name;
         this.borderHour = borderHour;
+        this.canvasSize = canvasSize;
         this.members = List.copyOf(members);
+    }
+
+    public Document(String name, int borderHour, List<Member> members) {
+        this(name, borderHour, new Dimension(1024,768), members);
+    }
+
+    public Document(String name, List<Member> members) {
+        this(name, 0, members);
     }
 
     public static Document fromCsv(String fileName, String csvContents) {
