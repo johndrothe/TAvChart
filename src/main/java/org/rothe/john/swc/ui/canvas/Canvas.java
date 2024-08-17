@@ -38,8 +38,7 @@ public class Canvas extends JPanel implements DocumentListener {
     private final CollabZonePainter collabZonePainter;
     private Palette palette = null;
 
-    @Getter(AccessLevel.PUBLIC)
-    private int borderHour = 0;
+    private int borderHourOffset = 0;
 
     @Getter
     private Document document = null;
@@ -66,17 +65,19 @@ public class Canvas extends JPanel implements DocumentListener {
         Documents.removeDocumentListener(this);
     }
 
-    public void setBorderHour(int hour) {
-        this.borderHour = Time.normalizeHour(hour);
+    public void setBorderHourOffset(int offset) {
+        this.borderHourOffset = offset;
         revalidate();
         repaint();
     }
 
+    public int getBorderHour() {
+        return Time.normalizeHour(document.borderHour() + borderHourOffset);
+    }
+
     public void documentChanged(DocumentChangedEvent event) {
-        if(event instanceof NewDocumentEvent) {
-            borderHour = 0;
-        }
         this.document = event.document();
+        this.borderHourOffset = 0;
         initialize();
         revalidate();
         repaint();
@@ -132,7 +133,7 @@ public class Canvas extends JPanel implements DocumentListener {
     }
 
     private void addZones(List<Zone> zones) {
-        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(calculator, zoneId, palette);
+        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(document, calculator, zoneId, palette);
 
         zones.stream()
                 .map(toRow)

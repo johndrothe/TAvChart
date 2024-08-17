@@ -23,7 +23,7 @@ public class NewDocumentAction extends ToolbarAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (confirm()) {
-            Documents.fireNewDocument(this, "New Document", new Document("New Document", List.of()));
+            Documents.fireNewDocument(this, "New Document", new Document("New Document", 0, List.of()));
         }
     }
 

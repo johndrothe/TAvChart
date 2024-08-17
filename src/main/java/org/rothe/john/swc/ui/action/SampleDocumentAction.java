@@ -21,6 +21,6 @@ public class SampleDocumentAction extends ToolbarAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Documents.fireNewDocument(this, name, new Document(name, memberSupplier.get()));
+        Documents.fireNewDocument(this, name, new Document(name, 0, memberSupplier.get()));
     }
 }

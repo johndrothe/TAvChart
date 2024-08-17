@@ -1,23 +1,26 @@
 package org.rothe.john.swc.ui.canvas.rows;
 
 import lombok.val;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.model.Time;
 import org.rothe.john.swc.model.Zone;
 import org.rothe.john.swc.ui.canvas.mouse.ZoneRowMouseListener;
 import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.swc.ui.canvas.util.Palette;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class ZoneRow extends AbstractZoneRow {
     private static final int TEXT_MARGIN = 5;
     private final Color lineHintColor;
 
-    public ZoneRow(CanvasCalculator calculator, Zone zone, Palette palette) {
+    public ZoneRow(Document document, CanvasCalculator calculator, Zone zone, Palette palette) {
         super(calculator, zone, palette);
         lineHintColor = getLineHintColor();
 
-        ZoneRowMouseListener.register(this, calculator);
+        ZoneRowMouseListener.register(document, this, calculator);
     }
 
     @Override

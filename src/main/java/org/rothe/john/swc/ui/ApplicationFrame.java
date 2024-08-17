@@ -56,7 +56,7 @@ public class ApplicationFrame extends JFrame {
 
         tabChanged(null);
 
-        Documents.fireDocumentChanged(this, "New", new Document("Winners", List.of()));
+        Documents.fireDocumentChanged(this, "New", new Document("Winners", 0, List.of()));
     }
 
     private void initNorth() {

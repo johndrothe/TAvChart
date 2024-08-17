@@ -12,7 +12,7 @@ public abstract class SampleFactory {
     }
 
     public static Document newDocument() {
-        return new Document("Winners", demoMembers());
+        return new Document("Winners", 0, demoMembers());
     }
 
     public static List<Member> debugMembers() {

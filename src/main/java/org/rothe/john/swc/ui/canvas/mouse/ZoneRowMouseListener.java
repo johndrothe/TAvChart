@@ -1,50 +1,55 @@
 package org.rothe.john.swc.ui.canvas.mouse;
 
 
+import org.rothe.john.swc.event.Documents;
+import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.canvas.rows.ZoneRow;
 import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
 
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import static java.util.Objects.nonNull;
 
 public class ZoneRowMouseListener extends CanvasMouseListener {
-    private int dragHour = -1;
+    private final Document document;
     private Point dragStart = null;
 
-    private ZoneRowMouseListener(CanvasCalculator calculator) {
+    private ZoneRowMouseListener(Document document, CanvasCalculator calculator) {
         super(calculator);
+        this.document = document;
     }
 
-    public static void register(ZoneRow row, CanvasCalculator calculator) {
+    public static void register(Document document, ZoneRow row, CanvasCalculator calculator) {
         row.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-        new ZoneRowMouseListener(calculator).register(row);
+        new ZoneRowMouseListener(document, calculator).register(row);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        super.mousePressed(e);
         dragStart = e.getPoint();
-        dragHour = calculator().getBorderHour();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        super.mouseReleased(e);
+        fireDocumentChanged(document.withBorderHour(calculator().getBorderHour()));
         clear();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
         if (isDragging()) {
-            calculator().setBorderHour(calculateNewBorderHour(e.getX()));
+            calculator().setBorderHourOffset(-calculateBorderHourOffset(e.getX()));
         }
     }
 
-    private int calculateNewBorderHour(int xLocation) {
-        return dragHour - (int) ((xLocation - dragStart.x) / calculator().hourColumnWidth());
+    private void fireDocumentChanged(Document newDocument) {
+        Documents.fireDocumentChanged(this, "Edit Border Hour", newDocument);
+    }
+
+    private int calculateBorderHourOffset(int xLocation) {
+        return (int) ((xLocation - dragStart.x) / calculator().hourColumnWidth());
     }
 
     private boolean isDragging() {
@@ -52,7 +57,6 @@ public class ZoneRowMouseListener extends CanvasMouseListener {
     }
 
     private void clear() {
-        dragHour = -1;
         dragStart = null;
     }
 }

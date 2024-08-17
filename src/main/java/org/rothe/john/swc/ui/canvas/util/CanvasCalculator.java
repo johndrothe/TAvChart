@@ -110,8 +110,8 @@ public class CanvasCalculator {
         return canvas.getBorderHour();
     }
 
-    public void setBorderHour(int hour) {
-        canvas.setBorderHour(hour);
+    public void setBorderHourOffset(int offset) {
+        canvas.setBorderHourOffset(offset);
     }
 
     private double calculateHourColumnWidth() {

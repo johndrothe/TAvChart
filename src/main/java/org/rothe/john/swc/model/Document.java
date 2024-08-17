@@ -15,12 +15,15 @@ import static java.util.stream.Collectors.joining;
 
 @With
 public record Document(String name,
+                       int borderHour,
                        List<Member> members)
 {
     @JsonCreator
     public Document(@JsonProperty("name") String name,
+                    @JsonProperty("borderHour") int borderHour,
                     @JsonProperty("members") List<Member> members) {
         this.name = name;
+        this.borderHour = borderHour;
         this.members = List.copyOf(members);
     }
 
@@ -28,7 +31,7 @@ public record Document(String name,
         if (csvContents.isEmpty()) {
             return null;
         }
-        return new Document(toDocumentName(fileName), membersFromCsv(csvContents));
+        return new Document(toDocumentName(fileName), 0, membersFromCsv(csvContents));
     }
 
     private static List<Member> membersFromCsv(String csvContents) {
