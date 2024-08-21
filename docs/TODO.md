@@ -1,7 +1,11 @@
 # Features Wishlist
 
 * Add a user interface for Document properties
-  * Name, Canvas Size, etc.
+  * Include: Name, Canvas Size, etc.
+  * Options:
+    * Separate document properties tab
+    * Rename "Members" to Summary, Overview, or Team, and add properties there.
+      Also, rename "Working Hours" to Diagram, Schedule, **Availability**?
 * User-specified canvas size
   * Specified as
     * pixel
