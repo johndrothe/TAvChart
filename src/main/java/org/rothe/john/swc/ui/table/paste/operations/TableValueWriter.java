@@ -1,12 +1,13 @@
 package org.rothe.john.swc.ui.table.paste.operations;
 
+import lombok.extern.slf4j.Slf4j;
 import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.table.MembersTableModel;
 
+@Slf4j
 class TableValueWriter {
     private final PasteTableModel model = new PasteTableModel();
     private Document document;
-    private final int baseRow;
     private final int baseColumn;
 
     private int currentRow;
@@ -14,7 +15,7 @@ class TableValueWriter {
 
     public TableValueWriter(Document document, int baseRow, int baseColumn) {
         this.document = document;
-        this.currentRow = this.baseRow = baseRow;
+        this.currentRow = baseRow;
         this.currentColumn = this.baseColumn = baseColumn;
     }
 
@@ -24,7 +25,8 @@ class TableValueWriter {
             document = model.setValue(value, currentRow, currentColumn++);
         } catch (Exception e) {
             // Quietly allow (but ignore) inappropriate values
-            e.printStackTrace();
+            log.debug("Ignoring invalid value '{}' during paste to [{}, {}].",
+                    value, currentRow, currentColumn, e);
         }
     }
 

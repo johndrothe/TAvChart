@@ -1,5 +1,6 @@
 package org.rothe.john.swc.ui.canvas.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.rothe.john.swc.model.Time;
 import org.rothe.john.swc.model.TimePair;
 import org.rothe.john.swc.ui.canvas.Canvas;
@@ -7,6 +8,7 @@ import org.rothe.john.swc.ui.canvas.Canvas;
 import java.awt.Graphics2D;
 import java.util.List;
 
+@Slf4j
 public class CanvasCalculator {
     private final Canvas canvas;
     private final RowList rows;
@@ -37,7 +39,7 @@ public class CanvasCalculator {
         try {
             return new Boundaries(toColumnCenter(pair.left()), toRightColumnCenter(pair.right()));
         } catch (java.lang.IllegalArgumentException e) {
-            System.err.printf("Failed to generate boundaries for [%s, %s] (UTC) at [%d, %d] (pixels) with border hour %d.%n",
+            log.error("Failed to generate boundaries for [{}, {}] (UTC) at [{},{}] (pixels) with border hour {}.",
                     pair.left().toUtcString(),
                     pair.right().toUtcString(),
                     toColumnCenter(pair.left()),

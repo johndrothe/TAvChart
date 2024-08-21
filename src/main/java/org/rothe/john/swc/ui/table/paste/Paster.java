@@ -1,5 +1,6 @@
 package org.rothe.john.swc.ui.table.paste;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.ui.table.paste.enums.ReplaceBehavior;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 import static java.awt.datatransfer.DataFlavor.stringFlavor;
 
+@Slf4j
 public class Paster {
     private final MembersTable table;
 
@@ -41,8 +43,7 @@ public class Paster {
         try {
             paste(CopiedContent.of(getTextFromClipboard(), table.getColumnCount()));
         } catch (IOException | UnsupportedFlavorException ex) {
-            System.err.printf("Error: Failed to paste from clipboard: %s%n", ex.getMessage());
-            ex.printStackTrace();
+            log.error("Failed to paste from clipboard: {}", ex.getMessage(), ex);
         }
     }
 

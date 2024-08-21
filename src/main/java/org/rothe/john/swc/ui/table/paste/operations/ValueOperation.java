@@ -38,7 +38,6 @@ public class ValueOperation extends AbstractPasteOperation {
     }
 
     private Document pasteOneCopy() {
-        System.err.println("ValueOperation.pasteOneCopy");
         return applyValues(table.getDocument(), content, table.getSelectedRow(), table.getSelectedColumn());
     }
 

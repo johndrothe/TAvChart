@@ -1,5 +1,6 @@
 package org.rothe.john.swc.ui.table;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.model.Document;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static java.util.Objects.nonNull;
 
+@Slf4j
 public class MembersTableModel extends AbstractTableModel {
     private final List<Member> members = new ArrayList<>();
     private Document document = null;
@@ -124,7 +126,7 @@ public class MembersTableModel extends AbstractTableModel {
         try {
             fireDocumentChanged(columnIndex, setValue(aValue, rowIndex, columnIndex));
         } catch (DateTimeParseException e) {
-            System.err.printf("Ignoring invalid value '%s' entered as the '%s' for team member '%s'.%n",
+            log.info("Ignoring invalid value '{}' entered as the '{}' for team member '{}'.%n",
                     aValue,
                     Columns.getColumn(columnIndex).getDescription(),
                     members.get(rowIndex).name());

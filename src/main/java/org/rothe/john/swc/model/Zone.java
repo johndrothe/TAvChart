@@ -3,6 +3,7 @@ package org.rothe.john.swc.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.time.DateTimeException;
@@ -19,6 +20,7 @@ import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
+@Slf4j
 public class Zone {
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
     private final ZoneId zoneId;
@@ -132,8 +134,7 @@ public class Zone {
         try {
             return new Zone(toZoneId(id));
         } catch (DateTimeException dte) {
-            System.err.println("Warning: Invalid Zone ID '" + id + "':  Using default '" + ZoneId.systemDefault() + "'");
-            dte.printStackTrace();
+            log.error("Invalid Zone ID '{}':  Using default '{}'", id, ZoneId.systemDefault(), dte);
         }
         return new Zone(ZoneId.systemDefault());
     }

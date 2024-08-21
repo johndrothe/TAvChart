@@ -1,7 +1,7 @@
 # Features Wishlist
 
-* Coherent logging and error reporting
-* Move border and center hour to Team
+* Add a user interface for Document properties
+  * Name, Canvas Size, etc.
 * User-specified canvas size
   * Specified as
     * pixel
@@ -9,10 +9,7 @@
     * cm & "DPI"
   * Canvas scrolling
   * Canvas Zoom
-  * Export at full canvas size
-* Refactor "Team" into "Document"
-  * Name, Border/Center Hour, Members, Canvas Size, etc.
-* Save/load Team (Document) in JSON 
+  * ~~Export at full canvas size~~
 * Color icons for the toolbar / menu bar 
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
@@ -38,7 +35,6 @@
 * Export formats
   * Excel
   * SVG
-  * Full Featured PNG
   * Draw IO (?)
 * As a bonus, consider also generating a combined calendar with holidays for each region / country
   * Company Holidays

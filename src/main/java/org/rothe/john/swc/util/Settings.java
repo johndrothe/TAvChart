@@ -2,6 +2,7 @@ package org.rothe.john.swc.util;
 
 import lombok.Data;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.rothe.john.swc.io.json.Json;
 
 import java.awt.Dimension;
@@ -15,6 +16,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 @Data
 @Setter
+@Slf4j
 public class Settings {
     private Dimension mainWindowSize = new Dimension(1024, 768);
     private int uiScale = 1;
@@ -32,8 +34,7 @@ public class Settings {
         try {
             Files.writeString(target, Json.toJson(this), UTF_8, CREATE, TRUNCATE_EXISTING);
         } catch (IOException e) {
-            System.err.println("Error: Failed to save user-preferences to " + target);
-            e.printStackTrace();
+            log.error("Failed to save user-preferences to: {}", target, e);
         }
     }
 
@@ -47,8 +48,7 @@ public class Settings {
                 return Json.fromJson(Files.readString(target, UTF_8), Settings.class);
             }
         } catch (IOException e) {
-            System.err.println("Error: Failed to load user-preferences from " + target);
-            e.printStackTrace();
+            log.error("Failed to load user-preferences from: {}", target, e);
         }
         return new Settings();
     }
