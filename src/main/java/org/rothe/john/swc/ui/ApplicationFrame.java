@@ -12,6 +12,7 @@ import org.rothe.john.swc.util.Settings;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
@@ -22,6 +23,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import static java.awt.BorderLayout.CENTER;
+import static org.rothe.john.swc.ui.canvas.Canvas.ROW_HEIGHT_MINIMUM;
 
 public class ApplicationFrame extends JFrame {
     public static final String VERSION = "1.1.1";
@@ -80,10 +82,19 @@ public class ApplicationFrame extends JFrame {
 
     private JPanel newCanvasPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(canvas, CENTER);
+        JScrollPane scroll = newCanvasScroll();
+        panel.add(scroll, CENTER);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setOpaque(false);
         return panel;
+    }
+
+    private JScrollPane newCanvasScroll() {
+        JScrollPane scroll = new JScrollPane(canvas);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.getVerticalScrollBar().setUnitIncrement(ROW_HEIGHT_MINIMUM);
+        return scroll;
     }
 
     private void exitApplication() {

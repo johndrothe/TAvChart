@@ -41,6 +41,7 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class Canvas extends JPanel implements DocumentListener {
     private static final int INSET = 5;
+    public static final int ROW_HEIGHT_MINIMUM = 30;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
     private final GridPainter gridPainter;
@@ -183,11 +184,12 @@ public class Canvas extends JPanel implements DocumentListener {
 
     private static GridBagConstraints transitionsConstraints() {
         return defaultConstraints().anchorWest().fillNone()
-                .insets(30, INSET, 2, INSET).ipadx(30).ipady(20).build();
+                .insets(ROW_HEIGHT_MINIMUM, INSET, 2, INSET)
+                .ipadx(30).ipady(20).build();
     }
 
     private static GridBagConstraints rowConstraints() {
-        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(30).build();
+        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(ROW_HEIGHT_MINIMUM).build();
     }
 
     private static GBCBuilder defaultConstraints() {
