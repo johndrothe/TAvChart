@@ -7,8 +7,6 @@ import org.rothe.john.swc.util.Settings;
 import javax.swing.SwingUtilities;
 import java.util.List;
 
-// TODO: Switch to SVG and/or add icon sizes for each global scaling option
-
 public class Main {
     public static void main(String[] args) {
         Settings settings = Settings.load();
