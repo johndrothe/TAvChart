@@ -23,7 +23,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
-import static org.rothe.john.swc.ui.canvas.Canvas.ROW_HEIGHT_MINIMUM;
 
 public class ApplicationFrame extends JFrame {
     public static final String VERSION = "1.1.2";
@@ -32,7 +31,7 @@ public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final MembersTablePanel tablePanel = new MembersTablePanel();
-    private final Canvas canvas = new Canvas();
+    private final Canvas canvas;
     private final Toolbar toolBar;
     private final MenuBar menuBar;
     private final Settings settings;
@@ -40,6 +39,7 @@ public class ApplicationFrame extends JFrame {
     public ApplicationFrame(Settings settings) {
         super("Working Hours - " + VERSION);
         this.settings = settings;
+        this.canvas = new Canvas(settings);
         this.toolBar = new Toolbar(listener);
         this.menuBar = new MenuBar(zoomHandler(), canvas, tablePanel.getTable(), listener);
 
@@ -96,7 +96,7 @@ public class ApplicationFrame extends JFrame {
         JScrollPane scroll = new JScrollPane(canvas);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.getVerticalScrollBar().setUnitIncrement(ROW_HEIGHT_MINIMUM);
+        scroll.getVerticalScrollBar().setUnitIncrement(canvas.getRowHeightMinimum());
         return scroll;
     }
 

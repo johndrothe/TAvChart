@@ -20,6 +20,7 @@ import org.rothe.john.swc.ui.canvas.util.CanvasCalculator;
 import org.rothe.john.swc.ui.canvas.util.Palette;
 import org.rothe.john.swc.ui.canvas.util.RowList;
 import org.rothe.john.swc.util.GBCBuilder;
+import org.rothe.john.swc.util.Settings;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -41,7 +42,8 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class Canvas extends JPanel implements DocumentListener {
     private static final int INSET = 5;
-    public static final int ROW_HEIGHT_MINIMUM = 30;
+    private static final double BASE_ROW_HEIGHT = 30.0;
+    private final Settings settings;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
     private final GridPainter gridPainter;
@@ -53,9 +55,9 @@ public class Canvas extends JPanel implements DocumentListener {
     @Getter
     private Document document = null;
 
-    public Canvas() {
+    public Canvas(Settings settings) {
         super();
-
+        this.settings = settings;
         this.calculator = new CanvasCalculator(this, rows);
         this.gridPainter = new GridPainter(this, calculator);
         this.collabZonePainter = new CollabZonePainter(this, calculator);
@@ -65,6 +67,10 @@ public class Canvas extends JPanel implements DocumentListener {
         setBorder(border());
         setLayout(new GridBagLayout());
         initialize();
+    }
+
+    public int getRowHeightMinimum() {
+        return (int) Math.ceil(BASE_ROW_HEIGHT * settings.getUiScale() / 100.0);
     }
 
     public void register() {
@@ -182,14 +188,14 @@ public class Canvas extends JPanel implements DocumentListener {
         return defaultConstraints().weighty(1.0).insets(0).build();
     }
 
-    private static GridBagConstraints transitionsConstraints() {
+    private GridBagConstraints transitionsConstraints() {
         return defaultConstraints().anchorWest().fillNone()
-                .insets(ROW_HEIGHT_MINIMUM, INSET, 2, INSET)
+                .insets(getRowHeightMinimum(), INSET, 2, INSET)
                 .ipadx(30).ipady(20).build();
     }
 
-    private static GridBagConstraints rowConstraints() {
-        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(ROW_HEIGHT_MINIMUM).build();
+    private GridBagConstraints rowConstraints() {
+        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(getRowHeightMinimum()).build();
     }
 
     private static GBCBuilder defaultConstraints() {

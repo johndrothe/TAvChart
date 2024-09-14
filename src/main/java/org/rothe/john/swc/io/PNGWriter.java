@@ -3,13 +3,14 @@ package org.rothe.john.swc.io;
 import org.rothe.john.swc.event.NewDocumentEvent;
 import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.canvas.Canvas;
+import org.rothe.john.swc.util.Settings;
 
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class PNGWriter {
-    private final Canvas canvas = new Canvas();
+    private final Canvas canvas = new Canvas(new Settings());
     private PNGWriter() {
         super();
         canvas.setVisible(true);
