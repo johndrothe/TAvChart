@@ -1,7 +1,14 @@
+import com.github.swingdpi.UiDefaultsScaler;
 import org.rothe.john.swc.ui.ApplicationFrame;
 import org.rothe.john.swc.util.Settings;
 
 import javax.swing.SwingUtilities;
+
+// TODO: UI Scaling List
+// TODO: Update canvas rendering to use global scaling instead of an arbitrary 30 pixels
+// TODO: Switch to SVG and/or add icon sizes for each global scaling option
+// TODO: Evaluate how sun.java2d.uiScale interacts with SwingDPI
+
 
 public class Main {
     public static void main(String[] args) {
@@ -11,6 +18,7 @@ public class Main {
     }
 
     private static void applySettings(Settings settings) {
-        System.setProperty("sun.java2d.uiScale", Integer.toString(settings.getUiScale()));
+        System.err.printf("UI Scaling %d%n", settings.getUiScale());
+        UiDefaultsScaler.updateAndApplyGlobalScaling(settings.getUiScale(), true);
     }
 }

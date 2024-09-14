@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -34,15 +35,16 @@ public class ApplicationFrame extends JFrame {
     private final MembersTablePanel tablePanel = new MembersTablePanel();
     private final Canvas canvas = new Canvas();
     private final Toolbar toolBar = new Toolbar(listener);
-    private final MenuBar menuBar = new MenuBar(canvas, tablePanel.getTable(), listener);
+    private final MenuBar menuBar = new MenuBar(this, canvas, tablePanel.getTable(), listener);
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
         super("Working Hours - " + VERSION);
         this.settings = settings;
+        loadPreInitSettings();
         addWindowListener(new ExitOnCloseListener());
         initialize();
-        setSize(settings.getMainWindowSize());
+        loadPostInitSettings();
     }
 
     private void initialize() {
@@ -112,15 +114,30 @@ public class ApplicationFrame extends JFrame {
         settings.save();
     }
 
+    private void tabChanged(ChangeEvent event) {
+        toolBar.displayChanged(DisplayChangeEvent.of(tablePanel.getTable(), canvas,
+                tabbedPane.getSelectedIndex() == 1));
+    }
+
+    private void loadPreInitSettings() {
+    }
+
+    private void loadPostInitSettings() {
+        setSize(Settings.minimum(settings.getMainWindowSize(), getScreenSize()));
+    }
+
+    private static Dimension getScreenSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize();
+    }
+
+    public void setUiScale(int uiScale) {
+        settings.setUiScale(uiScale);
+    }
+
     private class ExitOnCloseListener extends WindowAdapter {
         @Override
         public void windowClosing(WindowEvent e) {
             exitApplication();
         }
-    }
-
-    private void tabChanged(ChangeEvent event) {
-        toolBar.displayChanged(DisplayChangeEvent.of(tablePanel.getTable(), canvas,
-                tabbedPane.getSelectedIndex() == 1));
     }
 }

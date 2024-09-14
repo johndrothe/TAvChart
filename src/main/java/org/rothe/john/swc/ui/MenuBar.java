@@ -1,5 +1,6 @@
 package org.rothe.john.swc.ui;
 
+import com.github.swingdpi.DpiUtils;
 import lombok.val;
 import org.rothe.john.swc.event.undo.UndoListener;
 import org.rothe.john.swc.ui.action.*;
@@ -25,13 +26,15 @@ import static java.awt.event.KeyEvent.VK_Y;
 import static java.awt.event.KeyEvent.VK_Z;
 
 public class MenuBar extends JMenuBar {
+    private final ApplicationFrame frame;
     private final Canvas canvas;
     private final MembersTable table;
     private final UndoListener listener;
     private final JMenuItem copy;
     private final JMenuItem paste;
 
-    public MenuBar(Canvas canvas, MembersTable table, UndoListener listener) {
+    public MenuBar(ApplicationFrame frame, Canvas canvas, MembersTable table, UndoListener listener) {
+        this.frame = frame;
         this.canvas = canvas;
         this.table = table;
         this.listener = listener;
@@ -46,8 +49,19 @@ public class MenuBar extends JMenuBar {
     private void addMenus() {
         addFileMenu();
         addEditMenu();
+        addViewMenu();
         addMembersMenu();
         add(createSampleMenu());
+    }
+
+    private void addViewMenu() {
+        val menu = newMenu("View", 'V');
+
+        // TODO: Radio button menu item
+
+        for(int scale : DpiUtils.STANDARD_SCALINGS) {
+            menu.add(new ZoomAction(frame, scale));
+        }
     }
 
     private void addMembersMenu() {
