@@ -2,12 +2,12 @@ package org.rothe.john.swc.ui;
 
 import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.event.undo.UndoListener;
-import org.rothe.john.swc.model.Document;
 import org.rothe.john.swc.ui.action.DisplayChangeEvent;
 import org.rothe.john.swc.ui.canvas.Canvas;
 import org.rothe.john.swc.ui.table.MembersTablePanel;
 import org.rothe.john.swc.util.GBCBuilder;
 import org.rothe.john.swc.util.Settings;
+import org.rothe.john.swc.util.ZoomHandler;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -21,33 +21,34 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import static java.awt.BorderLayout.CENTER;
 import static org.rothe.john.swc.ui.canvas.Canvas.ROW_HEIGHT_MINIMUM;
 
 public class ApplicationFrame extends JFrame {
-    public static final String VERSION = "1.1.1";
-
+    public static final String VERSION = "1.1.2";
+    private final ExitOnCloseListener exitListener = new ExitOnCloseListener();
     private final UndoListener listener = new UndoListener();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final MembersTablePanel tablePanel = new MembersTablePanel();
     private final Canvas canvas = new Canvas();
-    private final Toolbar toolBar = new Toolbar(listener);
-    private final MenuBar menuBar = new MenuBar(this, canvas, tablePanel.getTable(), listener);
+    private final Toolbar toolBar;
+    private final MenuBar menuBar;
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
         super("Working Hours - " + VERSION);
         this.settings = settings;
-        loadPreInitSettings();
-        addWindowListener(new ExitOnCloseListener());
+        this.toolBar = new Toolbar(listener);
+        this.menuBar = new MenuBar(zoomHandler(), canvas, tablePanel.getTable(), listener);
+
         initialize();
-        loadPostInitSettings();
     }
 
     private void initialize() {
+        loadPreInitSettings();
+        addWindowListener(exitListener);
         Documents.addDocumentListener(listener);
 
         initNorth();
@@ -60,7 +61,7 @@ public class ApplicationFrame extends JFrame {
 
         tabChanged(null);
 
-        Documents.fireDocumentChanged(this, "New", new Document("Winners", 0, List.of()));
+        loadPostInitSettings();
     }
 
     private void initNorth() {
@@ -110,8 +111,6 @@ public class ApplicationFrame extends JFrame {
 
     private void saveSettings() {
         settings.setMainWindowSize(new Dimension(getWidth(), getHeight()));
-
-        settings.save();
     }
 
     private void tabChanged(ChangeEvent event) {
@@ -130,8 +129,13 @@ public class ApplicationFrame extends JFrame {
         return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
-    public void setUiScale(int uiScale) {
+    public void setScaleAndExit(int uiScale) {
         settings.setUiScale(uiScale);
+        exitApplication();
+    }
+
+    private ZoomHandler zoomHandler() {
+        return new ZoomHandler(this::setScaleAndExit, settings::getUiScale);
     }
 
     private class ExitOnCloseListener extends WindowAdapter {

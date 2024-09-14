@@ -8,11 +8,13 @@ import org.rothe.john.swc.ui.canvas.Canvas;
 import org.rothe.john.swc.ui.table.MembersTable;
 import org.rothe.john.swc.ui.table.paste.Paster;
 import org.rothe.john.swc.util.SampleFactory;
+import org.rothe.john.swc.util.ZoomHandler;
 
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,15 +28,18 @@ import static java.awt.event.KeyEvent.VK_Y;
 import static java.awt.event.KeyEvent.VK_Z;
 
 public class MenuBar extends JMenuBar {
-    private final ApplicationFrame frame;
+    private final ZoomHandler zoomHandler;
     private final Canvas canvas;
     private final MembersTable table;
     private final UndoListener listener;
     private final JMenuItem copy;
     private final JMenuItem paste;
 
-    public MenuBar(ApplicationFrame frame, Canvas canvas, MembersTable table, UndoListener listener) {
-        this.frame = frame;
+    public MenuBar(ZoomHandler zoomHandler,
+                   Canvas canvas,
+                   MembersTable table,
+                   UndoListener listener) {
+        this.zoomHandler = zoomHandler;
         this.canvas = canvas;
         this.table = table;
         this.listener = listener;
@@ -55,13 +60,18 @@ public class MenuBar extends JMenuBar {
     }
 
     private void addViewMenu() {
-        val menu = newMenu("View", 'V');
-
-        // TODO: Radio button menu item
+        val menu = newMenu("Zoom", 'Z');
 
         for(int scale : DpiUtils.STANDARD_SCALINGS) {
-            menu.add(new ZoomAction(frame, scale));
+            menu.add(newZoomItem(scale));
         }
+    }
+
+    private JRadioButtonMenuItem newZoomItem(int scale) {
+        var item = new JRadioButtonMenuItem(new ZoomAction(canvas.getRootPane(), zoomHandler, scale));
+        item.setSelected(zoomHandler.get() == scale);
+        item.setEnabled(!item.isSelected());
+        return item;
     }
 
     private void addMembersMenu() {
