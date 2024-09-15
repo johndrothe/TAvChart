@@ -1,11 +1,15 @@
 package org.rothe.john.swc.ui;
 
+import lombok.val;
+import org.rothe.john.swc.event.DocumentChangedEvent;
+import org.rothe.john.swc.event.DocumentListener;
 import org.rothe.john.swc.event.Documents;
 import org.rothe.john.swc.event.undo.UndoListener;
 import org.rothe.john.swc.ui.action.DisplayChangeEvent;
 import org.rothe.john.swc.ui.canvas.Canvas;
 import org.rothe.john.swc.ui.table.MembersTablePanel;
 import org.rothe.john.swc.util.GBCBuilder;
+import org.rothe.john.swc.util.ManifestUtil;
 import org.rothe.john.swc.util.Settings;
 import org.rothe.john.swc.util.ZoomHandler;
 
@@ -23,9 +27,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
+import static java.util.Objects.nonNull;
 
 public class ApplicationFrame extends JFrame {
-    public static final String VERSION = "1.1.2";
     private final ExitOnCloseListener exitListener = new ExitOnCloseListener();
     private final UndoListener listener = new UndoListener();
     private final JPanel centerPanel = new JPanel(new BorderLayout());
@@ -37,7 +41,7 @@ public class ApplicationFrame extends JFrame {
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
-        super("Working Hours - " + VERSION);
+        super(title());
         this.settings = settings;
         this.canvas = new Canvas(settings);
         this.toolBar = new Toolbar(listener);
@@ -50,6 +54,7 @@ public class ApplicationFrame extends JFrame {
         loadPreInitSettings();
         addWindowListener(exitListener);
         Documents.addDocumentListener(listener);
+        Documents.addDocumentListener(new TitleListener());
 
         initNorth();
 
@@ -143,5 +148,25 @@ public class ApplicationFrame extends JFrame {
         public void windowClosing(WindowEvent e) {
             exitApplication();
         }
+    }
+
+    public class TitleListener implements DocumentListener {
+        @Override
+        public void documentChanged(DocumentChangedEvent e) {
+            setTitle(title());
+        }
+    }
+
+    private static String title() {
+        return "%s - Working Hours %s"
+                .formatted(documentName(), ManifestUtil.getVersion());
+    }
+
+    private static String documentName() {
+        val document = Documents.getCurrent();
+        if (nonNull(document)) {
+            return document.name();
+        }
+        return "Empty";
     }
 }

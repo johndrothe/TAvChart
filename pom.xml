@@ -6,7 +6,7 @@
 
     <groupId>org.rothe.john.working_hours</groupId>
     <artifactId>swing_working_hours</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
     <build>
         <plugins>
             <plugin>
@@ -27,6 +27,10 @@
                             <addClasspath>true</addClasspath>
                             <mainClass>Main</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <ApplicationVersion>${project.version}</ApplicationVersion>
+                            <ApplicationBuildDate>${maven.build.timestamp}</ApplicationBuildDate>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -43,6 +47,10 @@
                         <manifest>
                             <mainClass>Main</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <ApplicationVersion>${project.version}</ApplicationVersion>
+                            <ApplicationBuildDate>${maven.build.timestamp}</ApplicationBuildDate>
+                        </manifestEntries>
                     </archive>
                 </configuration>
                 <executions>
@@ -61,6 +69,7 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
     </properties>
 
     <repositories>
