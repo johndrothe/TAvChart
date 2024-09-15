@@ -1,8 +1,8 @@
 import com.github.swingdpi.UiDefaultsScaler;
-import org.rothe.john.swc.event.Documents;
-import org.rothe.john.swc.model.Document;
-import org.rothe.john.swc.ui.ApplicationFrame;
-import org.rothe.john.swc.util.Settings;
+import work.rothe.tav.event.Documents;
+import work.rothe.tav.model.Document;
+import work.rothe.tav.ui.ApplicationFrame;
+import work.rothe.tav.util.Settings;
 
 import javax.swing.SwingUtilities;
 import java.util.List;
