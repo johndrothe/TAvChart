@@ -118,7 +118,12 @@ public class ApplicationFrame extends JFrame {
     private void saveSettings() {
         settings.setMainWindowSize(new Dimension(getWidth(), getHeight()));
         settings.setMainWindowLocation(getLocation());
+        settings.setMainWindowMaximized(isMaximized());
         settings.save();
+    }
+
+    private boolean isMaximized() {
+        return (getExtendedState() & JFrame.MAXIMIZED_BOTH) != 0;
     }
 
     private void tabChanged(ChangeEvent event) {
@@ -127,11 +132,15 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void loadPreInitSettings() {
+
     }
 
     private void loadPostInitSettings() {
         setSize(settings.getMainWindowSize());
         setLocation(settings.getMainWindowLocation());
+        if(settings.isMainWindowMaximized()) {
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
     }
 
     public void setScaleAndExit(int uiScale) {

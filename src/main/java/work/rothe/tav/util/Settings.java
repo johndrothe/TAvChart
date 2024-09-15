@@ -20,6 +20,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 @Setter
 @Slf4j
 public class Settings {
+    private boolean mainWindowMaximized = false;
     private Dimension mainWindowSize = new Dimension(1024, 768);
     private Point mainWindowLocation = new Point(0, 0);
     private int uiScale = DpiUtils.getClosestStandardScaling();
