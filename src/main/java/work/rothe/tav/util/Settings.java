@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static work.rothe.tav.util.Constants.SETTINGS_FILE_NAME;
 
 @Data
 @Setter
@@ -27,7 +28,7 @@ public class Settings {
 
 
     public static Path getSettingsPath() {
-        return Path.of(System.getProperty("user.home"), ".swh_settings");
+        return Path.of(System.getProperty("user.home"), SETTINGS_FILE_NAME);
     }
 
     public void save() {

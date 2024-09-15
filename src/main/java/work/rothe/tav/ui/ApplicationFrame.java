@@ -25,6 +25,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
+import static work.rothe.tav.util.Constants.APP_NAME;
 
 public class ApplicationFrame extends JFrame {
     private final ExitOnCloseListener exitListener = new ExitOnCloseListener();
@@ -39,7 +40,7 @@ public class ApplicationFrame extends JFrame {
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
-        super("TAvChart");
+        super(APP_NAME);
         this.settings = settings;
         this.canvas = new Canvas(settings);
         this.toolBar = new Toolbar(listener);

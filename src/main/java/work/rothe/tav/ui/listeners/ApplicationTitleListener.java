@@ -10,6 +10,7 @@ import work.rothe.tav.util.ManifestUtil;
 import java.awt.Frame;
 
 import static java.util.Objects.nonNull;
+import static work.rothe.tav.util.Constants.APP_NAME;
 
 @RequiredArgsConstructor
 public class ApplicationTitleListener implements DocumentListener {
@@ -21,8 +22,7 @@ public class ApplicationTitleListener implements DocumentListener {
     }
 
     private static String title() {
-        return "%s - TAvChart %s"
-                .formatted(documentName(), ManifestUtil.getVersion());
+        return "%s - %s %s".formatted(documentName(), APP_NAME, ManifestUtil.getVersion());
     }
 
     private static String documentName() {
