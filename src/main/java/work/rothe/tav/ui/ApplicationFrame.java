@@ -1,15 +1,14 @@
 package work.rothe.tav.ui;
 
-import lombok.val;
-import work.rothe.tav.event.DocumentChangedEvent;
-import work.rothe.tav.event.DocumentListener;
 import work.rothe.tav.event.Documents;
 import work.rothe.tav.event.undo.UndoListener;
 import work.rothe.tav.ui.action.DisplayChangeEvent;
 import work.rothe.tav.ui.canvas.Canvas;
+import work.rothe.tav.ui.details.DetailsPanel;
+import work.rothe.tav.ui.listeners.ApplicationTitleListener;
+import work.rothe.tav.ui.listeners.OffScreenWindowListener;
 import work.rothe.tav.ui.table.MembersTablePanel;
 import work.rothe.tav.util.GBCBuilder;
-import work.rothe.tav.util.ManifestUtil;
 import work.rothe.tav.util.Settings;
 import work.rothe.tav.util.ZoomHandler;
 
@@ -22,12 +21,10 @@ import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static java.awt.BorderLayout.CENTER;
-import static java.util.Objects.nonNull;
 
 public class ApplicationFrame extends JFrame {
     private final ExitOnCloseListener exitListener = new ExitOnCloseListener();
@@ -35,13 +32,14 @@ public class ApplicationFrame extends JFrame {
     private final JPanel centerPanel = new JPanel(new BorderLayout());
     private final JTabbedPane tabbedPane = new JTabbedPane();
     private final MembersTablePanel tablePanel = new MembersTablePanel();
+    private final DetailsPanel detailsPanel = new DetailsPanel(tablePanel);
     private final Canvas canvas;
     private final Toolbar toolBar;
     private final MenuBar menuBar;
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
-        super(title());
+        super("TAvChart");
         this.settings = settings;
         this.canvas = new Canvas(settings);
         this.toolBar = new Toolbar(listener);
@@ -53,14 +51,16 @@ public class ApplicationFrame extends JFrame {
     private void initialize() {
         loadPreInitSettings();
         addWindowListener(exitListener);
+        addWindowListener(new OffScreenWindowListener());
         Documents.addDocumentListener(listener);
-        Documents.addDocumentListener(new TitleListener());
+        Documents.addDocumentListener(new ApplicationTitleListener(this));
 
         initNorth();
 
         initCenter();
         doLayout();
 
+        detailsPanel.register();
         canvas.register();
         tablePanel.register();
 
@@ -82,7 +82,7 @@ public class ApplicationFrame extends JFrame {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         centerPanel.add(tabbedPane, CENTER);
 
-        tabbedPane.add("Details", tablePanel);
+        tabbedPane.add("Details", detailsPanel);
         tabbedPane.add("Availability", newCanvasPanel());
         tabbedPane.addChangeListener(this::tabChanged);
         tabbedPane.setSelectedIndex(1);
@@ -109,6 +109,7 @@ public class ApplicationFrame extends JFrame {
         saveSettings();
         setVisible(false);
 
+        detailsPanel.unregister();
         canvas.unregister();
         tablePanel.unregister();
         System.exit(0);
@@ -116,6 +117,8 @@ public class ApplicationFrame extends JFrame {
 
     private void saveSettings() {
         settings.setMainWindowSize(new Dimension(getWidth(), getHeight()));
+        settings.setMainWindowLocation(getLocation());
+        settings.save();
     }
 
     private void tabChanged(ChangeEvent event) {
@@ -127,11 +130,8 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void loadPostInitSettings() {
-        setSize(Settings.minimum(settings.getMainWindowSize(), getScreenSize()));
-    }
-
-    private static Dimension getScreenSize() {
-        return Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(settings.getMainWindowSize());
+        setLocation(settings.getMainWindowLocation());
     }
 
     public void setScaleAndExit(int uiScale) {
@@ -148,25 +148,5 @@ public class ApplicationFrame extends JFrame {
         public void windowClosing(WindowEvent e) {
             exitApplication();
         }
-    }
-
-    public class TitleListener implements DocumentListener {
-        @Override
-        public void documentChanged(DocumentChangedEvent e) {
-            setTitle(title());
-        }
-    }
-
-    private static String title() {
-        return "%s - TAvChart %s"
-                .formatted(documentName(), ManifestUtil.getVersion());
-    }
-
-    private static String documentName() {
-        val document = Documents.getCurrent();
-        if (nonNull(document)) {
-            return document.name();
-        }
-        return "Empty";
     }
 }

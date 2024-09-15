@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import work.rothe.tav.io.json.Json;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,6 +21,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 @Slf4j
 public class Settings {
     private Dimension mainWindowSize = new Dimension(1024, 768);
+    private Point mainWindowLocation = new Point(0, 0);
     private int uiScale = DpiUtils.getClosestStandardScaling();
 
 
@@ -52,12 +54,5 @@ public class Settings {
             log.error("Failed to load user-preferences from: {}", target, e);
         }
         return new Settings();
-    }
-
-    public static Dimension minimum(Dimension left, Dimension right) {
-        return new Dimension(
-                Math.min(right.width, left.width),
-                Math.min(right.height, left.height)
-        );
     }
 }
