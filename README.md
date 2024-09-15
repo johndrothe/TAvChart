@@ -3,13 +3,12 @@ showing the normal working hours (and lunch hour) for each member of a document.
 
 <div style="width:600px">
 
-![swing_working_hours_1-0-0](docs/swing_working_hours_1-0-0.png)
+![tav-chart-1.1.3.png](docs/tav-chart-1.1.3.png)
 </div>
 
 As of [version 1.0.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.0.0),
 this project has hit MVP with all the features necessary to create solid diagrams.
 There is, however, always more [to do](docs/TODO.md).
-
 
 _Many thanks to [Iconoir](https://iconoir.com/) for the menu and toolbar icons._
 
@@ -20,6 +19,7 @@ to actively collaborate ("Collaboration Zones"). This was especially useful when
 what Agile ceremonies we had time for and when they should be scheduled.
 
 The following is the original Draw IO diagram.
+
 <div style="width:600px">
 
 ![Working_Hours_no_names.drawio.png](docs/Working_Hours_no_names.drawio.png)

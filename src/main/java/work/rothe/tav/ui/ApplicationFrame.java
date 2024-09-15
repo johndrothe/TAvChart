@@ -82,8 +82,8 @@ public class ApplicationFrame extends JFrame {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         centerPanel.add(tabbedPane, CENTER);
 
-        tabbedPane.add("Members", tablePanel);
-        tabbedPane.add("Working Hours", newCanvasPanel());
+        tabbedPane.add("Details", tablePanel);
+        tabbedPane.add("Availability", newCanvasPanel());
         tabbedPane.addChangeListener(this::tabChanged);
         tabbedPane.setSelectedIndex(1);
     }
