@@ -95,6 +95,7 @@ public class Canvas extends JPanel implements DocumentListener {
         this.document = event.document();
         this.borderHourOffset = 0;
         initialize();
+        setPreferredSize(document.canvasSize());
         revalidate();
         repaint();
     }

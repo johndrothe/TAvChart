@@ -101,6 +101,7 @@ public class ApplicationFrame extends JFrame {
     private JScrollPane newCanvasScroll() {
         JScrollPane scroll = new JScrollPane(canvas);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.getHorizontalScrollBar().setUnitIncrement(canvas.getRowHeightMinimum());
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scroll.getVerticalScrollBar().setUnitIncrement(canvas.getRowHeightMinimum());
         return scroll;
