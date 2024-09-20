@@ -24,6 +24,10 @@ public record TimePair(Time left, Time right) {
         return new TimePair(left.addHours(hours), right.addHours(hours));
     }
 
+    public TimePair inZone(Zone zone) {
+        return new TimePair(left.inZone(zone), right.inZone(zone));
+    }
+
     public List<TimePair> splitAround(int splitHourUtc) {
         // the split is typically the border hour which appears once on the left at
         // below 24 hours and once on the right at above 24 hours.

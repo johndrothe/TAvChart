@@ -8,6 +8,12 @@ import static java.util.stream.Collectors.joining;
 
 @With
 public record Member(String name, String role, String location, Zone zone, TimePair normal, TimePair lunch) {
+
+    public Member {
+        normal = normal.inZone(zone);
+        lunch = lunch.inZone(zone);
+    }
+
     public Member(String name, String role, String location, Zone zone) {
         this(name, role, location, zone, TimePair.businessNormal(zone), TimePair.businessLunch(zone));
     }
