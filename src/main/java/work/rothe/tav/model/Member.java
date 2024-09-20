@@ -1,12 +1,10 @@
 package work.rothe.tav.model;
 
-import lombok.With;
-
 import java.util.Collection;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
-@With
 public record Member(String name, String role, String location, Zone zone, TimePair normal, TimePair lunch) {
 
     public Member {
@@ -48,5 +46,47 @@ public record Member(String name, String role, String location, Zone zone, TimeP
                 .map(Member::name)
                 .sorted()
                 .collect(joining(", "));
+    }
+
+    public Member withName(String name) {
+        if(Objects.equals(name, this.name)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
+    }
+
+    public Member withRole(String role) {
+        if(Objects.equals(role, this.role)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
+    }
+
+    public Member withLocation(String location) {
+        if(Objects.equals(location, this.location)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
+    }
+
+    public Member withZone(Zone zone) {
+        if(Objects.equals(zone, this.zone)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
+    }
+
+    public Member withNormal(TimePair normal) {
+        if(Objects.equals(normal, this.normal)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
+    }
+
+    public Member withLunch(TimePair lunch) {
+        if(Objects.equals(lunch, this.lunch)) {
+            return this;
+        }
+        return new Member(name, role, location, zone, normal, lunch);
     }
 }
