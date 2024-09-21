@@ -1,7 +1,6 @@
 package work.rothe.tav.ui.table.paste;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import work.rothe.tav.ui.table.MembersTable;
 import work.rothe.tav.ui.table.paste.enums.ReplaceBehavior;
 import work.rothe.tav.ui.table.paste.enums.SelectionShape;
@@ -11,6 +10,7 @@ import work.rothe.tav.ui.table.paste.operations.ValueOperation;
 import work.rothe.tav.util.Pair;
 
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
@@ -29,14 +29,7 @@ public class Paster {
     }
 
     public static boolean canPaste(MembersTable table) {
-        try {
-            return table.getSelectedRowCount() > 0
-                    && table.getSelectedColumnCount() > 0
-                    && isContiguousSelection(table)
-                    && !getTextFromClipboard().isEmpty();
-        } catch (IOException | UnsupportedFlavorException e) {
-            return false;
-        }
+        return (noSelection(table) || isReplaceableSelection(table)) && isClipboardTextAvailable();
     }
 
     private void paste() {
@@ -48,7 +41,7 @@ public class Paster {
     }
 
     private void paste(CopiedContent content) {
-        if (content.isEmpty() || table.getSelectedRowCount() == 0) {
+        if (content.isEmpty() || !canPaste(table)) {
             return;
         }
 
@@ -63,6 +56,18 @@ public class Paster {
         return SelectionShape.of(table);
     }
 
+    private static boolean noSelection(MembersTable table) {
+        return table.getSelectedRowCount() == 0;
+    }
+
+    private static boolean hasSelection(MembersTable table) {
+        return table.getSelectedRowCount() > 0 && table.getSelectedColumnCount() > 0;
+    }
+
+    private static boolean isReplaceableSelection(MembersTable table) {
+        return hasSelection(table) && isContiguousSelection(table);
+    }
+
     private static boolean isContiguousSelection(MembersTable table) {
         return Pair.stream(table.getSelectedRowList())
                 .noneMatch(p -> Math.abs(p.left() - p.right()) != 1);
@@ -70,10 +75,17 @@ public class Paster {
 
     private static String getTextFromClipboard()
             throws IOException, UnsupportedFlavorException {
-        val clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        if (clipboard.isDataFlavorAvailable(stringFlavor)) {
-            return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(stringFlavor);
+        if (isClipboardTextAvailable()) {
+            return (String) getClipboard().getData(stringFlavor);
         }
         return "";
+    }
+
+    private static boolean isClipboardTextAvailable() {
+        return getClipboard().isDataFlavorAvailable(stringFlavor);
+    }
+
+    private static Clipboard getClipboard() {
+        return Toolkit.getDefaultToolkit().getSystemClipboard();
     }
 }
