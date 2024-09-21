@@ -33,11 +33,14 @@ public class MembersTable extends JTable {
     }
 
     public void setDocument(Document document) {
+        val selection = Selection.of(this);
+
         this.document = document;
         getModel().setDocument(document);
+        selection.apply(MembersTable.this);
 
-        if(nonNull(document)) {
-            SwingUtilities.invokeLater(()-> ColumnSizing.adjust(MembersTable.this));
+        if (nonNull(document)) {
+            SwingUtilities.invokeLater(() -> ColumnSizing.adjust(MembersTable.this));
         }
         repaint();
     }
@@ -48,7 +51,7 @@ public class MembersTable extends JTable {
     }
 
     public int getLastSelectedRow() {
-        if(getSelectedRowCount() == 0) {
+        if (getSelectedRowCount() == 0) {
             return -1;
         }
         int[] selected = getSelectedRows();
