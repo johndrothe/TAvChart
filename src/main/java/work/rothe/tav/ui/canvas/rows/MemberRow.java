@@ -77,6 +77,10 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private void drawLunch(Graphics2D g, Shape shape) {
+        // don't adjust the clip and repaint unless it is in the dirty region
+        if(!g.getClip().intersects(shape.getBounds2D())) {
+            return;
+        }
         g.setColor(LUNCH_LINE);
 
         Graphics2D g2 = (Graphics2D) g.create();
