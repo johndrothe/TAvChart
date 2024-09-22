@@ -7,6 +7,7 @@ import work.rothe.tav.model.Document;
 import work.rothe.tav.model.Member;
 import work.rothe.tav.model.Time;
 import work.rothe.tav.model.Zone;
+import work.rothe.tav.ui.table.editors.DecoratedZone;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.LocalTime;
@@ -175,6 +176,9 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private static Zone toZone(Object aValue) {
+        if(aValue instanceof DecoratedZone zone) {
+            return zone.toZone();
+        }
         if(aValue instanceof Zone zone) {
             return zone;
         }

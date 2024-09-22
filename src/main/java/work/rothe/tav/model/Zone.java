@@ -20,6 +20,13 @@ import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
+/**
+ *
+ * <ul>
+ *     <li><a href="https://en.wikipedia.org/wiki/Tz_database">tz database (Wikipedia)</a></li>
+ *     <li><a href="https://docs.oracle.com/middleware/1221/wcs/tag-ref/MISC/TimeZones.html">TimeZones (Oracle)</a></li>
+ * </ul>
+ */
 @Slf4j
 public class Zone {
     private static final DateTimeFormatter TRANSITION_FORMATTER = DateTimeFormatter.ofPattern("LLL dd, yyyy");
