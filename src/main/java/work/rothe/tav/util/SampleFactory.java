@@ -21,8 +21,8 @@ public abstract class SampleFactory {
 
     public static List<Member> debugMembers() {
         return List.of(
-                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("Z"), 0),
-                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("Z")),
+                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("UTC"), 0),
+                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("UTC")),
                 toMember("CCCCCCC CCCCCCC", "NYC", "08:00-17:00", toZone("America/New_York")),
                 toMember("DDDDD DDDDDDDDD", "NYC", "11:00-20:00", toZone("America/New_York"), 11),
                 toMember("EEE EEEEEEEEEEE", "CHI", "08:00-17:00", toZone("America/Chicago")),
@@ -35,8 +35,8 @@ public abstract class SampleFactory {
 
     public static List<Member> centeringDebugMembers() {
         return List.of(
-                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("Z"), 13),
-                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("Z"), 13),
+                toMember("AAAAA AAAAAAAAA", "UTC", "00:00-09:00", toZone("UTC"), 13),
+                toMember("BBBB BBBBBBBBBB", "UTC", "08:00-17:00", toZone("UTC"), 13),
                 toMember("CCCCCCC CCCCCCC", "NYC", "08:00-17:00", toZone("America/New_York"), 14),
                 toMember("DDDDD DDDDDDDDD", "NYC", "11:00-20:00", toZone("America/New_York"), 16),
                 toMember("EEE EEEEEEEEEEE", "CHI", "08:00-17:00", toZone("America/Chicago"), 16),
@@ -49,13 +49,13 @@ public abstract class SampleFactory {
 
     public static List<Member> debugShiftMembers() {
         return List.of(
-                toMember("Person #1", "UTC", "00:00-09:00", toZone("Z"), 19),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 20),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 21),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 22),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 23),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 20),
-                toMember("Person #2", "UTC", "08:00-17:00", toZone("Z"), 21)
+                toMember("Person #1", "UTC", "00:00-09:00", toZone("UTC"), 19),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 20),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 21),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 22),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 23),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 20),
+                toMember("Person #2", "UTC", "08:00-17:00", toZone("UTC"), 21)
         );
     }
 
@@ -64,8 +64,8 @@ public abstract class SampleFactory {
                 toMember("Great Dev", "Developer", "Jackson", toZone("America/Chicago")),
                 toMember("Excellent Dev", "Developer", "Chicago", toZone("America/Chicago")),
                 toMember("Product Manager", "PDM", "Baltimore", toZone("America/New_York")),
-                toMember("Jill Lastname", "Director", "Berlin", toZone("Z")),
-                toMember("Product Owner", "PO", "Berlin", toZone("Z")),
+                toMember("Jill Lastname", "Director", "Berlin", toZone("UTC")),
+                toMember("Product Owner", "PO", "Berlin", toZone("UTC")),
                 toMember("Fantastic Dev", "Developer", "Warsaw", toZone("Poland")),
                 toMember("Fabulous Dev", "Developer", "Prague", toZone("Poland"))
         );

@@ -31,9 +31,7 @@ public class ColumnSizing {
 
     private int getColumnWidth(int column) {
         return Math.min(MAXIMUM,
-                max(getColumnMinimum(column),
-                        getMaxRowWidth(column),
-                        getColumn(column).getPreferredWidth()));
+                max(MINIMUM, getMaxRowWidth(column), getColumnHeaderWidth(column)) + PADDING);
     }
 
     private int getMaxRowWidth(final int column) {
@@ -44,14 +42,27 @@ public class ColumnSizing {
     }
 
     private int getMaxRowWidth(int row, int column) {
-        return getCellRenderer(row, column).getPreferredSize().width;
+        return Math.max(
+                getCellRenderer(row, column).getPreferredSize().width,
+                getCellEditorPreferredWidth(0, column)
+        );
     }
 
-    private int getColumnMinimum(final int column) {
-        if (column == Columns.ZONE.ordinal()) {
-            return 300;
-        }
-        return MINIMUM;
+    private int getColumnHeaderWidth(final int column) {
+        return table.getTableHeader()
+                .getDefaultRenderer()
+                .getTableCellRendererComponent(
+                        table, getColumn(column).getHeaderValue(),
+                        false, false, 0, column)
+                .getPreferredSize().width;
+    }
+
+    private int getCellEditorPreferredWidth(int row, int column) {
+        return table.getCellEditor(row, column)
+                .getTableCellEditorComponent(table,
+                        table.getValueAt(row, column),
+                        true, row, column)
+                .getPreferredSize().width;
     }
 
     private Component getCellRenderer(int row, int column) {

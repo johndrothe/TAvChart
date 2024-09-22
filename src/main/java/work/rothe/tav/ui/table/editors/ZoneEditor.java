@@ -43,6 +43,7 @@ public class ZoneEditor extends DefaultCellEditor {
 
     private static Stream<DecoratedZone> getPreferredLocations() {
         return Stream.of(
+                decorated("UTC", "Coordinated Universal Time"),
                 decorated("America/Costa_Rica", "Costa Rica"),
                 decorated("America/Guayaquil", "Ecuador"),
                 decorated("Asia/Calcutta", "India Standard Time"),
