@@ -44,7 +44,7 @@ public class ColumnSizing {
     private int getMaxRowWidth(int row, int column) {
         return Math.max(
                 getCellRenderer(row, column).getPreferredSize().width,
-                getCellEditorPreferredWidth(0, column)
+                getCellEditorPreferredWidth(row, column)
         );
     }
 
