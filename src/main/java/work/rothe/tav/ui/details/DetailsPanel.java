@@ -22,6 +22,7 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 import static work.rothe.tav.event.Documents.fireDocumentChanged;
 
 public class DetailsPanel extends JPanel implements DocumentListener {
+    private static final int MAX_SIZE = 5000;
     private final JTextField nameField = new JTextField(30);
     private final JTextField widthField = sizeField();
     private final JTextField heightField = sizeField();
@@ -81,7 +82,8 @@ public class DetailsPanel extends JPanel implements DocumentListener {
     }
 
     private void widthChanged(String text) {
-        int value = Integer.parseInt(text);
+        int value = Math.min(MAX_SIZE, Integer.parseInt(text));
+        widthField.setText(Integer.toString(value));
         Dimension size = document.canvasSize();
         if (value != size.width) {
             fireDocumentChanged(this, "Width Edit",
@@ -89,7 +91,8 @@ public class DetailsPanel extends JPanel implements DocumentListener {
         }
     }
     private void heightChanged(String text) {
-        int value = Integer.parseInt(text);
+        int value = Math.min(MAX_SIZE, Integer.parseInt(text));
+        heightField.setText(Integer.toString(value));
         Dimension size = document.canvasSize();
         if (value != size.height) {
             fireDocumentChanged(this, "Height Edit",
