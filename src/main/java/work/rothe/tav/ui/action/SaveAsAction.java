@@ -2,7 +2,7 @@ package work.rothe.tav.ui.action;
 
 import lombok.val;
 import work.rothe.tav.event.Documents;
-import work.rothe.tav.io.SwhFileFilter;
+import work.rothe.tav.io.TavFileFilter;
 import work.rothe.tav.model.Document;
 import work.rothe.tav.ui.table.MembersTable;
 import work.rothe.tav.util.Images;
@@ -20,6 +20,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
+import static work.rothe.tav.util.Constants.FILE_EXTENSION;
 
 public class SaveAsAction extends ToolbarAction {
     private final File HOME = new File(System.getProperty("user.home"));
@@ -71,19 +72,20 @@ public class SaveAsAction extends ToolbarAction {
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(HOME);
         chooser.setSelectedFile(new File(HOME, defaultFileName));
-        chooser.setFileFilter(new SwhFileFilter());
+        chooser.setFileFilter(new TavFileFilter());
         return chooser;
     }
 
     private static String defaultFileName(Document document) {
-        if(isNull(document) || document.name().trim().isEmpty()) {
-            return "my_document.swh";
+        if (isNull(document) || document.name().trim().isEmpty()) {
+            return "my_document." + FILE_EXTENSION;
         }
         return document.name()
                 .toLowerCase()
                 .replace(" ", "_").trim()
-                .replaceAll("[^a-z0-9_-]","@@@@@")
+                .replaceAll("[^a-z0-9_-]", "@@@@@")
                 .replace("@@@@@", "")
-                .concat(".swh");
+                .concat(".")
+                .concat(FILE_EXTENSION);
     }
 }

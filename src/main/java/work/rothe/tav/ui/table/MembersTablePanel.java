@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 
-import static javax.swing.BorderFactory.createEmptyBorder;
-
 public class MembersTablePanel extends JPanel implements DocumentListener {
     @Getter
     private final MembersTable table = new MembersTable();
@@ -21,7 +19,6 @@ public class MembersTablePanel extends JPanel implements DocumentListener {
 
     public MembersTablePanel() {
         super(new BorderLayout());
-        setBorder(createEmptyBorder(10, 10, 10, 10));
         setOpaque(false);
 
         val centerPanel = new JPanel(new BorderLayout());

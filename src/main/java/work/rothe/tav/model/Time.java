@@ -33,6 +33,10 @@ public class Time {
         return new Time(zone, time);
     }
 
+    public Time inZone(Zone zone) {
+        return of(zone, local);
+    }
+
     public static Time fromHoursUtc(Zone zone, int hoursUtc) {
         return of(zone, fromUtc(zone, hoursUtc));
     }

@@ -2,7 +2,7 @@ package work.rothe.tav.ui.action;
 
 import lombok.val;
 import work.rothe.tav.event.Documents;
-import work.rothe.tav.io.SwhFileFilter;
+import work.rothe.tav.io.TavFileFilter;
 import work.rothe.tav.model.Document;
 import work.rothe.tav.ui.table.MembersTable;
 import work.rothe.tav.util.Images;
@@ -66,7 +66,7 @@ public class OpenAction extends ToolbarAction {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setMultiSelectionEnabled(false);
         chooser.setCurrentDirectory(HOME);
-        chooser.setFileFilter(new SwhFileFilter());
+        chooser.setFileFilter(new TavFileFilter());
         return chooser;
     }
 }

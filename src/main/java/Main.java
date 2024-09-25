@@ -13,8 +13,6 @@ public class Main {
         applySettings(settings);
         SwingUtilities.invokeLater(() -> new ApplicationFrame(settings).setVisible(true));
         Documents.fireDocumentChanged(Main.class, "New", new Document("Winners", 0, List.of()));
-
-        Runtime.getRuntime().addShutdownHook(new Thread(settings::save));
     }
 
     private static void applySettings(Settings settings) {

@@ -16,12 +16,19 @@
 * Canvas / Display
   * Complete handling for "Working Hours" that span days.
     * The text isn't right yet
+  * move location/title/etc to second line
+  * de-emphasize location/title
+  * show time zone daylight savings time transitions for every zone "No Transition"
   * Collaboration Zones
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same document members.
       * These zones would overlap two or more of the zones that are currently being calculated.
 * Table Editing
   * Improved zone selector with search/sort
+    * add line between "preferred" zones and other zones
+  * Improved text editing and "Start" (enter to edit w/select all? typing replaces value?)
+  * time entry allow: 17, 1700
+  * New Member insert at selection
 * Data Entry
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
