@@ -22,7 +22,9 @@ public class ZoneEditor extends DefaultCellEditor {
     }
 
     private static JComboBox<Zone> newCombo() {
-        return new JComboBox<>(newComboModel());
+        val combo = new JComboBox<Zone>(newComboModel());
+        combo.setRenderer(new ProxyRenderer(combo.getRenderer()));
+        return combo;
     }
 
     private static DefaultComboBoxModel<Zone> newComboModel() {
