@@ -25,7 +25,6 @@
       * These zones would overlap two or more of the zones that are currently being calculated.
 * Table Editing
   * Improved zone selector with search/sort
-    * add line between "preferred" zones and other zones
   * Improved text editing and "Start" (enter to edit w/select all? typing replaces value?)
   * time entry allow: 17, 1700
   * New Member insert at selection
