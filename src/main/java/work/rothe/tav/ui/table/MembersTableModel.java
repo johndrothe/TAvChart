@@ -186,7 +186,23 @@ public class MembersTableModel extends AbstractTableModel {
     }
 
     private static Time toTime(Zone zone, Object aValue) {
-        return Time.parse(zone, aValue.toString()).roundToQuarterHour();
+        return Time.parse(zone, adjustTime(aValue.toString())).roundToQuarterHour();
+    }
+
+    private static String adjustTime(String text) {
+        if (text.matches("[0-9]{1,4}")) {
+            switch (text.length()) {
+                case 1:
+                    return text.replaceFirst("([0-9])", "0$1:00");
+                case 2:
+                    return text.replaceFirst("([0-9]{2})", "$1:00");
+                case 3:
+                    return text.replaceFirst("([0-9])([0-9]{2})", "0$1:$2");
+                case 4:
+                    return text.replaceFirst("([0-9]{2})([0-9]{2})", "$1:$2");
+            }
+        }
+        return text;
     }
 
     private void fireDocumentChanged(int columnIndex, Document newDocument) {

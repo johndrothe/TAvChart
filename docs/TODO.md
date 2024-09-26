@@ -26,7 +26,6 @@
 * Table Editing
   * Improved zone selector with search/sort
   * Improved text editing and "Start" (enter to edit w/select all? typing replaces value?)
-  * time entry allow: 17, 1700
   * New Member insert at selection
 * Data Entry
   * Multi-select and import employees folks from Salesforce
