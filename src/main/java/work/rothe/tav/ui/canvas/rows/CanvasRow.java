@@ -49,27 +49,62 @@ public abstract class CanvasRow extends JPanel {
         return calculator;
     }
 
-    protected void drawCentered(Graphics2D g2d, String text, double x, double width) {
-        val bounds = getStrBounds(g2d, text);
-        val dx = (float) (x + width / 2.0 - bounds.getWidth() / 2.0);
-        val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
-
-        g2d.drawString(text, dx, dy);
+    @Override
+    public Dimension getMinimumSize() {
+        return max(super.getMinimumSize(), labelHeight());
     }
 
-    protected void drawRightJustified(Graphics2D g2d, String text, double x, double width) {
-        val bounds = getStrBounds(g2d, text);
-        val dx = (float) (x + width - bounds.getWidth());
-        val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
+    @Override
+    public Dimension getPreferredSize() {
+        return max(super.getPreferredSize(), getMinimumSize());
+    }
 
-        g2d.drawString(text, dx, dy);
+    protected Dimension labelHeight() {
+        return new JLabel("Mgpq").getMinimumSize();
+    }
+
+    protected static Dimension doubleHeight(Dimension d1) {
+        return new Dimension(d1.width, d1.height * 2);
+    }
+
+    protected static Dimension max(Dimension d1, Dimension d2) {
+        return new Dimension(
+                Math.max(d1.width, d2.width),
+                Math.max(d1.height, d2.height));
+    }
+
+    protected void drawCentered(Graphics2D g2d, String text, double x, double width) {
+        drawCentered(g2d, text, x, 0.0, width, getHeight());
+    }
+
+    protected static void drawCentered(Graphics2D g2d, String text,
+                                       double xOffset, double yOffset,
+                                       double width, double height) {
+        val bounds = getStrBounds(g2d, text);
+        g2d.drawString(
+                text,
+                (float) (xOffset + width / 2.0 - bounds.getCenterX()),
+                (float) (yOffset + height / 2.0 - centeredBaseline(bounds))
+        );
+    }
+
+    // the y-coordinate used by drawString is the string baseline
+    private static double centeredBaseline(Rectangle2D bounds) {
+        return bounds.getHeight() / 2.0 + bounds.getY();
+    }
+
+    protected void drawRightJustified(Graphics2D g2d, String text, double xOffset, double width) {
+        val bounds = getStrBounds(g2d, text);
+        g2d.drawString(
+                text,
+                (float) (xOffset + width - bounds.getWidth()),
+                (float) (getHeight() / 2.0 - centeredBaseline(bounds))
+        );
     }
 
     protected void drawLeftJustified(Graphics2D g2d, String text, double x) {
         val bounds = getStrBounds(g2d, text);
-        val dy = (float) (getHeight() / 2.0 + bounds.getHeight() / 2.0);
-
-        g2d.drawString(text, (float) x, dy);
+        g2d.drawString(text, (float) x, (float) (getHeight() / 2.0 - centeredBaseline(bounds)));
     }
 
     private static Rectangle2D getStrBounds(Graphics2D g2d, String text) {

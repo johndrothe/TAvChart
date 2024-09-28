@@ -43,6 +43,7 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 public class Canvas extends JPanel implements DocumentListener {
     private static final int INSET = 5;
     private static final double BASE_ROW_HEIGHT = 30.0;
+    private static final double ROW_PADDING = 4.0;
     private final Settings settings;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
@@ -70,7 +71,15 @@ public class Canvas extends JPanel implements DocumentListener {
     }
 
     public int getRowHeightMinimum() {
-        return (int) Math.ceil(BASE_ROW_HEIGHT * settings.getUiScale() / 100.0);
+        return uiScaled(BASE_ROW_HEIGHT);
+    }
+
+    private int getRowPadding() {
+        return uiScaled(ROW_PADDING);
+    }
+
+    private int uiScaled(double pixels) {
+        return (int) Math.ceil(pixels * settings.getUiScale() / 100.0);
     }
 
     public void register() {
@@ -192,11 +201,16 @@ public class Canvas extends JPanel implements DocumentListener {
     private GridBagConstraints transitionsConstraints() {
         return defaultConstraints().anchorWest().fillNone()
                 .insets(getRowHeightMinimum(), INSET, 2, INSET)
-                .ipadx(30).ipady(20).build();
+                .ipadx(uiScaled(INSET * 2))
+                .ipady(uiScaled(INSET * 2))
+                .build();
     }
 
     private GridBagConstraints rowConstraints() {
-        return defaultConstraints().insets(0, INSET, 2, INSET).ipady(getRowHeightMinimum()).build();
+        return defaultConstraints()
+                .insets(0, INSET, 2, INSET)
+                .ipady(getRowPadding())
+                .build();
     }
 
     private static GBCBuilder defaultConstraints() {

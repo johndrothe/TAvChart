@@ -5,19 +5,23 @@ import lombok.val;
 import work.rothe.tav.model.Document;
 import work.rothe.tav.model.Member;
 import work.rothe.tav.ui.canvas.mouse.MemberRowMouseListener;
+import work.rothe.tav.ui.canvas.painters.Stippled;
 import work.rothe.tav.ui.canvas.util.Boundaries;
 import work.rothe.tav.ui.canvas.util.CanvasCalculator;
-import work.rothe.tav.ui.canvas.painters.CrossHatch;
 import work.rothe.tav.ui.canvas.util.Palette;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Comparator;
 import java.util.List;
 
 @Getter
 public class MemberRow extends AbstractZoneRow {
-    private static final Color LUNCH_LINE = new Color(255, 0, 255, 25);
     private final Document document;
     private final Member member;
     private int dragOffsetHours;
@@ -37,6 +41,11 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     @Override
+    public Dimension getMinimumSize() {
+        return max(super.getMinimumSize(), doubleHeight(labelHeight()));
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         val g2d = (Graphics2D) g;
@@ -49,7 +58,6 @@ public class MemberRow extends AbstractZoneRow {
     }
 
     private void drawText(Graphics2D g2d, List<Boundaries> normalBoundaries) {
-        // TODO: render the text in pieces across the schedule, if necessary
         normalBoundaries.stream()
                 .max(Comparator.comparing(Boundaries::width))
                 .ifPresent(b -> drawText(g2d, b));
@@ -57,7 +65,15 @@ public class MemberRow extends AbstractZoneRow {
 
     private void drawText(Graphics2D g2d, Boundaries boundaries) {
         g2d.setColor(getTextColor());
-        drawCentered(g2d, getDisplayString(), boundaries.left(), boundaries.width());
+        val halfHeight = getHeight() / 2.0;
+        drawCentered(g2d, getTitle(), boundaries.left(), 0.0, boundaries.width(), halfHeight);
+
+        val g = subtitleGraphics(g2d);
+        try {
+            drawCentered(g, getSubtitle(), boundaries.left(), halfHeight, boundaries.width(), halfHeight);
+        } finally {
+            g.dispose();
+        }
     }
 
     private void paintShapes(Graphics2D g2d, List<Shape> normal, List<Shape> lunch) {
@@ -78,18 +94,10 @@ public class MemberRow extends AbstractZoneRow {
 
     private void drawLunch(Graphics2D g, Shape shape) {
         // don't adjust the clip and repaint unless it is in the dirty region
-        if(!g.getClip().intersects(shape.getBounds2D())) {
+        if (!g.getClip().intersects(shape.getBounds2D())) {
             return;
         }
-        g.setColor(LUNCH_LINE);
-
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.draw(shape);
-        g2.setClip(shape);
-
-        CrossHatch.draw(g2, shape);
-
-        g2.dispose();
+        Stippled.draw(g, shape, transparent(getLineColor()));
     }
 
     private List<Boundaries> normalBoundaries() {
@@ -123,7 +131,23 @@ public class MemberRow extends AbstractZoneRow {
         return timeToColumnCenter(member.normal().right());
     }
 
-    private String getDisplayString() {
-        return String.format("%s (%s / %s)", member.name(), member.role(), member.location());
+    private String getTitle() {
+        return member.name();
     }
+
+    private String getSubtitle() {
+        return String.format("(%s / %s)", member.role(), member.location());
+    }
+
+    private Graphics2D subtitleGraphics(Graphics2D g2d) {
+        Graphics2D g = (Graphics2D) g2d.create();
+        g.setFont(g.getFont().deriveFont(Font.ITALIC));
+        g.setColor(transparent(g.getColor()));
+        return g;
+    }
+
+    private Color transparent(Color color) {
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), 164);
+    }
+
 }

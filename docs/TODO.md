@@ -14,11 +14,7 @@
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
 * Canvas / Display
-  * Add TeamNameRow 
-  * Complete handling for "Working Hours" that span days.
-    * The text isn't right yet
-  * move location/title/etc to second line
-  * de-emphasize location/title
+  * Add TeamNameRow
   * Collaboration Zones
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same document members.

@@ -31,7 +31,7 @@ public record Document(String name,
     }
 
     public Document(String name, int borderHour, List<Member> members) {
-        this(name, borderHour, new Dimension(1024,768), members);
+        this(name, borderHour, new Dimension(1280,1024), members);
     }
 
     public Document(String name, List<Member> members) {
