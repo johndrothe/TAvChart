@@ -1,8 +1,5 @@
 # Features Wishlist
 
-* Add a user interface for Document properties
-  * Include: Name, Canvas Size, etc.
-  * Add properties to the "Details" tab.
 * User-specified canvas size
   * Specified as
     * pixel
@@ -27,7 +24,6 @@
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
   * Pull their normal working hours from Outlook (if easily available)
-  * Multi-select any number of additional time zones
 * Output separate diagrams for each section of a year
   * Include start/end dates
   * Automatically start a new diagram any time daylight savings time starts in one of the selected zones.
