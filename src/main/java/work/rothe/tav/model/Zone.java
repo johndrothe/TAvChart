@@ -83,13 +83,13 @@ public class Zone {
 
     @Override
     public int hashCode() {
-        return zoneId.hashCode();
+        return getId().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Zone z2) {
-            return zoneId.equals(z2.zoneId);
+            return getId().equals(z2.getId());
         }
         return false;
     }

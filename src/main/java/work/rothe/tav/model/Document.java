@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.With;
 
 import java.awt.Dimension;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,15 +62,14 @@ public record Document(String name,
 
     @JsonIgnore
     public List<Zone> zones() {
-        return Stream.concat(defaultZones(), getMemberZoneIds())
-                .distinct().toList();
+        return Stream.concat(defaultZones(), memberZones()).distinct().toList();
     }
 
     private static Stream<Zone> defaultZones() {
-        return Stream.of(new Zone(ZoneOffset.UTC));
+        return Stream.of(Zone.utc());
     }
 
-    private Stream<Zone> getMemberZoneIds() {
+    private Stream<Zone> memberZones() {
         return members.stream().map(Member::zone);
     }
 

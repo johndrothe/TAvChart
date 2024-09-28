@@ -42,9 +42,7 @@ public class ZoneTransitionsRow extends CanvasRow {
     private void initialize() {
         add(new JLabel(TITLE), titleConstraints());
 
-        zones.stream()
-                .filter(Zone::hasTransitions)
-                .forEach(this::addLabels);
+        zones.forEach(this::addLabels);
     }
 
     private void addLabels(Zone zone) {
