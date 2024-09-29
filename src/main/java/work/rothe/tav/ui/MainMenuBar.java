@@ -84,12 +84,6 @@ public class MainMenuBar extends JMenuBar {
         return item;
     }
 
-    private JMenuItem newItem(Action a, char mnemonic, int accelerator) {
-        val item = newItem(a, mnemonic);
-        item.setAccelerator(KeyStroke.getKeyStroke(accelerator, CTRL_DOWN_MASK));
-        return item;
-    }
-
     private JMenu newMenu(String title, char mnemonic) {
         val menu = new JMenu(title);
         menu.setMnemonic(mnemonic);

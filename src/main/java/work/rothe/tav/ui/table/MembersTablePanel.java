@@ -5,7 +5,6 @@ import lombok.val;
 import work.rothe.tav.event.DocumentChangedEvent;
 import work.rothe.tav.event.DocumentListener;
 import work.rothe.tav.event.Documents;
-import work.rothe.tav.model.Document;
 import work.rothe.tav.ui.details.MembersTableToolbar;
 
 import javax.swing.JPanel;
