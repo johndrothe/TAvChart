@@ -13,11 +13,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-
-import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 public class MainMenuBar extends JMenuBar {
     private final ZoomHandler zoomHandler;
