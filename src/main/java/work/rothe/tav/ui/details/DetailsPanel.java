@@ -34,7 +34,7 @@ public class DetailsPanel extends JPanel implements DocumentListener {
         setBorder(createEmptyBorder(10, 10, 10, 10));
         setOpaque(false);
 
-        add(documentDetailsPanel(), BorderLayout.NORTH);
+        add(northPanel(), BorderLayout.NORTH);
         add(membersTablePanel, BorderLayout.CENTER);
     }
 
@@ -46,6 +46,7 @@ public class DetailsPanel extends JPanel implements DocumentListener {
         Documents.removeDocumentListener(this);
     }
 
+    @Override
     public void documentChanged(DocumentChangedEvent event) {
         this.document = event.document();
         if (nonNull(document)) {
@@ -55,7 +56,7 @@ public class DetailsPanel extends JPanel implements DocumentListener {
         }
     }
 
-    private JPanel documentDetailsPanel() {
+    private JPanel northPanel() {
         val panel = new JPanel(new GridBagLayout());
         panel.setOpaque(false);
 
@@ -90,6 +91,7 @@ public class DetailsPanel extends JPanel implements DocumentListener {
                     document.withCanvasSize(new Dimension(value, size.height)));
         }
     }
+
     private void heightChanged(String text) {
         int value = Math.min(MAX_SIZE, Integer.parseInt(text));
         heightField.setText(Integer.toString(value));

@@ -3,6 +3,7 @@ package work.rothe.tav.ui.action;
 import work.rothe.tav.util.ZoomHandler;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 
 import static java.lang.String.format;
@@ -32,7 +33,7 @@ public class ZoomAction extends ToolbarAction {
 
     private boolean confirm() {
         return showConfirmDialog(
-                parent,
+                SwingUtilities.windowForComponent(parent),
                 confirmMessage(),
                 "Set Zoom & Exit?",
                 OK_CANCEL_OPTION) == OK_OPTION;

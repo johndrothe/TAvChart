@@ -42,7 +42,7 @@ public class MemberRow extends AbstractZoneRow {
 
     @Override
     public Dimension getMinimumSize() {
-        return max(super.getMinimumSize(), doubleHeight(labelHeight()));
+        return max(super.getMinimumSize(), doubleHeight(labelSize()));
     }
 
     @Override

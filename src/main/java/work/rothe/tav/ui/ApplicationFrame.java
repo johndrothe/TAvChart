@@ -2,7 +2,6 @@ package work.rothe.tav.ui;
 
 import work.rothe.tav.event.Documents;
 import work.rothe.tav.event.undo.UndoListener;
-import work.rothe.tav.ui.action.DisplayChangeEvent;
 import work.rothe.tav.ui.canvas.Canvas;
 import work.rothe.tav.ui.details.DetailsPanel;
 import work.rothe.tav.ui.listeners.ApplicationTitleListener;
@@ -17,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -35,16 +33,16 @@ public class ApplicationFrame extends JFrame {
     private final MembersTablePanel tablePanel = new MembersTablePanel();
     private final DetailsPanel detailsPanel = new DetailsPanel(tablePanel);
     private final Canvas canvas;
-    private final Toolbar toolBar;
-    private final MenuBar menuBar;
+    private final MainToolbar toolBar;
+    private final MainMenuBar menuBar;
     private final Settings settings;
 
     public ApplicationFrame(Settings settings) {
         super(APP_NAME);
         this.settings = settings;
         this.canvas = new Canvas(settings);
-        this.toolBar = new Toolbar(listener);
-        this.menuBar = new MenuBar(zoomHandler(), canvas, tablePanel.getTable(), listener);
+        this.toolBar = new MainToolbar(listener, canvas);
+        this.menuBar = new MainMenuBar(zoomHandler(), canvas, tablePanel.getTable());
 
         initialize();
     }
@@ -65,8 +63,6 @@ public class ApplicationFrame extends JFrame {
         canvas.register();
         tablePanel.register();
 
-        tabChanged(null);
-
         loadPostInitSettings();
     }
 
@@ -85,7 +81,6 @@ public class ApplicationFrame extends JFrame {
 
         tabbedPane.add("Details", detailsPanel);
         tabbedPane.add("Availability", newCanvasPanel());
-        tabbedPane.addChangeListener(this::tabChanged);
         tabbedPane.setSelectedIndex(1);
     }
 
@@ -126,11 +121,6 @@ public class ApplicationFrame extends JFrame {
 
     private boolean isMaximized() {
         return (getExtendedState() & JFrame.MAXIMIZED_BOTH) != 0;
-    }
-
-    private void tabChanged(ChangeEvent event) {
-        toolBar.displayChanged(DisplayChangeEvent.of(tablePanel.getTable(), canvas,
-                tabbedPane.getSelectedIndex() == 1));
     }
 
     private void loadPreInitSettings() {

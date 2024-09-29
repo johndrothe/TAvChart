@@ -2,11 +2,9 @@ package work.rothe.tav.ui;
 
 import com.github.swingdpi.DpiUtils;
 import lombok.val;
-import work.rothe.tav.event.undo.UndoListener;
 import work.rothe.tav.ui.action.*;
 import work.rothe.tav.ui.canvas.Canvas;
 import work.rothe.tav.ui.table.MembersTable;
-import work.rothe.tav.ui.table.paste.Paster;
 import work.rothe.tav.util.SampleFactory;
 import work.rothe.tav.util.ZoomHandler;
 
@@ -16,73 +14,35 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
-import static java.awt.event.KeyEvent.VK_C;
-import static java.awt.event.KeyEvent.VK_V;
-import static java.awt.event.KeyEvent.VK_Y;
-import static java.awt.event.KeyEvent.VK_Z;
 
-public class MenuBar extends JMenuBar {
+public class MainMenuBar extends JMenuBar {
     private final ZoomHandler zoomHandler;
     private final Canvas canvas;
     private final MembersTable table;
-    private final UndoListener listener;
-    private final JMenuItem copy;
-    private final JMenuItem paste;
 
-    public MenuBar(ZoomHandler zoomHandler,
-                   Canvas canvas,
-                   MembersTable table,
-                   UndoListener listener) {
+    public MainMenuBar(ZoomHandler zoomHandler,
+                       Canvas canvas,
+                       MembersTable table) {
         this.zoomHandler = zoomHandler;
         this.canvas = canvas;
         this.table = table;
-        this.listener = listener;
-        this.copy = newItem(new CopyAction(table), 'C', VK_C);
-        this.paste = newItem(new PasteAction(table), 'P', VK_V);
 
         addMenus();
-
-        table.getSelectionModel().addListSelectionListener(new TableSelectionListener(this::updateCopyPaste));
     }
 
     private void addMenus() {
         addFileMenu();
-        addEditMenu();
         addViewMenu();
-        addMembersMenu();
         add(createSampleMenu());
     }
 
     private void addViewMenu() {
         val menu = newMenu("Zoom", 'Z');
-
-        for(int scale : DpiUtils.STANDARD_SCALINGS) {
-            menu.add(newZoomItem(scale));
-        }
-    }
-
-    private JRadioButtonMenuItem newZoomItem(int scale) {
-        var item = new JRadioButtonMenuItem(new ZoomAction(canvas.getRootPane(), zoomHandler, scale));
-        item.setSelected(zoomHandler.get() == scale);
-        item.setEnabled(!item.isSelected());
-        return item;
-    }
-
-    private void addMembersMenu() {
-        val menu = newMenu("Members", 'M');
-
-        menu.add(new MemberAddAction(table));
-        menu.add(new MemberRemoveAction(table));
-
-        menu.addSeparator();
-        menu.add(new MoveUpAction(table));
-        menu.add(new MoveDownAction(table));
+        menu.addMenuListener(new ZoomMenuListener(menu));
     }
 
     private void addFileMenu() {
@@ -118,19 +78,6 @@ public class MenuBar extends JMenuBar {
         return menu;
     }
 
-    private void addEditMenu() {
-        val menu = newMenu("Edit", 'E');
-
-        menu.add(copy);
-        menu.add(paste);
-        menu.addMenuListener(new RunnableMenuListener(this::updateCopyPaste));
-
-        menu.addSeparator();
-
-        menu.add(newItem(new UndoAction(listener), 'U', VK_Z));
-        menu.add(newItem(new RedoAction(listener), 'R', VK_Y));
-    }
-
     private JMenuItem newItem(Action a, char mnemonic) {
         val item = new JMenuItem(a);
         item.setMnemonic(mnemonic);
@@ -149,30 +96,35 @@ public class MenuBar extends JMenuBar {
         return add(menu);
     }
 
-    private void updateCopyPaste() {
-        copy.setEnabled(table.isShowing() && table.getSelectedRowCount() > 0);
-        paste.setEnabled(table.isShowing() && Paster.canPaste(table));
-    }
+    private class ZoomMenuListener implements MenuListener {
+        private final JMenu menu;
 
-    private record RunnableMenuListener(Runnable runnable) implements MenuListener {
+        ZoomMenuListener(JMenu menu) {
+            this.menu = menu;
+        }
+
         @Override
         public void menuSelected(MenuEvent e) {
-            runnable.run();
+            for (int scale : DpiUtils.STANDARD_SCALINGS) {
+                menu.add(newZoomItem(scale));
+            }
         }
 
         @Override
         public void menuDeselected(MenuEvent e) {
+            menu.removeAll();
         }
 
         @Override
         public void menuCanceled(MenuEvent e) {
+            menu.removeAll();
         }
-    }
 
-    private record TableSelectionListener(Runnable runnable) implements ListSelectionListener {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            runnable.run();
+        private JRadioButtonMenuItem newZoomItem(int scale) {
+            var item = new JRadioButtonMenuItem(new ZoomAction(canvas, zoomHandler, scale));
+            item.setSelected(zoomHandler.get() == scale);
+            item.setEnabled(!item.isSelected());
+            return item;
         }
     }
 }

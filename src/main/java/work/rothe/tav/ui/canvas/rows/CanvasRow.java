@@ -51,7 +51,7 @@ public abstract class CanvasRow extends JPanel {
 
     @Override
     public Dimension getMinimumSize() {
-        return max(super.getMinimumSize(), labelHeight());
+        return max(super.getMinimumSize(), labelSize());
     }
 
     @Override
@@ -59,8 +59,11 @@ public abstract class CanvasRow extends JPanel {
         return max(super.getPreferredSize(), getMinimumSize());
     }
 
-    protected Dimension labelHeight() {
-        return new JLabel("Mgpq").getMinimumSize();
+    protected Dimension labelSize() {
+        val label = new JLabel("Mgpq");
+        label.setFont(getFont());
+        label.setBorder(null);
+        return label.getMinimumSize();
     }
 
     protected static Dimension doubleHeight(Dimension d1) {

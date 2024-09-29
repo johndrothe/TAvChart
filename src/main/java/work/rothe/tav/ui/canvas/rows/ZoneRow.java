@@ -9,6 +9,7 @@ import work.rothe.tav.ui.canvas.util.CanvasCalculator;
 import work.rothe.tav.ui.canvas.util.Palette;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -26,6 +27,15 @@ public class ZoneRow extends AbstractZoneRow {
     @Override
     protected int getRowMaxX() {
         return getWidth() - getRowFooterWidth();
+    }
+
+    @Override
+    protected Dimension labelSize() {
+        return increaseHeightMargin(super.labelSize());
+    }
+
+    private static Dimension increaseHeightMargin(Dimension size) {
+        return new Dimension(size.width, (int) Math.ceil(size.height * 1.2));
     }
 
     @Override
@@ -73,7 +83,7 @@ public class ZoneRow extends AbstractZoneRow {
     }
 
     private void paintRowFooter(Graphics2D g2d) {
-        val x = getCalculator().toColumnStart((borderHour() +25) * 60) + TEXT_MARGIN;
+        val x = getCalculator().toColumnStart((borderHour() + 25) * 60) + TEXT_MARGIN;
         g2d.setColor(getTextColor());
         drawLeftJustified(g2d, getRowFooter(), x);
     }
