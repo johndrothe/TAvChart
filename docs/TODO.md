@@ -18,7 +18,6 @@
       * These zones would overlap two or more of the zones that are currently being calculated.
 * Table Editing
   * Improved zone selector with search/sort
-  * Improved text editing and "Start" (enter to edit w/select all? typing replaces value?)
   * New Member insert at selection
 * Data Entry
   * Multi-select and import employees folks from Salesforce
