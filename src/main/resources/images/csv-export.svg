@@ -61,14 +61,14 @@
      style="white-space:pre;shape-inside:url(#rect2);display:inline;fill:#0000ff;stroke:#00007a" />
   <text
      xml:space="preserve"
-     style="font-size:13.2172px;fill:#292929;fill-opacity:1;stroke:#292929;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
+     style="font-size:13.2172px;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
      x="0.39966205"
      y="22.04027"
      id="text3"
      transform="scale(0.96563241,1.0355908)"><tspan
        sodipodi:role="line"
        id="tspan3"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.2172px;font-family:Monospace;-inkscape-font-specification:'Monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#292929;fill-opacity:1;stroke:#292929;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.2172px;font-family:Monospace;-inkscape-font-specification:'Monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
        x="0.39966205"
        y="22.04027">CSV</tspan></text>
 </svg>
