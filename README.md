@@ -1,5 +1,6 @@
-TAvChart is a Java/Swing desktop application that generates diagrams 
-showing the normal availability (and lunch hour) for each member of a team.
+TAvChart is a Java/Swing desktop application that generates diagrams showing the 
+normal availability for each member of a team and highlights the team's
+Collaboration Zone (the time when they're all available).
 
 <div style="width:600px">
 
