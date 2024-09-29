@@ -6,7 +6,7 @@
 
     <groupId>work.rothe.tav</groupId>
     <artifactId>tav-chart</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <build>
         <plugins>
             <plugin>
@@ -50,6 +50,7 @@
                         <manifestEntries>
                             <ApplicationVersion>${project.version}</ApplicationVersion>
                             <ApplicationBuildDate>${maven.build.timestamp}</ApplicationBuildDate>
+                            <WebsiteURL>https://github.com/johndrothe/TAvChart</WebsiteURL>
                         </manifestEntries>
                     </archive>
                 </configuration>

@@ -10,6 +10,7 @@ import static java.util.Objects.nonNull;
 public class ManifestUtil {
     private static final String VERSION = "ApplicationVersion";
     private static final String DATE = "ApplicationBuildDate";
+    private static final String WEBSITE = "WebsiteURL";
 
     private ManifestUtil() {
     }
@@ -22,11 +23,15 @@ public class ManifestUtil {
         return getProperty(DATE);
     }
 
+    public static String getWebsite() {
+        return getProperty(WEBSITE);
+    }
+
     public static String getProperty(String name) {
         return readManifest()
                 .map(Manifest::getMainAttributes)
                 .map(a -> a.getValue(name))
-                .orElse("");
+                .orElse("n/a");
     }
 
     private static Optional<Manifest> readManifest() {

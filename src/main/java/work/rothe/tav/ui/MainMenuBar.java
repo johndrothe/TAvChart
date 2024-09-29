@@ -9,6 +9,7 @@ import work.rothe.tav.util.SampleFactory;
 import work.rothe.tav.util.ZoomHandler;
 
 import javax.swing.Action;
+import javax.swing.Box;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -35,6 +36,15 @@ public class MainMenuBar extends JMenuBar {
         addFileMenu();
         addViewMenu();
         add(createSampleMenu());
+
+        add(Box.createHorizontalGlue());
+        addHelpMenu();
+    }
+
+    private void addHelpMenu() {
+        val menu = newMenu("Help", 'H');
+
+        menu.add(new AboutAction(table));
     }
 
     private void addViewMenu() {
