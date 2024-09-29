@@ -3,7 +3,7 @@ showing the normal availability (and lunch hour) for each member of a team.
 
 <div style="width:600px">
 
-![tav-chart-1.1.3.png](docs/tav-chart-1.1.3.png)
+![tav-chart-1.1.4.png](docs/tav-chart-1.1.4.png)
 </div>
 
 As of [version 1.0.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.0.0),
