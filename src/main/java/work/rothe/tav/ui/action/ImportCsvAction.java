@@ -5,6 +5,7 @@ import work.rothe.tav.event.Documents;
 import work.rothe.tav.io.CsvFileFilter;
 import work.rothe.tav.model.Document;
 import work.rothe.tav.ui.table.MembersTable;
+import work.rothe.tav.util.Images;
 
 import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
@@ -22,7 +23,7 @@ public class ImportCsvAction extends ToolbarAction {
     private final MembersTable table;
 
     public ImportCsvAction(MembersTable table) {
-        super("Import CSV", null);
+        super("Import CSV", Images.load("csv-import.png"));
         this.table = table;
     }
 
