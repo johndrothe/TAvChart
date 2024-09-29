@@ -7,6 +7,7 @@ import work.rothe.tav.model.Document;
 import work.rothe.tav.model.Zone;
 import work.rothe.tav.ui.action.PasteAction;
 import work.rothe.tav.ui.table.editors.LocalTimeEditor;
+import work.rothe.tav.ui.table.editors.TextCellEditor;
 import work.rothe.tav.ui.table.editors.ZoneEditor;
 
 import javax.swing.JTable;
@@ -84,6 +85,7 @@ public class MembersTable extends JTable {
 
     private void initializeEditors() {
         setDefaultEditor(LocalTime.class, new LocalTimeEditor());
+        setDefaultEditor(String.class, new TextCellEditor());
         setDefaultEditor(Zone.class, new ZoneEditor());
     }
 }

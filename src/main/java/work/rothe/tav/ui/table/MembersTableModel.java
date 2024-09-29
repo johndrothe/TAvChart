@@ -148,13 +148,13 @@ public class MembersTableModel extends AbstractTableModel {
         val column = Columns.getColumn(columnIndex);
         switch (column) {
             case NAME -> {
-                return member.withName(aValue.toString());
+                return member.withName(aValue.toString().trim());
             }
             case ROLE -> {
-                return member.withRole(aValue.toString());
+                return member.withRole(aValue.toString().trim());
             }
             case LOCATION -> {
-                return member.withLocation(aValue.toString());
+                return member.withLocation(aValue.toString().trim());
             }
             case START_TIME -> {
                 return member.withNormal(member.normal().withLeft(toTime(member.zone(), aValue)));
@@ -182,11 +182,11 @@ public class MembersTableModel extends AbstractTableModel {
         if(aValue instanceof Zone zone) {
             return zone;
         }
-        return Zone.fromCsv(aValue.toString());
+        return Zone.fromCsv(aValue.toString().trim());
     }
 
     private static Time toTime(Zone zone, Object aValue) {
-        return Time.parse(zone, adjustTime(aValue.toString())).roundToQuarterHour();
+        return Time.parse(zone, adjustTime(aValue.toString().trim())).roundToQuarterHour();
     }
 
     private static String adjustTime(String text) {
