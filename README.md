@@ -4,18 +4,21 @@ Collaboration Zone (the time when they're all available).
 
 <div style="width:600px">
 
-![tav-chart-1.1.4.png](docs/tav-chart-1.1.4.png)
+![tav-chart-1.1.5.png](docs/tav-chart-1.1.5.png)
 </div>
 
-As of [version 1.0.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.0.0),
-this project has hit MVP with all the features necessary to create solid diagrams.
-There is, however, always more [to do](docs/TODO.md).
+This project hit MVP with 
+[version 1.0.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.0.0),
+having all the features necessary to create solid diagrams. The more recent
+[releases](/johndrothe/TAvChart/releases) have focused on usability and 
+convenience features. There always more [to do](docs/TODO.md)...
 
 As of [version 1.1.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.1.0),
 TAvChart requires Java 22 or higher and is built with 
 [Eclipse Temurin™](https://adoptium.net/temurin/releases/?version=22).
 
-_Many thanks to [Iconoir](https://iconoir.com/) for the menu and toolbar icons._
+_Many thanks to [Iconoir](https://iconoir.com/) for many of the menu / toolbar icons and
+[swing-dpi](https://github.com/lukeu/swing-dpi/tree/master) for the Zoom feature._
 
 # Background
 This project started with a daily working hours diagram created for a client in Draw IO.
