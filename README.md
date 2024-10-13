@@ -10,7 +10,7 @@ Collaboration Zone (the time when they're all available).
 This project hit MVP with 
 [version 1.0.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.0.0),
 having all the features necessary to create solid diagrams. The more recent
-[releases](/johndrothe/TAvChart/releases) have focused on usability and 
+[releases](https://github.com/johndrothe/TAvChart/releases) have focused on usability and 
 convenience features. There always more [to do](docs/TODO.md)...
 
 As of [version 1.1.0](https://github.com/johndrothe/swing_working_hours/releases/tag/version-1.1.0),
