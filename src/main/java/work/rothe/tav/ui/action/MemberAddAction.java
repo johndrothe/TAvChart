@@ -23,7 +23,7 @@ public class MemberAddAction extends ToolbarAction {
     private final MembersTable table;
 
     public MemberAddAction(MembersTable table) {
-        super("Add Member", Images.load("plus-square.png"));
+        super("Add Member", Images.load("plus-square"));
         this.table = table;
     }
 

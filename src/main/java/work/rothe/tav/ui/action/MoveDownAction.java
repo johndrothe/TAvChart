@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MoveDownAction extends AbstractReorderAction {
     public MoveDownAction(MembersTable table) {
-        super(table, "Move Down", Images.load("move-down.png"));
+        super(table, "Move Down", Images.load("move-down"));
     }
 
     @Override

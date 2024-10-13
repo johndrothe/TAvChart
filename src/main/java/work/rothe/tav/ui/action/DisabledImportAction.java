@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 
 public class DisabledImportAction extends ToolbarAction {
     public DisabledImportAction() {
-        super("Import", Images.load("load.png"));
+        super("Import", Images.load("load"));
         setEnabled(false);
     }
 

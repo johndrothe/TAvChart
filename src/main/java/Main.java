@@ -2,6 +2,7 @@ import com.github.swingdpi.UiDefaultsScaler;
 import work.rothe.tav.event.Documents;
 import work.rothe.tav.model.Document;
 import work.rothe.tav.ui.ApplicationFrame;
+import work.rothe.tav.util.Images;
 import work.rothe.tav.util.Settings;
 
 import javax.swing.SwingUtilities;
@@ -17,5 +18,6 @@ public class Main {
 
     private static void applySettings(Settings settings) {
         UiDefaultsScaler.updateAndApplyGlobalScaling(settings.getUiScale(), true);
+        Images.initialize(settings);
     }
 }

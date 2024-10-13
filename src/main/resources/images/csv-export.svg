@@ -38,22 +38,15 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="13.627876"
-     inkscape:cx="16.473587"
-     inkscape:cy="14.822559"
+     inkscape:zoom="6.813938"
+     inkscape:cx="11.447125"
+     inkscape:cy="22.453976"
      inkscape:window-width="1920"
-     inkscape:window-height="1052"
+     inkscape:window-height="1020"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
-  <path
-     d="m 14.719775,9.8507579 7.894131,-8.1040401 m 0,0 0.08574,8.4920602 m -0.08574,-8.4920602 -7.97987,-0.3880214"
-     stroke="#000000"
-     stroke-width="1.93982"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     id="path1-3" />
   <text
      xml:space="preserve"
      transform="scale(0.54545455)"
@@ -62,13 +55,20 @@
   <text
      xml:space="preserve"
      style="font-size:13.2172px;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
-     x="0.39966205"
-     y="22.04027"
+     x="0.34072611"
+     y="10.394284"
      id="text3"
-     transform="scale(0.96563241,1.0355908)"><tspan
+     transform="scale(0.96563238,1.0355908)"><tspan
        sodipodi:role="line"
        id="tspan3"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.2172px;font-family:Monospace;-inkscape-font-specification:'Monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
-       x="0.39966205"
-       y="22.04027">CSV</tspan></text>
+       x="0.34072611"
+       y="10.394284">CSV</tspan></text>
+  <path
+     d="m 12.353227,22.44307 -0.106829,-8.263141 m 0,0 4.370509,4.341844 m -4.370509,-4.341844 -4.2636809,3.921297"
+     stroke="#000000"
+     stroke-width="1.40733"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1-3" />
 </svg>

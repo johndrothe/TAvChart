@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="44px"
+   height="44px"
+   stroke-width="1"
+   viewBox="0 0 24 24"
+   fill="none"
+   color="#000000"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="table-import.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs5" />
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="13.627876"
+     inkscape:cx="16.326829"
+     inkscape:cy="14.822559"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5" />
+  <path
+     d="M 2.9144536,20.625536 V 7.7452268 c 0,-0.2540565 0.2407407,-0.4600111 0.5377077,-0.4600111 H 18.507976 c 0.296993,0 0.537707,0.2059546 0.537707,0.4600111 V 20.625536 c 0,0.254079 -0.240714,0.460011 -0.537707,0.460011 H 3.4521613 c -0.296967,0 -0.5377077,-0.205932 -0.5377077,-0.460011 z"
+     stroke="#000000"
+     stroke-width="0.828908"
+     id="path1"
+     style="stroke:#282828;stroke-opacity:1" />
+  <path
+     d="M 3,16.5 H 19.101318"
+     stroke="#000000"
+     stroke-width="0.945789"
+     id="path2"
+     style="stroke:#282828;stroke-opacity:1" />
+  <path
+     d="M 3,12 H 19.281743"
+     stroke="#000000"
+     stroke-width="0.951074"
+     id="path3"
+     style="stroke:#282828;stroke-opacity:1" />
+  <path
+     d="M 8.0791225,7.1877627 V 21.290337"
+     stroke="#000000"
+     stroke-width="0.885142"
+     id="path4"
+     style="stroke:#282828;stroke-opacity:1" />
+  <path
+     d="M 13.567226,7.2019903 V 21.304564"
+     stroke="#000000"
+     stroke-width="0.885142"
+     id="path5"
+     style="stroke:#282828;stroke-opacity:1" />
+  <path
+     d="m 16.482669,1.0583662 v 9.0213958 m 0,0 5.04915,-4.510697 m -5.04915,4.510697 -5.049149,-4.510697"
+     stroke="#000000"
+     stroke-width="1.59078"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path1-3" />
+</svg>

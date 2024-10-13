@@ -25,7 +25,7 @@ public class OpenAction extends ToolbarAction {
     private final MembersTable table;
 
     public OpenAction(MembersTable table) {
-        super("Open", Images.load("load.png"));
+        super("Open", Images.load("load"));
         this.table = table;
     }
 

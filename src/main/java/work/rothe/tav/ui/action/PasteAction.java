@@ -10,7 +10,7 @@ public class PasteAction extends ToolbarAction {
     private final MembersTable table;
 
     public PasteAction(MembersTable table) {
-        super("Paste", Images.load("paste.png"));
+        super("Paste", Images.load("paste"));
         this.table = table;
     }
 

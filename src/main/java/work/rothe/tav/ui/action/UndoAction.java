@@ -13,7 +13,7 @@ public class UndoAction extends ToolbarAction implements DocumentListener {
     private final UndoListener listener;
 
     public UndoAction(UndoListener listener) {
-        super("Undo", Images.load("undo.png"));
+        super("Undo", Images.load("undo"));
         this.listener = listener;
 
         Documents.addDocumentListener(this);

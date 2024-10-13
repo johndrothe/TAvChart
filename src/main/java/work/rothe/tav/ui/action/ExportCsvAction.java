@@ -26,7 +26,7 @@ public class ExportCsvAction extends ToolbarAction {
     private final MembersTable table;
 
     public ExportCsvAction(MembersTable table) {
-        super("Export CSV", Images.load("csv-export.png"));
+        super("Export CSV", Images.load("csv-export"));
         this.table = table;
     }
 

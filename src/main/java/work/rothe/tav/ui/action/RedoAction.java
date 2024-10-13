@@ -13,7 +13,7 @@ public class RedoAction extends ToolbarAction implements DocumentListener {
     private final UndoListener listener;
 
     public RedoAction(UndoListener listener) {
-        super("Redo", Images.load("redo.png"));
+        super("Redo", Images.load("redo"));
         this.listener = listener;
 
         Documents.addDocumentListener(this);

@@ -25,7 +25,7 @@ public class ExportPngAction extends ToolbarAction {
     private File lastSelected;
 
     public ExportPngAction(Canvas canvas) {
-        super("Export PNG", Images.load("export_image.png"));
+        super("Export PNG", Images.load("export_image"));
         this.canvas = canvas;
     }
 

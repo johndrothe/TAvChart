@@ -28,7 +28,7 @@ public class SaveAsAction extends ToolbarAction {
     private final MembersTable table;
 
     public SaveAsAction(MembersTable table) {
-        super("Save As", Images.load("save.png"));
+        super("Save As", Images.load("save"));
         this.table = table;
     }
 

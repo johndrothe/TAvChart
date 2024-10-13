@@ -38,9 +38,9 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="13.627876"
-     inkscape:cx="16.473587"
-     inkscape:cy="14.822559"
+     inkscape:zoom="4.8181818"
+     inkscape:cx="27.811321"
+     inkscape:cy="35.698114"
      inkscape:window-width="1920"
      inkscape:window-height="1052"
      inkscape:window-x="0"
@@ -48,9 +48,9 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg5" />
   <path
-     d="m 1.3579076,1.0556375 8.1038191,7.8941541 m 0,0 -8.49182847,0.08574 M 9.4617267,8.9497916 9.8497381,0.96989823"
+     d="m 11.318264,13.620469 0.106829,8.263141 m 0,0 -4.3705095,-4.341844 m 4.3705095,4.341844 4.263681,-3.921297"
      stroke="#000000"
-     stroke-width="1.9398"
+     stroke-width="1.40733"
      stroke-linecap="round"
      stroke-linejoin="round"
      id="path1-3" />
@@ -62,13 +62,13 @@
   <text
      xml:space="preserve"
      style="font-size:13.2172px;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
-     x="0.39966205"
-     y="22.04027"
+     x="0.27936155"
+     y="10.491362"
      id="text3"
-     transform="scale(0.96563241,1.0355908)"><tspan
+     transform="scale(0.96563238,1.0355908)"><tspan
        sodipodi:role="line"
        id="tspan3"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.2172px;font-family:Monospace;-inkscape-font-specification:'Monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#666666;fill-opacity:1;stroke:#666666;stroke-width:1.10143;stroke-linejoin:round;stroke-opacity:1"
-       x="0.39966205"
-       y="22.04027">CSV</tspan></text>
+       x="0.27936155"
+       y="10.491362">CSV</tspan></text>
 </svg>

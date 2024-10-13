@@ -15,7 +15,7 @@ public class MemberRemoveAction extends ToolbarAction {
     private final MembersTable table;
 
     public MemberRemoveAction(MembersTable table) {
-        super("Remove Member", Images.load("xmark-square.png"));
+        super("Remove Member", Images.load("xmark-square"));
         this.table = table;
     }
 

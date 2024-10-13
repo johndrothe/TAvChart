@@ -9,7 +9,7 @@ public class CopyAction extends ToolbarAction {
     private final MembersTable table;
 
     public CopyAction(MembersTable table) {
-        super("Copy", Images.load("copy.png"));
+        super("Copy", Images.load("copy"));
         this.table = table;
     }
 

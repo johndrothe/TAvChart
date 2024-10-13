@@ -14,7 +14,7 @@ public class SampleDocumentAction extends ToolbarAction {
     private final Supplier<List<Member>> memberSupplier;
 
     public SampleDocumentAction(String name, Supplier<List<Member>> memberSupplier) {
-        super(name, Images.load("new.png"));
+        super(name, Images.load("new"));
         this.name = name;
         this.memberSupplier = memberSupplier;
     }

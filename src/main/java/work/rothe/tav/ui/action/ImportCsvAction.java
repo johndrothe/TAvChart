@@ -23,7 +23,7 @@ public class ImportCsvAction extends ToolbarAction {
     private final MembersTable table;
 
     public ImportCsvAction(MembersTable table) {
-        super("Import CSV", Images.load("csv-import.png"));
+        super("Import CSV", Images.load("csv-import"));
         this.table = table;
     }
 

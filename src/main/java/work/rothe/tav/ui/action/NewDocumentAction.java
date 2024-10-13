@@ -16,7 +16,7 @@ public class NewDocumentAction extends ToolbarAction {
     private final JComponent parent;
 
     public NewDocumentAction(JComponent parent) {
-        super("New Document", Images.load("new.png"));
+        super("New Document", Images.load("new"));
         this.parent = parent;
     }
 

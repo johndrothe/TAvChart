@@ -18,7 +18,7 @@ public class ZoomAction extends ToolbarAction {
     private final int scale;
 
     public ZoomAction(JComponent parent, ZoomHandler zoomHandler, int scale) {
-        super(format("Zoom %d%%", scale), load("zoom.png"));
+        super(format("Zoom %d%%", scale), load("zoom"));
         this.parent = parent;
         this.zoomHandler = zoomHandler;
         this.scale = scale;
