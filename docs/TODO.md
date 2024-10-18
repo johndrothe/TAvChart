@@ -9,7 +9,6 @@
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
 * Canvas / Display
-  * Add TeamNameRow
   * Collaboration Zones
     * Allow the user to choose which zones to display
     * Calculate zones for contiguous time periods that have the same document members.
@@ -17,8 +16,6 @@
 * Table Editing
   * Improved zone selector with search/sort
   * New Member insert at selection
-* Code quality
-  * Refactor all Swing UI class extensions from inheritance to delegation.
 * Data Entry
   * Multi-select and import employees folks from Salesforce
   * Pull their "home" region / time zone from Salesforce
