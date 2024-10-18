@@ -1,24 +1,17 @@
 package work.rothe.tav.ui.canvas;
 
 import lombok.Getter;
-import lombok.val;
 import work.rothe.tav.event.DocumentChangedEvent;
 import work.rothe.tav.event.DocumentListener;
 import work.rothe.tav.event.Documents;
 import work.rothe.tav.model.Document;
-import work.rothe.tav.model.Member;
 import work.rothe.tav.model.Time;
-import work.rothe.tav.model.Zone;
 import work.rothe.tav.ui.canvas.painters.CollabZonePainter;
 import work.rothe.tav.ui.canvas.painters.GridPainter;
-import work.rothe.tav.ui.canvas.rows.AbstractZoneRow;
 import work.rothe.tav.ui.canvas.rows.CanvasRow;
-import work.rothe.tav.ui.canvas.rows.MemberRow;
-import work.rothe.tav.ui.canvas.rows.TitleRow;
-import work.rothe.tav.ui.canvas.rows.ZoneRow;
-import work.rothe.tav.ui.canvas.rows.ZoneTransitionsRow;
+import work.rothe.tav.ui.canvas.rows.RowFactory;
 import work.rothe.tav.ui.canvas.util.CanvasCalculator;
-import work.rothe.tav.ui.canvas.util.Palette;
+import work.rothe.tav.ui.canvas.util.Rendering;
 import work.rothe.tav.ui.canvas.util.RowList;
 import work.rothe.tav.util.GBCBuilder;
 import work.rothe.tav.util.Settings;
@@ -31,26 +24,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.RenderingHints;
-import java.util.Comparator;
-import java.util.List;
-import java.util.function.Function;
 
-import static java.util.Comparator.comparing;
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static javax.swing.BorderFactory.createCompoundBorder;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class Canvas extends JPanel implements DocumentListener {
-    private static final int INSET = 5;
     private static final double BASE_ROW_HEIGHT = 30.0;
-    private static final double ROW_PADDING = 4.0;
     private final Settings settings;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
     private final GridPainter gridPainter;
     private final CollabZonePainter collabZonePainter;
-    private Palette palette = null;
 
     private int borderHourOffset = 0;
 
@@ -75,11 +60,11 @@ public class Canvas extends JPanel implements DocumentListener {
         return uiScaled(BASE_ROW_HEIGHT);
     }
 
-    private int getRowPadding() {
-        return uiScaled(ROW_PADDING);
+    public void add(CanvasRow row, GridBagConstraints constraints) {
+        super.add(rows.add(row), constraints);
     }
 
-    private int uiScaled(double pixels) {
+    public int uiScaled(double pixels) {
         return (int) Math.ceil(pixels * settings.getUiScale() / 100.0);
     }
 
@@ -110,11 +95,21 @@ public class Canvas extends JPanel implements DocumentListener {
         repaint();
     }
 
+    private void initialize() {
+        rows.clear();
+        removeAll();
+        if (nonNull(document)) {
+            RowFactory.of(this, calculator).addRows();
+            add(Box.createGlue(), spacerConstraints());
+        }
+        collabZonePainter.initialize();
+    }
+
     @Override
     protected void paintChildren(Graphics g) {
         calculator.update((Graphics2D) g);
 
-        applyRenderingHints((Graphics2D) g);
+        Rendering.applyHints((Graphics2D) g);
 
         paintUnder((Graphics2D) g);
         super.paintChildren(g);
@@ -134,101 +129,12 @@ public class Canvas extends JPanel implements DocumentListener {
         }
     }
 
-    private void initialize() {
-        rows.clear();
-        if (isNull(document)) {
-            initBlankCanvas();
-        } else {
-            initCanvas();
-        }
-        collabZonePainter.initialize();
-    }
-
-    private void initBlankCanvas() {
-        this.palette = new Palette(List.of());
-        removeAll();
-    }
-
-    private void initCanvas() {
-        val zones = document.zones();
-        this.palette = new Palette(zones);
-        removeAll();
-        addTeamNameRow();
-        addZones(zones);
-        addMembers(document);
-        addTransitionsRow(zones);
-        addSpacerGlue();
-    }
-
-    private void addZones(List<Zone> zones) {
-        final Function<Zone, ZoneRow> toRow = zoneId -> new ZoneRow(document, calculator, zoneId, palette);
-
-        zones.stream()
-                .map(toRow)
-                .sorted(zoneRowComparator())
-                .forEach(this::addRow);
-    }
-
-    private void addMembers(Document document) {
-        final Function<Member, MemberRow> toRow = member -> new MemberRow(document, member, calculator, palette);
-
-        document.members().stream()
-                .map(toRow)
-                .forEach(this::addRow);
-    }
-
-    private Comparator<AbstractZoneRow> zoneRowComparator() {
-        return comparing(AbstractZoneRow::getOffsetHours);
-    }
-
-    private void addTransitionsRow(List<Zone> zoneIds) {
-        addRow(new ZoneTransitionsRow(calculator, zoneIds), transitionsConstraints());
-    }
-
-    private void addTeamNameRow() {
-        addRow(new TitleRow(calculator, document), titleConstraints());
-    }
-
-    private void addRow(CanvasRow row) {
-        addRow(row, rowConstraints());
-    }
-
-    private void addRow(CanvasRow row, GridBagConstraints constraints) {
-        add(rows.add(row), constraints);
-    }
-
-    private void addSpacerGlue() {
-        add(Box.createGlue(), spacerConstraints());
-    }
-
     private static GridBagConstraints spacerConstraints() {
-        return defaultConstraints().weighty(1.0).insets(0).build();
-    }
-
-    private GridBagConstraints transitionsConstraints() {
-        return defaultConstraints().anchorWest().fillNone()
-                .insets(getRowHeightMinimum(), INSET, uiScaled(2), INSET)
-                .ipadx(uiScaled(INSET * 10))
-                .ipady(uiScaled(INSET * 2))
+        return new GBCBuilder()
+                .gridx(0).gridwidth(27).weightx(1.0)
+                .weighty(1.0)
+                .fillBoth().insets(0)
                 .build();
-    }
-
-    private GridBagConstraints titleConstraints() {
-        return defaultConstraints()
-                .insets(0, uiScaled(INSET), uiScaled(INSET), uiScaled(INSET))
-                .ipady(getRowPadding())
-                .build();
-    }
-
-    private GridBagConstraints rowConstraints() {
-        return defaultConstraints()
-                .insets(0, uiScaled(INSET), 2, uiScaled(INSET))
-                .ipady(getRowPadding())
-                .build();
-    }
-
-    private static GBCBuilder defaultConstraints() {
-        return new GBCBuilder().gridx(0).gridwidth(27).weightx(1.0).fillBoth();
     }
 
     private Border border() {
@@ -237,14 +143,5 @@ public class Canvas extends JPanel implements DocumentListener {
 
     private Border outerBorder() {
         return createEmptyBorder(10, 10, 10, 10);
-    }
-
-    private static void applyRenderingHints(Graphics2D g2d) {
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
     }
 }
