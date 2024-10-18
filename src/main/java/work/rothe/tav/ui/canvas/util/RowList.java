@@ -17,8 +17,9 @@ public class RowList {
         rows.clear();
     }
 
-    public void add(CanvasRow row) {
+    public CanvasRow add(CanvasRow row) {
         rows.add(row);
+        return row;
     }
 
     public boolean isEmpty() {

@@ -14,6 +14,7 @@ import work.rothe.tav.ui.canvas.painters.GridPainter;
 import work.rothe.tav.ui.canvas.rows.AbstractZoneRow;
 import work.rothe.tav.ui.canvas.rows.CanvasRow;
 import work.rothe.tav.ui.canvas.rows.MemberRow;
+import work.rothe.tav.ui.canvas.rows.TitleRow;
 import work.rothe.tav.ui.canvas.rows.ZoneRow;
 import work.rothe.tav.ui.canvas.rows.ZoneTransitionsRow;
 import work.rothe.tav.ui.canvas.util.CanvasCalculator;
@@ -152,6 +153,7 @@ public class Canvas extends JPanel implements DocumentListener {
         val zones = document.zones();
         this.palette = new Palette(zones);
         removeAll();
+        addTeamNameRow();
         addZones(zones);
         addMembers(document);
         addTransitionsRow(zones);
@@ -179,15 +181,20 @@ public class Canvas extends JPanel implements DocumentListener {
         return comparing(AbstractZoneRow::getOffsetHours);
     }
 
-    private void addRow(CanvasRow row) {
-        add(row, rowConstraints());
-        rows.add(row);
+    private void addTransitionsRow(List<Zone> zoneIds) {
+        addRow(new ZoneTransitionsRow(calculator, zoneIds), transitionsConstraints());
     }
 
-    private void addTransitionsRow(List<Zone> zoneIds) {
-        val row = new ZoneTransitionsRow(calculator, zoneIds);
-        add(row, transitionsConstraints());
-        rows.add(row);
+    private void addTeamNameRow() {
+        addRow(new TitleRow(calculator, document), titleConstraints());
+    }
+
+    private void addRow(CanvasRow row) {
+        addRow(row, rowConstraints());
+    }
+
+    private void addRow(CanvasRow row, GridBagConstraints constraints) {
+        add(rows.add(row), constraints);
     }
 
     private void addSpacerGlue() {
@@ -200,15 +207,22 @@ public class Canvas extends JPanel implements DocumentListener {
 
     private GridBagConstraints transitionsConstraints() {
         return defaultConstraints().anchorWest().fillNone()
-                .insets(getRowHeightMinimum(), INSET, 2, INSET)
-                .ipadx(uiScaled(INSET * 2))
+                .insets(getRowHeightMinimum(), INSET, uiScaled(2), INSET)
+                .ipadx(uiScaled(INSET * 10))
                 .ipady(uiScaled(INSET * 2))
+                .build();
+    }
+
+    private GridBagConstraints titleConstraints() {
+        return defaultConstraints()
+                .insets(0, uiScaled(INSET), uiScaled(INSET), uiScaled(INSET))
+                .ipady(getRowPadding())
                 .build();
     }
 
     private GridBagConstraints rowConstraints() {
         return defaultConstraints()
-                .insets(0, INSET, 2, INSET)
+                .insets(0, uiScaled(INSET), 2, uiScaled(INSET))
                 .ipady(getRowPadding())
                 .build();
     }
