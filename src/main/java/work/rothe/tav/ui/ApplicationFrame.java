@@ -48,22 +48,16 @@ public class ApplicationFrame extends JFrame {
     }
 
     private void initialize() {
-        loadPreInitSettings();
-        addWindowListener(exitListener);
-        addWindowListener(new OffScreenWindowListener());
-        Documents.addDocumentListener(listener);
-        Documents.addDocumentListener(new ApplicationTitleListener(this));
+        initializeListeners();
+        initializeContentPane();
+        registerChildren();
+        loadPostInitSettings();
+    }
 
+    private void initializeContentPane() {
         initNorth();
-
         initCenter();
         doLayout();
-
-        detailsPanel.register();
-        canvas.register();
-        tablePanel.register();
-
-        loadPostInitSettings();
     }
 
     private void initNorth() {
@@ -106,9 +100,8 @@ public class ApplicationFrame extends JFrame {
         saveSettings();
         setVisible(false);
 
-        detailsPanel.unregister();
-        canvas.unregister();
-        tablePanel.unregister();
+        unregisterChildren();
+
         System.exit(0);
     }
 
@@ -123,16 +116,19 @@ public class ApplicationFrame extends JFrame {
         return (getExtendedState() & JFrame.MAXIMIZED_BOTH) != 0;
     }
 
-    private void loadPreInitSettings() {
-
-    }
-
     private void loadPostInitSettings() {
         setSize(settings.getMainWindowSize());
         setLocation(settings.getMainWindowLocation());
         if(settings.isMainWindowMaximized()) {
             setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
+    }
+
+    private void initializeListeners() {
+        addWindowListener(exitListener);
+        addWindowListener(new OffScreenWindowListener());
+        Documents.addDocumentListener(listener);
+        Documents.addDocumentListener(new ApplicationTitleListener(this));
     }
 
     public void setScaleAndExit(int uiScale) {
@@ -142,6 +138,18 @@ public class ApplicationFrame extends JFrame {
 
     private ZoomHandler zoomHandler() {
         return new ZoomHandler(this::setScaleAndExit, settings::getUiScale);
+    }
+
+    private void registerChildren() {
+        detailsPanel.register();
+        canvas.register();
+        tablePanel.register();
+    }
+
+    private void unregisterChildren() {
+        detailsPanel.unregister();
+        canvas.unregister();
+        tablePanel.unregister();
     }
 
     private class ExitOnCloseListener extends WindowAdapter {
