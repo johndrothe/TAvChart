@@ -2,12 +2,10 @@
 
 * User-specified canvas size
   * Specified as
-    * pixel
     * inch & DPI
     * cm & "DPI"
 * Icons
   * Color icons for the toolbar / menu bar
-  * Resizable or sized icons for various zoom levels
 * Context locations for Undo / Redo
   * i.e. "Go to where the change was"
 * Canvas / Display
