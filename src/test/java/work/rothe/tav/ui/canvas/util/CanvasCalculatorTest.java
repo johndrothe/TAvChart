@@ -21,9 +21,10 @@ class CanvasCalculatorTest {
 
     private final Canvas canvas = mock(Canvas.class);
     private final RowList rowList = mock(RowList.class);
-    private final CanvasCalculator calculator = new CanvasCalculator(canvas, rowList);
+    private final CanvasCalculator calculator;
 
     CanvasCalculatorTest() {
+        calculator = new CanvasCalculator(canvas, rowList, 1.0);
         mockRowList();
         calculator.update(null);
     }

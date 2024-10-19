@@ -10,15 +10,26 @@ import java.util.List;
 
 @Slf4j
 public class CanvasCalculator {
+    private static final double BASE_ROW_HEIGHT = 30.0;
     private final Canvas canvas;
     private final RowList rows;
+    private final double uiScale;
     private int headerWidth = 0;
     private int footerWidth = 0;
     private double hourColumnWidth = 0;
 
-    public CanvasCalculator(Canvas canvas, RowList rows) {
+    public CanvasCalculator(Canvas canvas, RowList rows, double uiScale) {
         this.canvas = canvas;
         this.rows = rows;
+        this.uiScale = uiScale;
+    }
+
+    public int getBaseRowHeight() {
+        return uiScaled(BASE_ROW_HEIGHT);
+    }
+
+    public int uiScaled(double pixels) {
+        return (int) Math.ceil(pixels * uiScale / 100.0);
     }
 
     public void update(Graphics2D g2d) {

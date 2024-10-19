@@ -2,7 +2,6 @@ package work.rothe.tav.ui.canvas.rows;
 
 import work.rothe.tav.model.Document;
 import work.rothe.tav.model.Zone;
-import work.rothe.tav.ui.canvas.Canvas;
 import work.rothe.tav.ui.canvas.util.CanvasCalculator;
 import work.rothe.tav.ui.canvas.util.Palette;
 import work.rothe.tav.util.GBCBuilder;
@@ -18,15 +17,13 @@ public class RowBuilder {
     private static final int INSET = 5;
     private static final double ROW_PADDING = 4.0;
 
-    private final Canvas canvas;
     private final Document document;
     private final List<Zone> zones;
     private final Palette palette;
     private CanvasCalculator calculator;
 
-    private RowBuilder(Canvas canvas) {
-        this.canvas = canvas;
-        this.document = canvas.getDocument();
+    private RowBuilder(Document document) {
+        this.document = document;
         this.zones = document.zones();
         this.palette = new Palette(zones);
     }
@@ -34,8 +31,8 @@ public class RowBuilder {
     public record Entry(CanvasRow row, GridBagConstraints constraints) {
     }
 
-    public static RowBuilder of(Canvas canvas) {
-        return new RowBuilder(canvas);
+    public static RowBuilder of(Document document) {
+        return new RowBuilder(document);
     }
 
     public RowBuilder calculator(CanvasCalculator calculator) {
@@ -80,12 +77,12 @@ public class RowBuilder {
     }
 
     private int uiScaled(double pixels) {
-        return canvas.uiScaled(pixels);
+        return calculator.uiScaled(pixels);
     }
 
     private GridBagConstraints transitionsConstraints() {
         return defaultConstraints().anchorWest().fillNone()
-                .insets(canvas.getRowHeightMinimum(), inset(), uiScaled(2), inset())
+                .insets(calculator.getBaseRowHeight(), inset(), uiScaled(2), inset())
                 .ipadx(inset(10))
                 .ipady(inset(2))
                 .build();

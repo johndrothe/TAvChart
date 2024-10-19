@@ -30,8 +30,6 @@ import static javax.swing.BorderFactory.createCompoundBorder;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class Canvas extends JPanel implements DocumentListener {
-    private static final double BASE_ROW_HEIGHT = 30.0;
-    private final Settings settings;
     private final RowList rows = new RowList();
     private final CanvasCalculator calculator;
     private final GridPainter gridPainter;
@@ -44,8 +42,7 @@ public class Canvas extends JPanel implements DocumentListener {
 
     public Canvas(Settings settings) {
         super();
-        this.settings = settings;
-        this.calculator = new CanvasCalculator(this, rows);
+        this.calculator = new CanvasCalculator(this, rows, settings.getUiScale());
         this.gridPainter = new GridPainter(this, calculator);
         this.collabZonePainter = new CollabZonePainter(this, calculator);
 
@@ -56,16 +53,12 @@ public class Canvas extends JPanel implements DocumentListener {
         initialize();
     }
 
-    public int getRowHeightMinimum() {
-        return uiScaled(BASE_ROW_HEIGHT);
+    public int getScrollbarUnitIncrement() {
+        return calculator.getBaseRowHeight();
     }
 
     public void add(CanvasRow row, GridBagConstraints constraints) {
         super.add(rows.add(row), constraints);
-    }
-
-    public int uiScaled(double pixels) {
-        return (int) Math.ceil(pixels * settings.getUiScale() / 100.0);
     }
 
     public void register() {
@@ -99,13 +92,15 @@ public class Canvas extends JPanel implements DocumentListener {
         rows.clear();
         removeAll();
         if (nonNull(document)) {
-            RowBuilder.of(this)
-                    .calculator(calculator)
-                    .build()
-                    .forEach(e -> add(e.row(), e.constraints()));
+            addCanvasRows();
             add(Box.createGlue(), spacerConstraints());
         }
         collabZonePainter.initialize();
+    }
+
+    private void addCanvasRows() {
+        RowBuilder.of(document).calculator(calculator).build()
+                .forEach(e -> add(e.row(), e.constraints()));
     }
 
     @Override
