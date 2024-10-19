@@ -41,10 +41,10 @@ public class RowBuilder {
     }
 
     public Stream<Entry> build() {
-        return concat(teamRow(), zoneRows(), memberRows(), transitionsRow());
+        return concat(titleRow(), zoneRows(), memberRows(), transitionsRow());
     }
 
-    private Stream<Entry> teamRow() {
+    private Stream<Entry> titleRow() {
         return Stream.of(new Entry(new TitleRow(calculator, document), titleConstraints()));
     }
 
