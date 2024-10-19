@@ -10,61 +10,73 @@ import work.rothe.tav.util.GBCBuilder;
 import java.awt.GridBagConstraints;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 
-public class RowFactory {
+public class RowBuilder {
     private static final int INSET = 5;
     private static final double ROW_PADDING = 4.0;
 
     private final Canvas canvas;
-    private final CanvasCalculator calculator;
     private final Document document;
     private final List<Zone> zones;
     private final Palette palette;
+    private CanvasCalculator calculator;
 
-    private RowFactory(Canvas canvas, CanvasCalculator calculator) {
+    private RowBuilder(Canvas canvas) {
         this.canvas = canvas;
-        this.calculator = calculator;
         this.document = canvas.getDocument();
         this.zones = document.zones();
         this.palette = new Palette(zones);
     }
 
-    public static RowFactory of(Canvas canvas, CanvasCalculator calculator) {
-        return new RowFactory(canvas, calculator);
+    public record Entry(CanvasRow row, GridBagConstraints constraints) {
     }
 
-    public void addRows() {
-        addTeamNameRow();
-        addZones();
-        addMembers();
-        addTransitionsRow();
+    public static RowBuilder of(Canvas canvas) {
+        return new RowBuilder(canvas);
     }
 
-    private void addTeamNameRow() {
-        canvas.add(new TitleRow(calculator, document), titleConstraints());
+    public RowBuilder calculator(CanvasCalculator calculator) {
+        this.calculator = calculator;
+        return this;
     }
 
-    private void addZones() {
-        zones.stream()
+    public Stream<Entry> build() {
+        return concat(teamRow(), zoneRows(), memberRows(), transitionsRow());
+    }
+
+    private Stream<Entry> teamRow() {
+        return Stream.of(new Entry(new TitleRow(calculator, document), titleConstraints()));
+    }
+
+    private Stream<Entry> zoneRows() {
+        return zones.stream()
                 .map(id -> new ZoneRow(document, calculator, id, palette))
                 .sorted(zoneRowComparator())
-                .forEach(this::add);
+                .map(this::toRow);
     }
 
-    private void addMembers() {
-        document.members().stream()
+    private Stream<Entry> memberRows() {
+        return document.members().stream()
                 .map(m -> new MemberRow(document, m, calculator, palette))
-                .forEach(this::add);
+                .map(this::toRow);
     }
 
-    private void add(CanvasRow row) {
-        canvas.add(row, rowConstraints());
+    private Stream<Entry> transitionsRow() {
+        return Stream.of(new Entry(new ZoneTransitionsRow(calculator, zones), transitionsConstraints()));
     }
 
-    private void addTransitionsRow() {
-        canvas.add(new ZoneTransitionsRow(calculator, zones), transitionsConstraints());
+    private static Stream<Entry> concat(Stream<Entry> first,
+                                        Stream<Entry> second,
+                                        Stream<Entry> third,
+                                        Stream<Entry> fourth) {
+        return Stream.concat(Stream.concat(Stream.concat(first, second), third), fourth);
+    }
+
+    private Entry toRow(CanvasRow row) {
+        return new Entry(row, rowConstraints());
     }
 
     private int uiScaled(double pixels) {

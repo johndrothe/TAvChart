@@ -9,7 +9,7 @@ import work.rothe.tav.model.Time;
 import work.rothe.tav.ui.canvas.painters.CollabZonePainter;
 import work.rothe.tav.ui.canvas.painters.GridPainter;
 import work.rothe.tav.ui.canvas.rows.CanvasRow;
-import work.rothe.tav.ui.canvas.rows.RowFactory;
+import work.rothe.tav.ui.canvas.rows.RowBuilder;
 import work.rothe.tav.ui.canvas.util.CanvasCalculator;
 import work.rothe.tav.ui.canvas.util.Rendering;
 import work.rothe.tav.ui.canvas.util.RowList;
@@ -99,7 +99,10 @@ public class Canvas extends JPanel implements DocumentListener {
         rows.clear();
         removeAll();
         if (nonNull(document)) {
-            RowFactory.of(this, calculator).addRows();
+            RowBuilder.of(this)
+                    .calculator(calculator)
+                    .build()
+                    .forEach(e -> add(e.row(), e.constraints()));
             add(Box.createGlue(), spacerConstraints());
         }
         collabZonePainter.initialize();
