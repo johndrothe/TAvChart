@@ -24,7 +24,7 @@ class CanvasCalculatorTest {
     private final CanvasCalculator calculator;
 
     CanvasCalculatorTest() {
-        calculator = new CanvasCalculator(canvas, rowList, 1.0);
+        calculator = new CanvasCalculator(canvas, rowList, 100.0);
         mockRowList();
         calculator.update(null);
     }
@@ -32,6 +32,20 @@ class CanvasCalculatorTest {
     @BeforeEach
     void setUp() {
         reset(canvas);
+    }
+
+    @Test
+    void uiScaled() {
+        assertEquals(100, new CanvasCalculator(canvas, rowList, 100.0).uiScaled(100));
+        assertEquals(120, new CanvasCalculator(canvas, rowList, 120.0).uiScaled(100));
+        assertEquals(200, new CanvasCalculator(canvas, rowList, 200.0).uiScaled(100));
+    }
+
+    @Test
+    void getBaseRowHeight() {
+        assertEquals(30, new CanvasCalculator(canvas, rowList, 100.0).getBaseRowHeight());
+        assertEquals(45, new CanvasCalculator(canvas, rowList, 150.0).getBaseRowHeight());
+        assertEquals(60, new CanvasCalculator(canvas, rowList, 200.0).getBaseRowHeight());
     }
 
     @Test
