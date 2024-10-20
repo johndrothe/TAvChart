@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.util.Comparator.comparing;
+
 public class CollabCalculator {
     private final List<Member> members;
 
@@ -23,10 +25,7 @@ public class CollabCalculator {
     }
 
     public List<CollabZone> largest() {
-        return findZones()
-                .sorted(comparator())
-                .limit(1)
-                .toList();
+        return findZones().min(descendingComparator()).map(List::of).orElse(List.of());
     }
 
     public List<CollabZone> zones() {
@@ -67,7 +66,7 @@ public class CollabCalculator {
 
     private List<Time> shiftChangeTimes() {
         return normalTimes()
-                .sorted(Comparator.comparing(Time::totalMinutesInUtc))
+                .sorted(comparing(Time::totalMinutesInUtc))
                 .distinct()
                 .toList();
     }
@@ -80,15 +79,15 @@ public class CollabCalculator {
     }
 
     private static <T> List<T> prependLast(List<T> list) {
-        if(list.isEmpty()) {
+        if (list.isEmpty()) {
             return List.of();
         }
         return Stream.concat(Stream.of(list.getLast()), list.stream()).toList();
     }
 
-    private static Comparator<CollabZone> comparator() {
-        return Comparator.comparing(CollabZone::size)
+    static Comparator<CollabZone> descendingComparator() {
+        return comparing(CollabZone::size)
                 .reversed()
-                .thenComparing(CollabZone::duration);
+                .thenComparing(comparing(CollabZone::duration).reversed());
     }
 }
