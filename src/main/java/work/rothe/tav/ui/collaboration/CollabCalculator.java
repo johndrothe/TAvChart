@@ -6,7 +6,6 @@ import work.rothe.tav.model.TimePair;
 import work.rothe.tav.util.Pair;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -25,7 +24,7 @@ public class CollabCalculator {
     }
 
     public List<CollabZone> largest() {
-        return findZones().min(descendingComparator()).map(List::of).orElse(List.of());
+        return findZones().max(CollabZone.comparator()).map(List::of).orElse(List.of());
     }
 
     public List<CollabZone> zones() {
@@ -83,11 +82,5 @@ public class CollabCalculator {
             return List.of();
         }
         return Stream.concat(Stream.of(list.getLast()), list.stream()).toList();
-    }
-
-    static Comparator<CollabZone> descendingComparator() {
-        return comparing(CollabZone::size)
-                .reversed()
-                .thenComparing(comparing(CollabZone::duration).reversed());
     }
 }
