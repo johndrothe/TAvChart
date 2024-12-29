@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TimeTest {
     private final Zone UTC = Zone.fromCsv("Z");
-    private final Zone NYC = Zone.fromCsv("America/New_York");
-    private final Zone CHI = Zone.fromCsv("America/Chicago");
-    private final Zone LAX = Zone.fromCsv("America/Los_Angeles");
-    private final Zone PL = Zone.fromCsv("Poland");
+    private final Zone NYC = Zone.fromCsv("UTC-4");
+    private final Zone CHI = Zone.fromCsv("UTC-5");
+    private final Zone LAX = Zone.fromCsv("UTC-7");
+    private final Zone PL = Zone.fromCsv("UTC+2");
 
     @Test
     void testAccessors() {

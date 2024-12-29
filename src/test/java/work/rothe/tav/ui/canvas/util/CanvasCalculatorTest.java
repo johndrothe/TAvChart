@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 class CanvasCalculatorTest {
     private final Zone UTC = Zone.fromCsv("Z");
-    private final Zone NYC = Zone.fromCsv("America/New_York");
+    private final Zone NYC = Zone.fromCsv("UTC-4");
 
     private final Canvas canvas = mock(Canvas.class);
     private final RowList rowList = mock(RowList.class);

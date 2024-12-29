@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class CollabCalculatorTest {
-    private final Member M1 = toMember("M1", toZone("America/Chicago"));
-    private final Member M2 = toMember("M2", toZone("America/Chicago"));
-    private final Member M3 = toMember("M3", toZone("America/New_York"));
+    private final Member M1 = toMember("M1", toZone("UTC-5"));
+    private final Member M2 = toMember("M2", toZone("UTC-5"));
+    private final Member M3 = toMember("M3", toZone("UTC-4"));
     private final Member M4 = toMember("M4", toZone("UTC"));
     private final Member M5 = toMember("M5", toZone("UTC"));
-    private final Member M6 = toMember("M6", toZone("Poland"));
-    private final Member M7 = toMember("M7", toZone("Poland"));
+    private final Member M6 = toMember("M6", toZone("UTC+2"));
+    private final Member M7 = toMember("M7", toZone("UTC+2"));
 
     private final CollabZone Z1 = new CollabZone(utcPair(13, 15), Set.of(M1, M2, M3, M4, M5, M6, M7));
     private final CollabZone Z2 = new CollabZone(utcPair(15, 17), Set.of(M1, M2, M3, M4, M5));
