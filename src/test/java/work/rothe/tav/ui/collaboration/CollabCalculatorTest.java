@@ -9,6 +9,7 @@ import work.rothe.tav.model.Zone;
 
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +51,7 @@ public class CollabCalculatorTest {
     @Test
     void testLargest() {
         val expected = new CollabZone(utcPair(13, 15), Set.copyOf(allMembers()));
-        assertEquals(List.of(expected), calculator.largest());
+        assertEquals(Optional.of(expected), calculator.largest());
     }
 
     @Test

@@ -7,6 +7,7 @@ import work.rothe.tav.util.Pair;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -23,8 +24,8 @@ public class CollabCalculator {
         return new CollabCalculator(members);
     }
 
-    public List<CollabZone> largest() {
-        return findZones().max(CollabZone.comparator()).map(List::of).orElse(List.of());
+    public Optional<CollabZone> largest() {
+        return findZones().max(CollabZone.comparator());
     }
 
     public List<CollabZone> zones() {
